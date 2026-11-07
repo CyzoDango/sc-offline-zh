@@ -1,0 +1,477 @@
+#include "hooks.h"
+#include "fleet.h"
+#include "patches.h"
+#include "teleport.h"
+#include "sco/hook.h"
+#include "sco/signatures.h"
+#include "sco/game/asop.h"
+#include "sco/game/offline.h"
+#include <initializer_list>
+#include <nmmintrin.h>
+#include <share.h>
+
+bool            g_hooksInstalled = false;
+
+// Every detour goes through sco-core's one patcher (sco/hook.h): caves near the target, the relay
+// and trampoline, and a registry that refuses a second detour on one function.
+static bool Detour(uint8_t* target, size_t stolen, void* detour, void** original, DWORD& err) {
+    const sco::hook::Error e = sco::hook::InstallDetour(target, stolen, detour, original);
+    if (e == sco::hook::Error::None) return true;
+    err = e == sco::hook::Error::Protect ? sco::hook::LastOsError() : 0;
+    Log("[!] detour at 0x%p: %s", static_cast<void*>(target), sco::hook::ErrorName(e));
+    return false;
+}
+
+using ValidateFilterFn     = uint64_t(__fastcall*)(uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+using ValidateProjectionFn = uint64_t(__fastcall*)(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+static ValidateFilterFn     g_origValidateFilter     = nullptr;
+static ValidateProjectionFn g_origValidateProjection = nullptr;
+
+static const char* ArenaString(uintptr_t tagged) {
+    const uintptr_t s = tagged & ~uintptr_t(3);
+    if (!s) return "";
+    return *reinterpret_cast<const size_t*>(s + 24) > 15 ? *reinterpret_cast<const char* const*>(s)
+                                                          : reinterpret_cast<const char*>(s);
+}
+
+static void DescribeFilter(uintptr_t filter, char* out, size_t n) {
+    __try {
+        const int type = *reinterpret_cast<const int*>(filter + 28);
+        const uintptr_t payload = *reinterpret_cast<const uintptr_t*>(filter + 16);
+        if (type == 3 && payload) {
+            const int count = Rd<int>(payload + 24);
+            const uintptr_t rep = Rd<uintptr_t>(payload + 32);
+            char kinds[64] = "";
+            size_t k = 0;
+            for (int i = 0; i < count && i < 8 && rep; ++i)
+                k += snprintf(kinds + k, sizeof(kinds) - k, "%s%d", i ? "," : "", Rd<int>(Rd<uintptr_t>(rep + 8 + 8 * i) + 28));
+            snprintf(out, n, "type=3 property='%.80s' op=%d values=%d kinds=[%s]",
+                     ArenaString(Rd<uintptr_t>(payload + 40)), Rd<int>(payload + 48), count, kinds);
+        }
+        else if (type == 5 && payload)
+            snprintf(out, n, "type=5 property='%.80s' bit=%d", ArenaString(*reinterpret_cast<const uintptr_t*>(payload + 16)),
+                     *reinterpret_cast<const int*>(payload + 24));
+        else if (type == 2 && payload)
+            snprintf(out, n, "type=2 value='%.80s' kind=%d", ArenaString(*reinterpret_cast<const uintptr_t*>(payload + 16)),
+                     *reinterpret_cast<const int*>(payload + 36));
+        else
+            snprintf(out, n, "type=%d payload=0x%llx", type, static_cast<unsigned long long>(payload));
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        snprintf(out, n, "<unreadable filter 0x%llx>", static_cast<unsigned long long>(filter));
+    }
+}
+
+static void DescribeDescriptor(uintptr_t d, char* out, size_t n) {
+    size_t k = 0;
+    out[0] = '\0';
+    for (uintptr_t off = 0; off < 0xE0 && k + 40 < n; off += 8) {
+        __try {
+            const uintptr_t p = Rd<uintptr_t>(d + off);
+            const char* s = nullptr;
+            if (p > 0x10000 && p < 0x7FFFFFFFFFFF) {
+                const char* c = reinterpret_cast<const char*>(p);
+                int len = 0;
+                while (len < 64 && c[len] >= 0x20 && c[len] < 0x7F) ++len;
+                if (len >= 3 && c[len] == '\0') s = c;
+            }
+            if (s) k += snprintf(out + k, n - k, " +%llx='%.48s'", static_cast<unsigned long long>(off), s);
+        } __except (EXCEPTION_EXECUTE_HANDLER) {}
+    }
+}
+
+static void DumpPropertyRegistry(uintptr_t self) {
+    static volatile LONG done = 0;
+    if (InterlockedExchange(&done, 1)) return;
+    __try {
+        for (int t = 0; t < 8; ++t)
+            Log("[inv] registry: property type %d allowed-op mask 0x%08x", t, Rd<uint32_t>(self + 4 * (638 + 3 * t)));
+        const uintptr_t head = Rd<uintptr_t>(self + 0x440);
+        int count = 0;
+        for (uintptr_t node = Rd<uintptr_t>(head); node && node != head && count < 2000; node = Rd<uintptr_t>(node), ++count) {
+            const uintptr_t d = Rd<uintptr_t>(node + 24);
+            char names[512];
+            DescribeDescriptor(d, names, sizeof(names));
+            Log("[inv] registry: key=0x%08x type=%d desc=0x%llx%s", Rd<uint32_t>(node + 16), d ? Rd<int>(d + 20) : -1,
+                static_cast<unsigned long long>(d), names);
+        }
+        Log("[inv] registry: %d properties", count);
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        Log("[inv] registry: dump faulted");
+    }
+}
+
+static uint32_t Crc32c(const char* s) {
+    uint32_t c = 0xFFFFFFFFu;
+    for (; *s; ++s) c = _mm_crc32_u8(c, static_cast<uint8_t>(*s));
+    return ~c;
+}
+
+static bool PropertyRegistered(uintptr_t self, uint32_t key) {
+    const uintptr_t head = Rd<uintptr_t>(self + 0x440);
+    int guard = 0;
+    for (uintptr_t node = Rd<uintptr_t>(head); node && node != head && guard < 4000; node = Rd<uintptr_t>(node), ++guard)
+        if (Rd<uint32_t>(node + 16) == key) return true;
+    return false;
+}
+
+static const char* UnregisteredFilterProperty(uintptr_t self, uintptr_t filter) {
+    __try {
+        const int type = Rd<int>(filter + 28);
+        const uintptr_t payload = Rd<uintptr_t>(filter + 16);
+        if (!payload || (type != 3 && type != 5)) return nullptr;
+        const char* name = ArenaString(Rd<uintptr_t>(payload + (type == 3 ? 40 : 16)));
+        if (!name[0] || PropertyRegistered(self, Crc32c(name))) return nullptr;
+        return name;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        return nullptr;
+    }
+}
+
+static uint64_t __fastcall Hook_ValidateFilter(uintptr_t self, uintptr_t parent, uintptr_t state, uintptr_t filter,
+                                               uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8) {
+    const uint64_t r = g_origValidateFilter(self, parent, state, filter, a5, a6, a7, a8);
+    if (r == 1 && parent != 0) {
+        if (const char* prop = UnregisteredFilterProperty(self, filter)) {
+            static volatile LONG reported = 0;
+            if (InterlockedIncrement(&reported) <= 20)
+                Log("[inv] dropping filter on property '%.80s' (not indexed offline)", prop);
+            return 4;
+        }
+    }
+    if (r == 1 || r == 3) {
+        DumpPropertyRegistry(self);
+        char desc[256];
+        DescribeFilter(filter, desc, sizeof(desc));
+        Log("[inv] filter REJECTED (result %llu, parent 0x%llx): %s", static_cast<unsigned long long>(r),
+            static_cast<unsigned long long>(parent), desc);
+    }
+    return r;
+}
+
+static uint64_t __fastcall Hook_ValidateProjection(uintptr_t self, uintptr_t state, uintptr_t projection, uintptr_t a4) {
+    const uint64_t r = g_origValidateProjection(self, state, projection, a4);
+    if (r != 0) Log("[inv] projection REJECTED (result %llu, projection 0x%llx)", static_cast<unsigned long long>(r),
+                    static_cast<unsigned long long>(projection));
+    return r;
+}
+
+using InstanceGroupQueryFn = void(__fastcall*)(uintptr_t, uintptr_t, uintptr_t*);
+static InstanceGroupQueryFn g_origInstanceGroupQuery = nullptr;
+static uintptr_t*           g_servicesManager = nullptr;
+
+// elevator.instance_group_query checks the services manager load (+0x5B) and its hub call (+0x99).
+static bool PrepareInstanceGroupQuery(uint8_t*) {
+    g_servicesManager = reinterpret_cast<uintptr_t*>(sco::Sig("elevator.services_manager"));
+    return true;
+}
+
+static void __fastcall Hook_InstanceGroupQuery(uintptr_t self, uintptr_t key, uintptr_t* out) {
+    uintptr_t hub = 0;
+    __try {
+        const uintptr_t mgr = *g_servicesManager;
+        if (mgr) hub = reinterpret_cast<uintptr_t(__fastcall*)(uintptr_t)>(Rd<uintptr_t>(Rd<uintptr_t>(mgr) + sco::game::offline::kServicesHubSlot))(mgr);
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        hub = 0;
+    }
+    if (hub) { g_origInstanceGroupQuery(self, key, out); return; }
+    out[1] = out[0];
+    static volatile LONG reported = 0;
+    if (InterlockedIncrement(&reported) <= 5)
+        Log("[fix] hangar instance-group lookup skipped: server services hub unavailable offline (prevented crash)");
+}
+
+using EntitlementsResultFn = void(__fastcall*)(uintptr_t, uintptr_t);
+using RetrieveVehicleFn    = void(__fastcall*)(uintptr_t, uintptr_t);
+static EntitlementsResultFn g_origEntitlementsResult = nullptr;
+static RetrieveVehicleFn    g_origRetrieveVehicle = nullptr;
+static void __fastcall Hook_EntitlementsResult(uintptr_t self, uintptr_t result);
+static void __fastcall Hook_RetrieveVehicle(uintptr_t asop, uintptr_t slot);
+static bool PrepareRetrieveVehicle(uint8_t* target);
+
+// Each target is a sco-core signature row (sco/game/offline.h; the retrieve hook's is the ASOP row
+// asop.fleet_retrieve); a hook is installed only when its capability is ready.
+struct HookSpec {
+    const char*   name;
+    const char*   row;
+    const char*   cap;
+    size_t      stolen;
+    void*       detour;
+    void**      original;
+    bool      (*prepare)(uint8_t* target);
+};
+
+static const HookSpec kHooks[] = {
+    { "inventory filter validator", "inventory.validate_filter", "inventory.filter_validator",
+      5, reinterpret_cast<void*>(&Hook_ValidateFilter), reinterpret_cast<void**>(&g_origValidateFilter), nullptr },
+    { "inventory projection validator", "inventory.validate_projection", "inventory.projection_validator",
+      5, reinterpret_cast<void*>(&Hook_ValidateProjection), reinterpret_cast<void**>(&g_origValidateProjection), nullptr },
+    { "hangar elevator crash guard", "elevator.instance_group_query", "elevator.crash_guard",
+      5, reinterpret_cast<void*>(&Hook_InstanceGroupQuery), reinterpret_cast<void**>(&g_origInstanceGroupQuery),
+      &PrepareInstanceGroupQuery },
+    { "fleet manager ship list (offline)", "fleet.entitlements_result", "fleet.ship_list",
+      5, reinterpret_cast<void*>(&Hook_EntitlementsResult), reinterpret_cast<void**>(&g_origEntitlementsResult),
+      nullptr },
+    { "fleet manager retrieve -> spaceport ATC", "asop.fleet_retrieve", "fleet.retrieve_atc",
+      5, reinterpret_cast<void*>(&Hook_RetrieveVehicle), reinterpret_cast<void**>(&g_origRetrieveVehicle),
+      &PrepareRetrieveVehicle },
+};
+static PatchStatus g_hookStatus[sizeof(kHooks) / sizeof(kHooks[0])];
+
+void InstallHooks() {
+    for (size_t i = 0; i < sizeof(kHooks) / sizeof(kHooks[0]); ++i) {
+        const HookSpec& h = kHooks[i];
+        PatchStatus& st = g_hookStatus[i];
+        st.expected = 1;
+        if (!OfflineCapReady(h.cap)) { st.result = PatchResult::NotFound; continue; }
+        uint8_t* target = sco::Sig(h.row);
+        st.sites = 1;
+        if (h.prepare && !h.prepare(target)) { st.result = PatchResult::NotFound; continue; }
+        if (!Detour(target, h.stolen, h.detour, h.original, st.err)) { st.result = PatchResult::ProtectFailed; continue; }
+        st.result = PatchResult::Applied;
+        st.at = target;
+        g_hooksInstalled = true;
+    }
+}
+
+void LogHooks() {
+    for (size_t i = 0; i < sizeof(kHooks) / sizeof(kHooks[0]); ++i)
+        LogOfflinePatch(kHooks[i].name, g_hookStatus[i], kHooks[i].cap);
+}
+
+bool HookFunction(uint8_t* target, size_t stolen, void* detour, void** original) {
+    DWORD err = 0;
+    if (!target || !Detour(target, stolen, detour, original, err)) return false;
+    g_hooksInstalled = true;
+    return true;
+}
+
+// Memory near .text (within rel32 reach of the code that points at it), from sco-core's caves.
+uint8_t* NearData(size_t n) {
+    return g_text.base ? sco::hook::AllocateNear(g_text.base, n) : nullptr;
+}
+
+constexpr size_t   kEntitlementSize = 0x150;
+// The fleet ships' entitlement URN: urn:sc:platform:entitlement:uuid:<id>. CSCURN bytes +0x00
+// namespace (6 platform; 0x11 = none), +0x01 type (0x16 entitlement; 0x1E = none), +0x08 kind
+// (3 uuid; 5 = none), +0x20 the id's variant (2 = a 16-byte id at +0x10). The game reads a URN with
+// any "none" byte as unset (0x441F50 on 4.10.196), and the terminal then offers no Deliver, Retrieve
+// or Claim on the row; 0x1E11 / kind 5, used before, is exactly the list builder's unset URN.
+constexpr uint16_t kUrnType = 0x1606;
+constexpr uint8_t  kUrnKindUuid = 3;
+constexpr uint8_t  kUrnIdGuid = 2;
+constexpr uint64_t kShipUrnMarker = 0x53434F4600000000ull;
+constexpr size_t   kSlotUrn = 0x1698;
+constexpr size_t   kAsopAtcId = sco::game::asop::kKioskAtc;   // 0x9F8, pinned by asop.fleet_retrieve +0xC7
+
+struct FleetShip { char name[64]; uint64_t guid[2]; };
+// Same bound as the spawn menu (spawner.cpp kMaxMenuShips): ships.txt holds 1102 entries, and the
+// old 1024 here dropped the last 78 from the fleet manager without saying so.
+constexpr int kMaxFleetShips = 2048;
+
+static FleetShip* g_ships = nullptr;
+static int        g_shipCount = 0;
+static uint8_t*   g_fakeEntitlements = nullptr;
+static SRWLOCK    g_shipsLock = SRWLOCK_INIT;
+static bool       g_shipsBuilt = false;
+
+using StrCtorFn          = void*(__fastcall*)(void* out, const char* s);
+using StrDtorFn          = void(__fastcall*)(void* s);
+using GetATCCompFn       = uint64_t*(__fastcall*)(uint64_t* out, uint64_t entityId);
+using RequestTakingOffFn = void(__fastcall*)(uintptr_t atc, uint64_t player, void* location, uint64_t vehicle,
+                                             bool spawnVehicle, void* archetype, void* padFilter);
+static StrCtorFn          g_strCtor = nullptr;
+
+bool MakeCryString(void* out, const char* s) {
+    if (!g_strCtor) return false;
+    g_strCtor(out, s);
+    return true;
+}
+static StrDtorFn          g_strDtor = nullptr;
+
+void FreeCryString(void* s) {
+    if (g_strDtor) g_strDtor(s);
+}
+static GetATCCompFn       g_getATCComp = nullptr;
+static RequestTakingOffFn g_requestTakingOff = nullptr;
+
+// fleet.retrieve_atc: asop.fleet_retrieve checks the kiosk ATC id load (+0xC7) and the
+// GetATCComponent call (+0xDD, atc.get_component); fleet.takeoff_command the g_ATC_requestTakeOff
+// command whose calls give the CryString ctor / dtor and RequestTakingOff.
+static bool PrepareRetrieveVehicle(uint8_t*) {
+    g_getATCComp       = reinterpret_cast<GetATCCompFn>(sco::Sig("atc.get_component"));
+    g_strCtor          = reinterpret_cast<StrCtorFn>(sco::Sig("fleet.string_ctor"));
+    g_strDtor          = reinterpret_cast<StrDtorFn>(sco::Sig("fleet.string_dtor"));
+    g_requestTakingOff = reinterpret_cast<RequestTakingOffFn>(sco::Sig("fleet.request_taking_off"));
+    return true;
+}
+
+static uint64_t LocalPlayerId() {
+    const uintptr_t mgr = *g_tp.clientMgr;
+    const uintptr_t sub = mgr ? Rd<uintptr_t>(mgr + 0xE0) : 0;
+    const uintptr_t info = sub ? VCall<uintptr_t>(sub, 0x2E0) : 0;
+    return info ? Rd<uint64_t>(info + 8) : 0;
+}
+
+static void FindClassGuids(uintptr_t registry, const uintptr_t* classes) {
+    const uintptr_t head = Rd<uintptr_t>(registry + 0x48);
+    uintptr_t stack[256];
+    int sp = 0;
+    const uintptr_t root = Rd<uintptr_t>(head + 0x08);
+    if (root && !Rd<uint8_t>(root + 0x19)) stack[sp++] = root;
+    while (sp) {
+        const uintptr_t n = stack[--sp];
+        const uintptr_t cls = Rd<uintptr_t>(n + 0x30);
+        for (int i = 0; i < g_shipCount; ++i)
+            if (classes[i] == cls) { g_ships[i].guid[0] = Rd<uint64_t>(n + 0x20); g_ships[i].guid[1] = Rd<uint64_t>(n + 0x28); }
+        for (size_t off : { size_t(0x00), size_t(0x10) }) {
+            const uintptr_t c = Rd<uintptr_t>(n + off);
+            if (c && !Rd<uint8_t>(c + 0x19) && sp < 256) stack[sp++] = c;
+        }
+    }
+}
+
+static int BuildFleetShips() {
+    char path[MAX_PATH];
+    if (!ShipsFilePath(path, sizeof(path)) || !g_tp.entitySystem || !*g_tp.entitySystem) return 0;
+    FILE* f = _fsopen(path, "r", _SH_DENYNO);
+    if (!f) { Log("[fleet] can't open %s", path); return 0; }
+    static FleetShip ships[kMaxFleetShips];
+    static uintptr_t classes[kMaxFleetShips];
+    g_ships = ships;
+    int missing = 0;
+    char line[128];
+    const uintptr_t registry = VCall<uintptr_t>(*g_tp.entitySystem, 0xC0);
+    while (fgets(line, sizeof(line), f)) {
+        line[strcspn(line, "\r\n#")] = 0;
+        char* name = line + strspn(line, " \t");
+        if (!*name) continue;
+        if (g_shipCount >= kMaxFleetShips) { Log("[fleet] more than %d ships in %s; the rest are left out", kMaxFleetShips, path); break; }
+        const uintptr_t cls = VCall<uintptr_t>(registry, 0x20, static_cast<const char*>(name));
+        if (!cls) { if (++missing <= 5) Log("[fleet] unknown ship class '%s' (skipped)", name); continue; }
+        strncpy_s(ships[g_shipCount].name, name, _TRUNCATE);
+        classes[g_shipCount++] = cls;
+    }
+    fclose(f);
+    FindClassGuids(registry, classes);
+
+    int kept = 0;
+    for (int i = 0; i < g_shipCount; ++i) {
+        uint64_t guid[2] = { ships[i].guid[0], ships[i].guid[1] };
+        if ((guid[0] | guid[1]) && VCall<uintptr_t>(registry, 0x18, guid) == classes[i]) ships[kept++] = ships[i];
+        else Log("[fleet] no class GUID for '%s' (skipped)", ships[i].name);
+    }
+    g_shipCount = kept;
+
+    g_fakeEntitlements = static_cast<uint8_t*>(calloc(kept ? kept : 1, kEntitlementSize));
+    for (int i = 0; g_fakeEntitlements && i < kept; ++i) {
+        uint8_t* e = g_fakeEntitlements + i * kEntitlementSize;
+        *reinterpret_cast<uint16_t*>(e + 0x00) = kUrnType;
+        e[0x08] = kUrnKindUuid;
+        *reinterpret_cast<uint64_t*>(e + 0x10) = kShipUrnMarker | static_cast<uint32_t>(i);
+        e[0x20] = kUrnIdGuid;
+        e[0x50] = 3;
+        *reinterpret_cast<uint32_t*>(e + 0x54) = 1;
+        memcpy(e + 0x58, ships[i].guid, 16);
+    }
+    if (!g_fakeEntitlements) g_shipCount = 0;
+    Log("[fleet] %d ships available in the fleet manager (%d unknown names)", g_shipCount, missing);
+    return g_shipCount;
+}
+
+static int EnsureFleetShips() {
+    AcquireSRWLockExclusive(&g_shipsLock);
+    if (!g_shipsBuilt) {
+        g_shipsBuilt = true;
+        __try { BuildFleetShips(); } __except (EXCEPTION_EXECUTE_HANDLER) { g_shipCount = 0; Log("[fleet] fault while building the ship list"); }
+    }
+    const int n = g_shipCount;
+    ReleaseSRWLockExclusive(&g_shipsLock);
+    return n;
+}
+
+static void __fastcall Hook_EntitlementsResult(uintptr_t self, uintptr_t result) {
+    bool failed = false;
+    __try { failed = Rd<uint8_t>(result) != 1; } __except (EXCEPTION_EXECUTE_HANDLER) {}
+    if (failed && Fleet_UseGameList()) {
+        static volatile LONG told = 0;
+        if (!InterlockedExchange(&told, 1))
+            Log("[fleet] asop_fleet_list = game: the game's own ship list, not ships.txt (its entitlement query failed, so it lists nothing; asop_fleet_list = ships lists ships.txt)");
+        g_origEntitlementsResult(self, result);
+        return;
+    }
+    const int n = failed ? EnsureFleetShips() : 0;
+    if (!n) { g_origEntitlementsResult(self, result); return; }
+    struct { uint8_t ok; uint8_t pad[7]; uint8_t* begin; uint8_t* end; uint8_t* cap; uint8_t spare[64]; } fake = {};
+    fake.ok = 1;
+    fake.begin = g_fakeEntitlements;
+    fake.end = fake.cap = g_fakeEntitlements + n * kEntitlementSize;
+    static volatile LONG reported = 0;
+    if (InterlockedIncrement(&reported) <= 3) Log("[fleet] online ship list unavailable -> listing %d offline ships", n);
+    g_origEntitlementsResult(self, reinterpret_cast<uintptr_t>(&fake));
+}
+
+static int SlotShipIndex(uintptr_t slot) {
+    __try {
+        const uintptr_t urn = slot + kSlotUrn;
+        if (Rd<uint16_t>(urn) != kUrnType || Rd<uint8_t>(urn + 0x20) != kUrnIdGuid) return -1;
+        const uint64_t id = Rd<uint64_t>(urn + 0x10);
+        const int i = static_cast<int>(static_cast<uint32_t>(id));
+        return (id & 0xFFFFFFFF00000000ull) == kShipUrnMarker && i < g_shipCount ? i : -1;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        return -1;
+    }
+}
+
+int FleetShipIndexOfUrnId(const uint64_t id[2]) {
+    AcquireSRWLockShared(&g_shipsLock);
+    const int count = g_shipsBuilt ? g_shipCount : 0;
+    ReleaseSRWLockShared(&g_shipsLock);
+    for (int i = 0; i < 2; ++i)
+        for (const uint64_t q : { id[i], _byteswap_uint64(id[i]) })
+            if ((q & 0xFFFFFFFF00000000ull) == kShipUrnMarker && static_cast<uint32_t>(q) < static_cast<uint32_t>(count))
+                return static_cast<int>(static_cast<uint32_t>(q));
+    return -1;
+}
+
+const char* FleetShipClass(int index) {
+    AcquireSRWLockShared(&g_shipsLock);
+    const int count = g_shipsBuilt ? g_shipCount : 0;
+    ReleaseSRWLockShared(&g_shipsLock);
+    return index >= 0 && index < count ? g_ships[index].name : nullptr;
+}
+
+const char* RequestShipFromAtc(uint64_t atcEntity, uint64_t player, const char* shipClass) {
+    if (!g_getATCComp || !g_requestTakingOff) return "the ATC functions weren't found";
+    __try {
+        uint64_t handle[2] = {};
+        g_getATCComp(handle, atcEntity);
+        const uintptr_t atc = handle[0] & kPtrMask;
+        if (!atc) return "this terminal has no spaceport ATC";
+        if (!player) return "player not spawned";
+        alignas(16) uint8_t location[32] = {};
+        void* archetype = nullptr;
+        void* padFilter = nullptr;
+        g_strCtor(location, "");
+        g_strCtor(&archetype, shipClass);
+        g_strCtor(&padFilter, "");
+        g_requestTakingOff(atc, player, location, 0, true, &archetype, &padFilter);
+        g_strDtor(&padFilter);
+        g_strDtor(&archetype);
+        g_strDtor(location);
+        return nullptr;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        return "fault while asking the ATC";
+    }
+}
+
+static void __fastcall Hook_RetrieveVehicle(uintptr_t asop, uintptr_t slot) {
+    const int i = SlotShipIndex(slot);
+    // With the ASOP Retrieve (fleet.cpp) on, the game's own retrieve runs: it reaches the ATC with
+    // the stored ship, where asking the ATC directly for a class would lock the station's terminals.
+    if (i < 0 || Fleet_RetrieveActive()) { g_origRetrieveVehicle(asop, slot); return; }
+    uint64_t atc = 0;
+    __try { atc = Rd<uint64_t>(asop + kAsopAtcId); } __except (EXCEPTION_EXECUTE_HANDLER) {}
+    if (const char* err = RequestShipFromAtc(atc, LocalPlayerId(), g_ships[i].name))
+        Log("[fleet] retrieve %s failed: %s", g_ships[i].name, err);
+    else Log("[fleet] retrieve %s: asked the spaceport ATC for a hangar/pad", g_ships[i].name);
+}

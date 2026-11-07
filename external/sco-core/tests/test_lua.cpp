@@ -1,0 +1,1189 @@
+// Tests for sco-lua (plugins/lua) loaded through the real plugin loader and the real host table:
+// Discover -> LoadScript -> sco_lua_load, with sco::host::BuildApi's sco_api underneath. Host
+// build, no game. The "game thread" is this test's main thread.
+//   tools/test.sh
+#include "dcb_builder.h"
+#include "sco/caps.h"
+#ifndef SCO_KERNEL_ONLY
+#include "sco/datacore_service.h"   // TestDataCore (game pack)
+#endif
+#include "sco/host.h"
+#include "sco/log.h"
+#include "sco/plugins.h"
+#include "sco/runtime.h"
+#include "sco/settings.h"
+#include "sco/status.h"
+#include "sco/storage.h"
+#include "sco/ui.h"
+#include "../plugins/lua/sco_lua.h"
+#include "../plugins/lua/sco_lua_ext.h"   // the extension registry (TestExtensions)
+#ifndef SCO_KERNEL_ONLY   // the game adapter (plugins/lua/sco_lua_game.c) and the tables it reads
+#include "../plugins/lua/sco_lua_game.h"
+#include "sc_actors.h"
+#include "sc_creative.h"
+#include "sc_entities.h"
+#include "sc_game_events.h"
+#include "sc_world.h"
+#endif
+#include <csignal>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <string>
+#include <vector>
+
+namespace fs = std::filesystem;
+namespace P = sco::plugins;
+using sco::Result;
+using P::State;
+
+static int g_fail = 0, g_pass = 0;
+#define CHECK(c) do { if (c) ++g_pass; else { ++g_fail; std::printf("FAIL %s:%d: %s\n", __FILE__, __LINE__, #c); } } while (0)
+
+static std::vector<std::string> g_log;
+static void Sink(const char* line) { g_log.emplace_back(line); }
+static bool Logged(const char* needle) {
+    for (const auto& l : g_log) if (l.find(needle) != std::string::npos) return true;
+    return false;
+}
+
+static const P::ScriptRuntime kLua{ sco_lua_load, sco_lua_unload };
+static const sco_api* g_api;
+static fs::path g_root;
+
+// Writes data/plugins/<id>/{plugin.ini,main.lua} under the test root.
+static void Write(const std::string& id, const std::string& lua, const std::string& extraIni = "") {
+    const fs::path dir = g_root / id;
+    fs::create_directories(dir);
+    std::ofstream(dir / "plugin.ini") << "id = " << id << "\nname = " << id << "\nversion = 1.0\napi = 1.0\nkind = lua\nentry = main.lua\n" << extraIni;
+    std::ofstream(dir / "main.lua", std::ios::binary) << lua;
+}
+
+struct Loaded {
+    std::vector<P::Plugin> list;
+    P::Plugin* p = nullptr;
+};
+
+// Discovers the root and loads plugin `id` (a fresh handle each time).
+static Loaded Load(const std::string& id, const sco_api* api = nullptr) {
+    Loaded l;
+    P::Options opts;
+    opts.enabled = true;
+    l.list = P::Discover(g_root, opts);
+    for (auto& p : l.list) if (p.folder == id) l.p = &p;
+    if (l.p && l.p->state == State::Ready) {
+        sco_plugin* self = sco::host::NewPlugin(id.c_str());
+        if (!l.p->manifest.settings.empty()) sco::settings::Declare(self, l.p->manifest.settings);   // as sco::app::Start does
+        P::LoadScript(*l.p, api ? api : g_api, self, kLua);
+    }
+    return l;
+}
+
+static void Unload(Loaded& l) { P::UnloadAll(l.list, P::PlatformModuleOps(), &kLua); }
+
+struct Reply { bool called = false; sco_result r = SCO_OK; std::string text; };
+static void OnDone(sco_result r, const char* reply, void* ctx) {
+    auto* d = static_cast<Reply*>(ctx);
+    d->called = true; d->r = r; d->text = reply ? reply : "";
+}
+static Reply Invoke(sco_plugin* by, const char* name, std::vector<sco_arg> args = {}) {
+    Reply d;
+    g_api->invoke(by, name, args.empty() ? nullptr : args.data(), static_cast<uint32_t>(args.size()), OnDone, &d);
+    return d;
+}
+static sco_arg Str(const char* s) { sco_arg a{}; a.type = SCO_ARG_STRING; a.v.s = s; return a; }
+static sco_arg Bool(bool b) { sco_arg a{}; a.type = SCO_ARG_BOOL; a.v.i = b; return a; }
+static sco_arg Int(int64_t i) { sco_arg a{}; a.type = SCO_ARG_INT; a.v.i = i; return a; }
+
+static bool HasCommand(const char* name) {
+    const sco_command* list[512];
+    const uint32_t n = g_api->list_commands(list, 512);
+    for (uint32_t i = 0; i < n; ++i) if (strcmp(list[i]->name, name) == 0) return true;
+    return false;
+}
+
+static sco_plugin* g_caller;   // a second plugin that invokes the scripts' commands
+
+// ---- the SDK's own example, sdk/examples/greeter ---------------------------------------------
+
+static void TestGreeterExample(const fs::path& sdk) {
+    fs::copy(sdk / "examples/greeter", g_root / "greeter", fs::copy_options::recursive);
+    Loaded l = Load("greeter");
+    CHECK(l.p && l.p->state == State::Loaded);
+    CHECK(Logged("[plugin] loaded greeter 1.0.0 (lua) from greeter/main.lua"));
+    CHECK(HasCommand("greeter.greet"));
+    Reply r = Invoke(g_caller, "greeter.greet", { Str("Pilot One"), Bool(true) });
+    CHECK(r.called && r.r == SCO_OK && r.text == "HI, PILOT ONE!");
+    r = Invoke(g_caller, "greeter.greet", { Str("Pilot Two"), Bool(false) });
+    CHECK(r.r == SCO_OK && r.text == "Hi, Pilot Two");
+    r = Invoke(g_caller, "greeter.greet", { Str("x") });                     // wrong arg count
+    CHECK(r.r == SCO_BAD_ARG);
+    char status[256];
+    CHECK(sco::GetStatus(status, sizeof(status)) && strstr(status, "greeter: Greeter ready"));
+
+    sco::Dispatch("game.ready", nullptr);
+    CHECK(Logged("[greeter] warning: teleport is not available on this game build"));
+    sco::caps::Set("teleport", true);
+    sco::Dispatch("game.ready", nullptr);
+    CHECK(Logged("[greeter] teleport is available"));
+    sco::Dispatch("game.exit", nullptr);
+    CHECK(Logged("[greeter] greeted 2 times"));
+
+    Unload(l);
+    CHECK(l.p->state == State::Unloaded && !HasCommand("greeter.greet"));
+    CHECK(Invoke(g_caller, "greeter.greet", { Str("x"), Bool(false) }).r == SCO_NOT_FOUND);
+}
+
+// ---- the sco table ----------------------------------------------------------------------------
+
+static void TestTable() {
+    Write("table", R"(
+        local ticks, last, tasks = 0, nil, 0
+        local function on_tick(event, ms)
+          ticks = ticks + 1; last = ms
+          if ticks == 2 then sco.unsubscribe("tick", on_tick) end
+        end
+        assert(sco.subscribe("tick", on_tick))
+        local ok, err = sco.subscribe("tick", on_tick)
+        assert(not ok and err == "bad_arg", "same key twice")
+        for i = 1, 64 do assert(sco.subscribe("game.exit", function() return i end)) end
+        local full, why = sco.subscribe("game.exit", function() end)
+        assert(not full and why == "too_many", "65th function on one event: " .. tostring(why))
+        assert(sco.api_major == 1 and sco.api_minor == 1)
+        assert(sco.host_version() == "sco-lua test 1.0")
+        assert(sco.run_on_game_thread(function() tasks = tasks + 1 end))
+        assert(select(2, sco.register_command{ name = "other.x", title = "X", fn = print }) == "bad_arg")
+        assert(select(2, sco.register_command{ name = "table.y", title = "Y", fn = print,
+                                               args = {{ name = "a", type = "table" }} }) == "bad_arg")
+        sco.register_command{ name = "table.state", title = "State",
+          fn = function() return string.format("ticks=%d last=%s tasks=%d", ticks, tostring(last), tasks) end }
+        sco.register_command{ name = "table.add", title = "Add",
+          args = {{ name = "a", type = "int" }, { name = "b", type = "float", help = "second" }},
+          fn = function(a, b) return tostring(a + b) end }
+        sco.register_command{ name = "table.call", title = "Call",
+          fn = function()
+            local ok, reply = sco.invoke("table.add", 2, 0.5)
+            local bad, why = sco.invoke("table.add", "2", 0.5)
+            local none, nf = sco.invoke("nope.nope")
+            local float, fw = sco.invoke("table.add", 2.0, 0.5)              -- int takes no float
+            return table.concat({ tostring(ok), reply, tostring(bad), why, tostring(none), nf, tostring(float), fw }, " ")
+          end }
+        sco.register_command{ name = "table.list", title = "List",
+          fn = function()
+            for _, c in ipairs(sco.list_commands()) do
+              if c.name == "table.add" then return c.title .. " " .. #c.args .. " " .. c.args[2].type .. " " .. c.args[2].help end
+            end
+          end }
+        sco.register_command{ name = "table.print", title = "Print", fn = function() print("a", 1, nil) end }
+    )");
+    Loaded l = Load("table");
+    CHECK(l.p && l.p->state == State::Loaded);
+    CHECK(Invoke(g_caller, "table.state").text == "ticks=0 last=nil tasks=0");
+    sco::GameThreadTick(1000);
+    CHECK(Invoke(g_caller, "table.state").text == "ticks=1 last=1000 tasks=1");
+    sco::GameThreadTick(1100);
+    sco::GameThreadTick(1200);                                                // unsubscribed after 2
+    CHECK(Invoke(g_caller, "table.state").text == "ticks=2 last=1100 tasks=1");
+    CHECK(Invoke(g_caller, "table.add", { Int(40), sco_arg{ SCO_ARG_FLOAT, 0, { .f = 2.5 } } }).text == "42.5");
+    CHECK(Invoke(g_caller, "table.call").text == "true 2.5 false bad_arg false not_found false bad_arg");
+    CHECK(Invoke(g_caller, "table.list").text == "Add 2 float second");
+    CHECK(Invoke(g_caller, "table.print").r == SCO_OK && Logged("[table] a\t1\tnil"));
+    Unload(l);
+}
+
+// ---- sco.ui hotkeys ---------------------------------------------------------------------------
+
+static void TestHotkeys() {
+    CHECK(sco::ui::Start() == Result::Ok);
+    CHECK(sco::ui::ReserveChord("f6") == Result::Ok);
+    Write("keys", R"(
+        sco.register_command{ name = "keys.add", title = "Add",
+          args = {{ name = "a", type = "int" }, { name = "b", type = "float" }},
+          fn = function(a, b) return tostring(a + b) end }
+        assert(sco.bind_hotkey("Ctrl+Alt+K", "keys.add", 40, 2))                 -- 2 is a float: keys.add says so
+        assert(sco.bind_hotkey("ctrl+alt+l", "later.cmd", "x", true, 1.5))      -- not registered: Lua types
+        local ok, why, msg = sco.bind_hotkey("f6", "keys.add", 1, 2)
+        assert(not ok and why == "bad_arg" and msg == "f6 is reserved by the host", tostring(msg))
+        ok, why, msg = sco.bind_hotkey("alt+ctrl+k", "keys.add", 1, 2)
+        assert(not ok and msg == "ctrl+alt+k is bound by 'keys' to keys.add", tostring(msg))
+        assert(select(2, sco.bind_hotkey("ctrl+alt+m", "keys.add", 1)) == "bad_arg")        -- arg count
+        assert(select(2, sco.bind_hotkey("ctrl+alt+m", "keys.add", "1", 2)) == "bad_arg")  -- arg type
+        assert(select(2, sco.bind_hotkey("ctrl+alt+m", "later.cmd", {})) == "bad_arg")    -- a table
+        assert(select(2, sco.bind_hotkey("ctrl++", "keys.add", 1, 2)) == "bad_arg")
+        assert(select(2, sco.unbind_hotkey("f12")) == "not_found")
+        assert(sco.bind_hotkey("f12", "keys.add", 1, 2) and sco.unbind_hotkey("F12"))
+    )");
+    Loaded l = Load("keys");
+    CHECK(l.p && l.p->state == State::Loaded);
+    std::string reply;
+    CHECK(sco::ui::Dispatch("alt+ctrl+k", &reply) == Result::Ok && reply == "42.0");
+    const auto keys = sco::ui::Hotkeys();
+    CHECK(keys.size() == 2 && keys[0].chord == "ctrl+alt+k" && keys[0].owner == "keys" && keys[1].nargs == 3);
+    Unload(l);
+    CHECK(sco::ui::Hotkeys().empty());   // withdrawn with the script
+    sco::ui::Stop();
+}
+
+// ---- the sandbox ------------------------------------------------------------------------------
+
+static void TestSandbox() {
+    Write("box", R"(
+        local gone = {}
+        for _, n in ipairs{ "io", "os", "package", "require", "debug", "dofile", "loadfile", "load",
+                            "loadstring", "collectgarbage", "coroutine", "module" } do
+          if _G[n] ~= nil then gone[#gone + 1] = n end
+        end
+        assert(#gone == 0, "present: " .. table.concat(gone, ","))
+        assert(string.dump == nil)
+        assert(string and table and math and utf8)
+        local ok, err = pcall(setmetatable, {}, { __gc = function() end })
+        assert(not ok and err:find("__gc is not allowed"), tostring(err))
+        assert(getmetatable(setmetatable({}, { __index = {} })) ~= nil)
+    )");
+    Loaded l = Load("box");
+    CHECK(l.p && l.p->state == State::Loaded);
+    if (l.p && l.p->state != State::Loaded) std::printf("  box: %s\n", l.p->reason.c_str());
+    Unload(l);
+
+    // Precompiled chunks are refused: the loader passes mode "t".
+    Write("bytecode", std::string("\x1bLua\x54\x00", 6) + "junk");
+    l = Load("bytecode");
+    CHECK(l.p && l.p->state == State::Refused && l.p->reason.find("binary") != std::string::npos);
+
+    Write("syntax", "local x = = 1\n");
+    l = Load("syntax");
+    CHECK(l.p && l.p->state == State::Refused && l.p->reason.find("main.lua:1:") != std::string::npos);
+
+    // A script that fails at load leaves nothing registered.
+    Write("halfway", "sco.register_command{ name = 'halfway.a', title = 'A', fn = print }\n"
+                     "sco.subscribe('tick', print)\nerror('stop here')\n");
+    const size_t subs = sco::SubscriptionCount();
+    l = Load("halfway");
+    CHECK(l.p && l.p->state == State::Refused && l.p->reason.find("stop here") != std::string::npos);
+    CHECK(!HasCommand("halfway.a") && sco::SubscriptionCount() == subs);
+
+    // Disabled during load (three errors in its own command, reached through sco.invoke): the
+    // load chunk keeps running, but sco.* mutators answer unavailable and the load fails.
+    Write("selfkill", R"(
+        sco.register_command{ name = "selfkill.boom", title = "Boom", fn = function() error("boom") end }
+        for _ = 1, 3 do sco.invoke("selfkill.boom") end
+        local _, a = sco.subscribe("tick", print)
+        local _, b = sco.run_on_game_thread(print)
+        local _, c = sco.register_command{ name = "selfkill.more", title = "More", fn = print }
+        sco.log("info", table.concat({ tostring(a), tostring(b), tostring(c) }, " "))
+    )");
+    l = Load("selfkill");
+    CHECK(l.p && l.p->state == State::Refused && l.p->reason.find("disabled") != std::string::npos);
+    if (l.p && l.p->state != State::Refused) std::printf("  selfkill: loaded\n");
+    CHECK(Logged("[selfkill] unavailable unavailable unavailable"));
+    CHECK(!HasCommand("selfkill.more") && sco::SubscriptionCount() == subs);
+}
+
+// ---- limits -----------------------------------------------------------------------------------
+
+static void TestLimits() {
+    // Load itself runs past the budget.
+    Write("spin", "while true do end\n");
+    Loaded l = Load("spin");
+    CHECK(l.p && l.p->state == State::Refused && l.p->reason.find("step budget") != std::string::npos);
+
+    Write("limits", R"(
+        local n = 0
+        local function big(len, c) local s = c or "x" while #s < len do s = s .. s end return s:sub(1, len) end
+        sco.register_command{ name = "limits.spin", title = "Spin", fn = function() while true do end end }
+        sco.register_command{ name = "limits.shield", title = "Shield",
+          fn = function() while true do pcall(function() while true do end end) end end }
+        sco.register_command{ name = "limits.rep", title = "Rep",
+          fn = function() return tostring(#string.rep("x", 5000000)) end }
+        sco.register_command{ name = "limits.find", title = "Find",
+          fn = function() local s = string.rep(string.rep("a", 1000), 2000) return tostring(s:find(string.rep("a", 30) .. "b", 1, true)) end }
+        -- One library call, many values: charged by size, not 1 step per call.
+        sco.register_command{ name = "limits.unpack", title = "Unpack", fn = function()
+          local t = table.pack(big(500000):byte(1, -1))
+          for _ = 1, 1000 do table.unpack(t, 1, t.n) end
+          return "unpacked" end }
+        sco.register_command{ name = "limits.byte", title = "Byte", fn = function()
+          local s = big(500000)
+          for _ = 1, 1000 do s:byte(1, -1) end
+          return "bytes" end }
+        sco.register_command{ name = "limits.needle", title = "Needle", fn = function()
+          local s = big(4194304)
+          return tostring(s:find(s:sub(1, 2097152) .. "y", 1, true)) end }
+        sco.register_command{ name = "limits.class", title = "Class", fn = function()
+          return tostring(big(1000000):find("[" .. big(1048576, "y") .. "x]*")) end }
+        sco.register_command{ name = "limits.sort", title = "Sort",
+          fn = function() local t = {} for i = 1, 60000 do t[i] = -i end table.sort(t) return "sorted" end }
+        sco.register_command{ name = "limits.ok", title = "OK",
+          fn = function() local s = 0 for i = 1, 100000 do s = s + i end return tostring(s) end }
+        sco.register_command{ name = "limits.count", title = "Count", fn = function() n = n + 1 return tostring(n) end }
+    )");
+    // Each budget case gets a fresh copy of the script: an overrun disables it.
+    struct Case { const char* cmd; };
+    for (const char* cmd : { "limits.spin", "limits.shield", "limits.rep", "limits.find", "limits.sort",
+                             "limits.unpack", "limits.byte", "limits.needle", "limits.class" }) {
+        l = Load("limits");
+        CHECK(l.p && l.p->state == State::Loaded);
+        CHECK(Invoke(g_caller, "limits.ok").text == "5000050000");             // fits the budget
+        const Reply r = Invoke(g_caller, cmd);
+        CHECK(r.r == SCO_CRASHED && r.text.find("step budget") != std::string::npos);
+        if (r.r != SCO_CRASHED) std::printf("  %s -> %d %s\n", cmd, r.r, r.text.c_str());
+        CHECK(!sco_lua_alive(l.p->self));
+        CHECK(Invoke(g_caller, "limits.count").r == SCO_UNAVAILABLE);         // disabled
+        CHECK(Logged("[limits] error: script disabled: ran past its step budget"));
+        Unload(l);
+    }
+
+    // One budget per outermost entry: a script can't multiply it by calling another script's
+    // command in a loop (each call alone fits the budget).
+    Write("worker", R"(
+        sco.register_command{ name = "worker.chunk", title = "Chunk",
+          fn = function() local s = 0 for i = 1, 150000 do s = s + i end return "done" end }
+    )");
+    Write("boss", R"(
+        sco.register_command{ name = "boss.run", title = "Run", fn = function()
+          for i = 1, 100 do
+            local ok, why = sco.invoke("worker.chunk")
+            if not ok then return "stopped at " .. i .. ": " .. tostring(why) end
+          end
+          return "ran all 100"
+        end }
+    )");
+    {
+        Loaded w = Load("worker");
+        Loaded bo = Load("boss");
+        CHECK(Invoke(g_caller, "worker.chunk").text == "done");                // alone: fits
+        const Reply r = Invoke(g_caller, "boss.run");
+        CHECK(r.r == SCO_CRASHED && r.text.find("step budget") != std::string::npos);
+        if (r.r != SCO_CRASHED) std::printf("  boss.run -> %d %s\n", r.r, r.text.c_str());
+        CHECK(!sco_lua_alive(bo.p->self));
+        Unload(bo);
+        Unload(w);
+    }
+
+    // Memory: the 64 MiB cap fails the allocation; the script is disabled.
+    Write("hog", R"(
+        sco.register_command{ name = "hog.eat", title = "Eat", fn = function()
+          local mb = string.rep(string.rep("x", 1000), 1000) local t = {} for i = 1, 100 do t[i] = mb .. i end end }
+        sco.register_command{ name = "hog.ok", title = "OK", fn = function() return "fine" end }
+    )");
+    l = Load("hog");
+    CHECK(Invoke(g_caller, "hog.ok").text == "fine");
+    const Reply r = Invoke(g_caller, "hog.eat");
+    CHECK(r.r == SCO_TOO_MANY && r.text.find("not enough memory") != std::string::npos);
+    CHECK(!sco_lua_alive(l.p->self) && Logged("[hog] error: script disabled: out of memory"));
+    Unload(l);
+
+    // A non-string error object raised with the heap at the cap: turning it into text must not
+    // allocate outside protected mode ("42" would need a new string, the allocation fails with no
+    // handler, and Lua aborts the process). fill() pins memory to the last few bytes, inside
+    // pcall, then the callback raises 42.
+    static const char* const kFill = R"(
+        local slots, n = {}, 0
+        for i = 1, 1024 do slots[i] = false end
+        local big = "x"
+        for _ = 1, 20 do big = big .. big end
+        local bytes = {}
+        for i = 128, 191 do bytes[#bytes + 1] = string.char(i) end
+        local size, a, b, filled = 0, 1, 0, false
+        local function long() n = n + 1; slots[n] = big:sub(1, size) end
+        local function short()
+          b = b + 1; if b > #bytes then a, b = a + 1, 1 end
+          n = n + 1; slots[n] = bytes[a] .. bytes[b]
+        end
+        local function fill()
+          if filled then return end
+          filled = true
+          for _, s in ipairs{ 1048576, 65536, 4096, 256, 48 } do
+            size = s
+            while pcall(long) do end
+          end
+          while pcall(short) do end
+        end
+    )";
+    Write("full", std::string(kFill) +
+          "sco.register_command{ name = 'full.boom', title = 'Boom', fn = function() fill() error(42) end }\n");
+    l = Load("full");
+    CHECK(l.p && l.p->state == State::Loaded);
+    const Reply full = Invoke(g_caller, "full.boom");
+    CHECK(full.r == SCO_BAD_ARG && full.text == "42");
+    if (full.text != "42") std::printf("  full.boom -> %d %s\n", full.r, full.text.c_str());
+    CHECK(Logged("[full] error: full.boom: 42"));
+    Invoke(g_caller, "full.boom");
+    Invoke(g_caller, "full.boom");
+    CHECK(!sco_lua_alive(l.p->self));                                        // 3 errors (or out of memory)
+    Unload(l);
+    Write("fullevt", std::string(kFill) + "sco.subscribe('game.ready', function() fill() error(42) end)\n");
+    l = Load("fullevt");
+    CHECK(l.p && l.p->state == State::Loaded);
+    sco::Dispatch("game.ready", nullptr);
+    CHECK(Logged("[fullevt] error: event game.ready: 42"));
+    Unload(l);
+
+    // Three errors in callbacks disable the script; the first two only log.
+    Write("flaky", R"(
+        sco.register_command{ name = "flaky.boom", title = "Boom", fn = function() error("boom") end }
+        sco.register_command{ name = "flaky.ok", title = "OK", fn = function() return "ok" end }
+        sco.register_command{ name = "flaky.badreply", title = "Bad", fn = function() return {} end }
+    )");
+    l = Load("flaky");
+    Reply b = Invoke(g_caller, "flaky.boom");
+    CHECK(b.r == SCO_BAD_ARG && b.text.find("main.lua:2: boom") != std::string::npos);
+    CHECK(Invoke(g_caller, "flaky.badreply").text.find("reply must be a string or nil, not table") != std::string::npos);
+    CHECK(Invoke(g_caller, "flaky.ok").text == "ok");
+    CHECK(Invoke(g_caller, "flaky.boom").r == SCO_BAD_ARG);
+    CHECK(Invoke(g_caller, "flaky.ok").r == SCO_UNAVAILABLE && Logged("[flaky] error: script disabled: 3 errors"));
+    Unload(l);
+
+    // An event callback error is logged with the event name.
+    Write("evt", "sco.subscribe('game.ready', function() error('nope') end)\n");
+    l = Load("evt");
+    sco::Dispatch("game.ready", nullptr);
+    CHECK(Logged("[evt] error: event game.ready: main.lua:1: nope"));
+    Unload(l);
+
+    // Each task gets a fresh budget, so a script may have at most 16 waiting: a task that queues
+    // two more each tick levels off at 16 instead of filling the host's 256-slot queue.
+    Write("fan", R"(
+        local queued, most, refused = 0, 0, 0
+        local function task()
+          queued = queued - 1
+          for _ = 1, 2 do
+            local ok, why = sco.run_on_game_thread(task)
+            if ok then queued = queued + 1; most = math.max(most, queued)
+            elseif why == "too_many" then refused = refused + 1 end
+          end
+        end
+        assert(sco.run_on_game_thread(task))
+        queued, most = 1, 1
+        sco.register_command{ name = "fan.state", title = "State",
+          fn = function() return string.format("most=%d refused=%s", most, tostring(refused > 0)) end }
+    )");
+    l = Load("fan");
+    CHECK(l.p && l.p->state == State::Loaded);
+    for (uint32_t t = 1; t <= 10; ++t) sco::GameThreadTick(t * 100);
+    const Reply fan = Invoke(g_caller, "fan.state");
+    CHECK(fan.text == "most=16 refused=true");
+    if (fan.text != "most=16 refused=true") std::printf("  fan.state -> %s\n", fan.text.c_str());
+    CHECK(sco_lua_alive(l.p->self));
+    Unload(l);
+}
+
+// Memory, every script together: SCO_LUA_TOTAL_MEMORY_LIMIT (256 MiB) caps the sum, so scripts each
+// under their own 64 MiB can't take the game's memory between them. Each pool<n>.hold keeps one more
+// 8 MiB string, a 1 KiB chunk repeated 8192 times (string.rep costs a step per copy, so about 9k
+// steps; string.rep("x", 8 MiB) would be 8M steps and run out of budget first), and catches a failed allocation with pcall so the script stays alive. 10
+// scripts x 4 calls ask for 320 MiB: between 24 and 32 calls fit (192 to 256 MiB, less while a copy
+// is in flight), and once one is refused every later one is too.
+static void TestTotalMemory() {
+    std::vector<Loaded> pools;
+    pools.reserve(10);
+    for (int i = 1; i <= 10; ++i) {
+        const std::string id = "pool" + std::to_string(i);
+        Write(id, "local kept, chunk = {}, string.rep(\"x\", 1024)\nsco.register_command{ name = \"" + id + ".hold\", title = \"Hold\",\n"
+                  "  fn = function()\n"
+                  "    local ok = pcall(function() kept[#kept + 1] = string.rep(chunk, 8192) end)\n"
+                  "    return ok and \"held\" or \"refused\" end }\n");
+        pools.push_back(Load(id));
+        CHECK(pools.back().p && pools.back().p->state == State::Loaded);
+    }
+    int held = 0, refused = 0, other = 0;
+    bool heldAfterRefused = false;
+    for (int i = 1; i <= 10; ++i)
+        for (int k = 0; k < 4; ++k) {
+            const std::string cmd = "pool" + std::to_string(i) + ".hold";
+            const Reply r = Invoke(g_caller, cmd.c_str());
+            if (r.text == "held") { ++held; if (refused) heldAfterRefused = true; }
+            else if (r.text == "refused") ++refused;
+            else { ++other; std::printf("  %s -> %s\n", cmd.c_str(), r.text.c_str()); }
+        }
+    CHECK(other == 0 && held + refused == 40 && !heldAfterRefused);
+    CHECK(held >= 24 && held <= 32);
+    if (!(held >= 24 && held <= 32)) std::printf("  pools: %d held, %d refused\n", held, refused);
+    for (const auto& l : pools) CHECK(l.p && sco_lua_alive(l.p->self));
+    for (auto& l : pools) Unload(l);
+    // Unloading gives the memory back.
+    Write("pool11", "local kept, chunk = nil, string.rep(\"x\", 1024)\nsco.register_command{ name = \"pool11.hold\", title = \"Hold\",\n"
+                    "  fn = function() kept = string.rep(chunk, 8192) return \"held\" end }\n");
+    Loaded l = Load("pool11");
+    CHECK(Invoke(g_caller, "pool11.hold").text == "held");
+    Unload(l);
+}
+
+// ---- the extension registry (sco_lua_ext.h) ---------------------------------------------------
+
+static int g_extOpened = 0;
+static void ExtOpen(lua_State* L) {
+    ++g_extOpened;
+    lua_pushstring(L, "from an extension");
+    lua_setfield(L, -2, "ext_probe");
+}
+static int ExtEvent(lua_State* L, const char* event, const void*) {
+    if (std::strcmp(event, "probe.ping") != 0) return 0;
+    lua_pushstring(L, "probe payload");
+    return 1;
+}
+static const sco_lua_extension kProbeExt = { "probe", ExtOpen, ExtEvent };
+
+static void TestExtensions() {
+    CHECK(sco_lua_add_extension(nullptr) == SCO_BAD_ARG);
+    const sco_lua_extension noOpen = { "bad", nullptr, nullptr };
+    CHECK(sco_lua_add_extension(&noOpen) == SCO_BAD_ARG);
+    // A script loaded before the extension doesn't see it.
+    Write("extbefore", "assert(sco.ext_probe == nil)\n");
+    Loaded before = Load("extbefore");
+    CHECK(before.p && before.p->state == State::Loaded);
+    CHECK(sco_lua_add_extension(&kProbeExt) == SCO_OK);
+    CHECK(sco_lua_add_extension(&kProbeExt) == SCO_BAD_ARG);   // once only
+    Write("extafter", R"(
+        assert(sco.ext_probe == "from an extension")
+        sco.subscribe("probe.ping", function(name, data) sco.log("info", "ping " .. tostring(data)) end)
+        sco.subscribe("probe.other", function(name, data) sco.log("info", "other " .. tostring(data)) end)
+    )");
+    const int opened = g_extOpened;
+    Loaded after = Load("extafter");
+    CHECK(after.p && after.p->state == State::Loaded && g_extOpened == opened + 1);
+    sco::Dispatch("probe.ping", nullptr);
+    CHECK(Logged("[extafter] ping probe payload"));      // the extension's value
+    sco::Dispatch("probe.other", nullptr);
+    CHECK(Logged("[extafter] other nil"));               // no extension knows it: nil
+    Unload(after);
+    Unload(before);
+}
+
+#ifndef SCO_KERNEL_ONLY   // the Star Citizen game pack (SCO_GAME_SC)
+// ---- sco.datacore (published by the host only when the product enables it) --------------------
+
+static void TestDataCore() {
+    namespace svc = sco::datacore::service;
+    Write("dcnone", "assert(sco.datacore == nil, 'not published')\n");
+    Loaded none = Load("dcnone");
+    CHECK(none.p && none.p->state == State::Loaded);
+    Unload(none);
+
+    const fs::path data = g_root.parent_path() / "lua_datacore";
+    fs::remove_all(data);
+    svc::Options o;
+    o.dataRoot = data;
+    CHECK(svc::Start(o) == Result::Ok);
+    Write("dcmod", R"(
+local dc = assert(sco.datacore, "sco.datacore")
+assert(dc.state() == "open")
+local p = assert(dc.begin())
+assert(p:set("ShipA", "speed", 2.5))
+local part = assert(p:add_instance("Part", "PartX"))
+assert(p:set_pointer("ShipB", "engine", part))
+assert(p:set("ShipB", "label", "lua"))
+assert(p:set("ShipA", "kind", { enum = "Small" }))
+assert(p:set("ShipA", "maker", { ref = "BaseOne" }))
+assert(p:append("ShipA", "parts", part))
+assert(p:append("ShipA", "parts", nil))
+local ok, err = p:set("ShipA", "speed..x", 1)
+assert(not ok and err == "bad_arg", "path syntax")
+assert(select(2, p:set("ShipA", "flag", {})) == "bad_arg", "a table that is no value")
+assert(p:add_record("Ship", "ShipC", "ShipA"), "add_record")
+assert(select(2, p:add_record("Ship", "ShipC", "ShipB")) == "bad_arg", "a name added twice")
+assert(p:set("ShipC", "speed", 9.5))
+assert(p:commit())
+assert(select(2, p:commit()) == "bad_arg", "committed twice")
+local r = p:report()
+assert(#r == 11 and r[1].state == "queued" and r[1].op == 1 and r[11].op == 0, "report before the load")
+local q = assert(dc.begin({ atomic = false }))
+assert(q:discard())
+assert(select(2, q:commit()) == "not_found", "discarded")
+sco.register_command{ name = "dcmod.report", title = "Report", fn = function()
+  local rr = p:report()
+  return rr[#rr].state .. " " .. rr[1].state .. " " .. sco.datacore.state()
+end }
+)");
+    Loaded l = Load("dcmod");
+    CHECK(l.p && l.p->state == State::Loaded);
+    if (l.p && l.p->state != State::Loaded) std::printf("  dcmod: %s\n", l.p->reason.c_str());
+
+    const std::vector<uint8_t> file = dcb::ValuedFixture(36).Build();
+    sco::datacore::Schema s;
+    CHECK(s.Parse(file));
+    P::ContentIndex index;
+    const svc::LoadResult r = svc::Load(s, l.list, index, data);
+    CHECK(r.result.status.ok() && r.result.packs.size() == 1 && r.result.packs[0].state == sco::datacore::PackState::Applied);
+    CHECK(r.result.packs.size() == 1 && r.result.packs[0].applied == 10);
+    const Reply rep = Invoke(g_caller, "dcmod.report");
+    CHECK(rep.r == SCO_OK && rep.text == "applied applied loaded");
+    Unload(l);
+    svc::Stop();
+}
+
+// ---- sco.game.actors (read-only over game.actors; a stand-in table, published as the game pack does) --
+
+static bool g_spawned = false;
+static sco_result FakeLocalPlayer(uint64_t* actor, uint64_t* entity) {
+    if (!g_spawned) return SCO_NOT_FOUND;
+    if (actor) *actor = 11;
+    if (entity) *entity = 0x8000000000000016ull;   // past INT64_MAX: comes back as a negative integer
+    return SCO_OK;
+}
+static sco_result FakeHealth(uint64_t id, float* cur, float* max) {
+    if (id != 6) return SCO_NOT_FOUND;
+    *cur = 50.5f;
+    *max = 0;
+    return SCO_OK;
+}
+static sco_result FakeState(uint64_t, uint32_t*) { return SCO_UNAVAILABLE; }
+static sco_result FakeSpawnNpc(sco_plugin*, const char*, uint64_t, const double*, uint64_t*) { return SCO_FAILED; }
+static sco_result FakeDespawn(sco_plugin*, uint64_t) { return SCO_FAILED; }
+static sco_result FakeLastError(sco_plugin* self, char* out, uint32_t* io) {
+    static const char kWhy[] = "local_player: you're not spawned yet";
+    if (!io || self) return SCO_BAD_ARG;
+    const uint32_t cap = *io;
+    *io = sizeof(kWhy);
+    if (cap < sizeof(kWhy)) return SCO_TOO_MANY;
+    std::memcpy(out, kWhy, sizeof(kWhy));
+    return SCO_OK;
+}
+
+static void TestGameActors() {
+    Write("ganone", "assert(sco.game == nil, 'not published')\n");
+    Loaded none = Load("ganone");
+    CHECK(none.p && none.p->state == State::Loaded);
+    Unload(none);
+
+    static const sc_actors_v1 kFake = { sizeof(sc_actors_v1), 0, FakeLocalPlayer, FakeSpawnNpc, FakeDespawn, FakeLastError,
+                                        FakeHealth, FakeState };
+    CHECK(sco::host::ProvideGameService(SC_ACTORS_NAME, SC_ACTORS_VERSION_1_1, &kFake) == Result::Ok);
+    Write("gaplay", R"(
+local a = assert(sco.game and sco.game.actors, "sco.game.actors")
+assert(a.spawn_npc == nil and a.despawn == nil and a.last_error == nil and a.state == nil, "read-only")
+sco.register_command{ name = "gaplay.ids", title = "Ids", fn = function()
+  local actor, entity, msg = sco.game.actors.local_player()
+  if not actor then return entity .. ": " .. tostring(msg) end
+  return actor .. " " .. entity
+end }
+sco.register_command{ name = "gaplay.hp", title = "Hp", fn = function()
+  local cur, max, msg = sco.game.actors.health(6)
+  if not cur then return max .. ": " .. tostring(msg) end
+  local _, err, why = sco.game.actors.health(7)
+  return string.format("%.1f %.1f / %s %s", cur, max, err, tostring(why))
+end }
+)");
+    Loaded l = Load("gaplay");
+    CHECK(l.p && l.p->state == State::Loaded);
+    if (l.p && l.p->state != State::Loaded) std::printf("  gaplay: %s\n", l.p->reason.c_str());
+    Reply r = Invoke(g_caller, "gaplay.ids");
+    CHECK(r.r == SCO_OK && r.text == "not_found: local_player: you're not spawned yet");
+    g_spawned = true;
+    r = Invoke(g_caller, "gaplay.ids");
+    CHECK(r.r == SCO_OK && r.text == "11 -9223372036854775786");
+    if (r.text != "11 -9223372036854775786") std::printf("  gaplay.ids -> %s\n", r.text.c_str());
+    r = Invoke(g_caller, "gaplay.hp");
+    CHECK(r.r == SCO_OK && r.text == "50.5 0.0 / not_found local_player: you're not spawned yet");
+    if (r.text != "50.5 0.0 / not_found local_player: you're not spawned yet") std::printf("  gaplay.hp -> %s\n", r.text.c_str());
+    Unload(l);
+    CHECK(sco::host::WithdrawGameService(SC_ACTORS_NAME) == Result::Ok);
+}
+
+// ---- sco.game.entities (read-only over game.entities; a stand-in table) --------------------------
+
+static int FakeEntAlive(uint64_t id) { return id == 5; }
+static sco_result FakeEntClassOf(uint64_t id, char* out, uint32_t* io) {
+    static const char kName[] = "AEGS_Avenger_Titan";
+    if (id != 5) return SCO_NOT_FOUND;
+    const uint32_t cap = *io;
+    *io = sizeof(kName);
+    if (cap < sizeof(kName)) return SCO_TOO_MANY;
+    std::memcpy(out, kName, sizeof(kName));
+    return SCO_OK;
+}
+static sco_result FakeEntGet(uint64_t id, double* pos, double* rot, uint64_t* zone) {
+    if (id != 5) return SCO_NOT_FOUND;
+    pos[0] = 1; pos[1] = 2; pos[2] = 3;
+    rot[0] = rot[1] = rot[2] = 0; rot[3] = 1;
+    *zone = 0x8000000000000009ull;   // past INT64_MAX: comes back as a negative integer
+    return SCO_OK;
+}
+static sco_result FakeEntSet(sco_plugin*, uint64_t, uint64_t, const double*, const double*) { return SCO_FAILED; }
+static sco_result FakeEntSpawn(sco_plugin*, const char*, uint64_t, const double*, const double*, uint64_t*) { return SCO_FAILED; }
+static sco_result FakeEntDespawn(sco_plugin*, uint64_t) { return SCO_FAILED; }
+static sco_result FakeEntWatch(sco_plugin*, uint32_t, const char*, sc_entity_watch_fn, void*, uint64_t*) { return SCO_FAILED; }
+static sco_result FakeEntUnwatch(sco_plugin*, uint64_t) { return SCO_FAILED; }
+static sco_result FakeEntQuery(uint64_t, const double*, double, const char*, uint64_t*, uint32_t, uint32_t*, uint32_t*) { return SCO_FAILED; }
+static sco_result FakeEntLastError(sco_plugin* self, char* out, uint32_t* io) {
+    static const char kWhy[] = "class_of: 6 isn't streamed in";
+    if (!io || self) return SCO_BAD_ARG;
+    const uint32_t cap = *io;
+    *io = sizeof(kWhy);
+    if (cap < sizeof(kWhy)) return SCO_TOO_MANY;
+    std::memcpy(out, kWhy, sizeof(kWhy));
+    return SCO_OK;
+}
+
+// ---- sco.game.world and the game.* events (read-only; a stand-in table, published as the game pack does) --
+
+static sco_result FakeRaycast(uint64_t zone, const double* from, const double* dir, double max, sc_world_hit* hit) {
+    if (zone != 9) return SCO_NOT_FOUND;
+    if (!hit || hit->size < sizeof(sc_world_hit) || max <= 0) return SCO_BAD_ARG;
+    for (int i = 0; i < 3; ++i) hit->pos[i] = from[i] + dir[i] * 10.0;
+    hit->distance = 10.0;
+    return SCO_OK;
+}
+static sco_result FakeCamera(double* pos, double* rot, uint64_t* zone) {
+    if (pos) { pos[0] = 1; pos[1] = 2; pos[2] = 3; }
+    if (rot) { rot[0] = 0; rot[1] = 0; rot[2] = 0; rot[3] = 1; }
+    if (zone) *zone = 9;
+    return SCO_OK;
+}
+static sco_result FakeWorldLastError(sco_plugin*, char* out, uint32_t* io) {
+    static const char kWhy[] = "raycast: no hit within 50.0 m";
+    if (!io) return SCO_BAD_ARG;
+    const uint32_t cap = *io;
+    *io = sizeof(kWhy);
+    if (cap < sizeof(kWhy)) return SCO_TOO_MANY;
+    std::memcpy(out, kWhy, sizeof(kWhy));
+    return SCO_OK;
+}
+
+// ---- sco.game.creative (read-only: state() only; a stand-in table) -------------------------------
+
+static uint32_t g_creativeFlags = 0;
+static sco_result FakeCrToggle(sco_plugin*, int) { return SCO_FAILED; }
+static sco_result FakeCrSpeed(sco_plugin*, float) { return SCO_FAILED; }
+static sco_result FakeCrState(sco_plugin* self, uint32_t* flags) {
+    if (!self || !flags) return SCO_BAD_ARG;
+    *flags = g_creativeFlags;
+    return g_creativeFlags == 0x80000000u ? SCO_UNAVAILABLE : SCO_OK;
+}
+static sco_result FakeCrLastError(sco_plugin*, char* out, uint32_t* io) {
+    static const char kWhy[] = "no game.creative capability is ready";
+    const uint32_t cap = *io;
+    *io = sizeof(kWhy);
+    if (cap < sizeof(kWhy)) return SCO_TOO_MANY;
+    std::memcpy(out, kWhy, sizeof(kWhy));
+    return SCO_OK;
+}
+
+static void TestGameCreative() {
+    static const sc_creative_v1 kFake = { sizeof(sc_creative_v1), 0, FakeCrToggle, FakeCrToggle, FakeCrSpeed, FakeCrToggle,
+                                          FakeCrToggle, FakeCrState, FakeCrLastError };
+    CHECK(sco::host::ProvideGameService(SC_CREATIVE_SERVICE_NAME, SC_CREATIVE_SERVICE_VERSION, &kFake) == Result::Ok);
+    Write("gacreate", R"(
+local c = assert(sco.game and sco.game.creative, "sco.game.creative")
+assert(c.set_god_mode == nil and c.set_fly_mode == nil and c.set_fly_speed == nil and c.set_infinite_ammo == nil
+       and c.set_infinite_ship_ammo == nil and c.last_error == nil, "read-only")
+sco.register_command{ name = "gacreate.state", title = "State", fn = function()
+  local s, err, msg = c.state()
+  if not s then return err .. ": " .. tostring(msg) end
+  return string.format("%s %s %s %s", tostring(s.god_mode), tostring(s.fly), tostring(s.infinite_ammo), tostring(s.infinite_ship_ammo))
+end }
+)");
+    Loaded l = Load("gacreate");
+    CHECK(l.p && l.p->state == State::Loaded);
+    if (l.p && l.p->state != State::Loaded) std::printf("  gacreate: %s\n", l.p->reason.c_str());
+    g_creativeFlags = SC_CREATIVE_GOD_MODE | SC_CREATIVE_INFINITE_SHIP_AMMO;
+    Reply r = Invoke(g_caller, "gacreate.state");
+    CHECK(r.r == SCO_OK && r.text == "true false false true");
+    if (r.text != "true false false true") std::printf("  gacreate.state -> %s\n", r.text.c_str());
+    g_creativeFlags = 0x80000000u;
+    r = Invoke(g_caller, "gacreate.state");
+    CHECK(r.r == SCO_OK && r.text == "unavailable: no game.creative capability is ready");
+    if (r.text != "unavailable: no game.creative capability is ready") std::printf("  gacreate.state -> %s\n", r.text.c_str());
+    Unload(l);
+    CHECK(sco::host::WithdrawGameService(SC_CREATIVE_SERVICE_NAME) == Result::Ok);
+}
+
+static void TestGameEntities() {
+    static const sc_entities_v1 kFake = { sizeof(sc_entities_v1), 0, FakeEntAlive, FakeEntClassOf, FakeEntGet, FakeEntSet,
+                                          FakeEntSpawn, FakeEntDespawn, FakeEntWatch, FakeEntUnwatch, FakeEntQuery, FakeEntLastError,
+                                          nullptr /* keep: Lua is read-only */ };
+    CHECK(sco::host::ProvideGameService(SC_ENTITIES_NAME, SC_ENTITIES_VERSION_1_0, &kFake) == Result::Ok);
+    Write("gaent", R"(
+local e = assert(sco.game and sco.game.entities, "sco.game.entities")
+assert(e.spawn == nil and e.despawn == nil and e.set_transform == nil and e.watch == nil and e.unwatch == nil
+       and e.query_radius == nil and e.last_error == nil, "read-only")
+sco.register_command{ name = "gaent.ask", title = "Ask", fn = function()
+  local t = { tostring(e.alive(5)), tostring(e.alive(6)) }
+  t[#t + 1] = e.class_of(5)
+  local x, y, z, qx, qy, qz, qw, zone = e.get_transform(5)
+  t[#t + 1] = string.format("%g,%g,%g,%g,%d", x, y, z, qw, zone)
+  local n, err, msg = e.class_of(6)
+  t[#t + 1] = tostring(n) .. ":" .. err .. ":" .. tostring(msg)
+  return table.concat(t, " ")
+end }
+)");
+    Loaded l = Load("gaent");
+    CHECK(l.p && l.p->state == State::Loaded);
+    if (l.p && l.p->state != State::Loaded) std::printf("  gaent: %s\n", l.p->reason.c_str());
+    const Reply r = Invoke(g_caller, "gaent.ask");
+    const char* want = "true false AEGS_Avenger_Titan 1,2,3,1,-9223372036854775799 nil:not_found:class_of: 6 isn't streamed in";
+    CHECK(r.r == SCO_OK && r.text == want);
+    if (r.text != want) std::printf("  gaent.ask -> %s\n", r.text.c_str());
+    Unload(l);
+    CHECK(sco::host::WithdrawGameService(SC_ENTITIES_NAME) == Result::Ok);
+}
+
+static void TestGameWorld() {
+    Write("gwnone", "assert(sco.game == nil, 'not published')\n");
+    Loaded none = Load("gwnone");
+    CHECK(none.p && none.p->state == State::Loaded);
+    Unload(none);
+
+    static const sc_world_v1 kFake = { sizeof(sc_world_v1), 0, FakeRaycast, FakeCamera, FakeWorldLastError };
+    CHECK(sco::host::ProvideGameService(SC_WORLD_NAME, SC_WORLD_VERSION_1_0, &kFake) == Result::Ok);
+    Write("gwplay", R"(
+local w = assert(sco.game and sco.game.world, "sco.game.world")
+assert(w.last_error == nil, "queries only")
+local seen = {}
+sco.subscribe("game.actors.died", function(ev, d) seen.actor = d and (d.entity_id .. ":" .. d.killer_id) or "nil" end)
+sco.register_command{ name = "gwplay.actor", title = "Actor death", fn = function() return tostring(seen.actor) end }
+sco.subscribe("game.player.died", function(ev, d) seen.died = d and (d.entity_id .. ":" .. d.killer_id) or "nil" end)
+sco.subscribe("game.zone.changed", function(ev, d) seen.zone = d and (d.old_zone_id .. ">" .. d.new_zone_id) or "nil" end)
+sco.subscribe("game.player.spawned", function(ev, d) seen.spawn = d and (d.entity_id .. "@" .. d.zone_id) or "nil" end)
+sco.register_command{ name = "gwplay.cam", title = "Cam", fn = function()
+  local c, e, m = sco.game.world.camera()
+  if not c then return e .. ": " .. tostring(m) end
+  return string.format("%.1f %.1f %.1f %.1f %d", c.x, c.y, c.z, c.qw, c.zone)
+end }
+sco.register_command{ name = "gwplay.ray", title = "Ray", fn = function()
+  local h = sco.game.world.raycast(9, 0, 0, 1, 0, 0, -1, 50)
+  local none, e, m = sco.game.world.raycast(8, 0, 0, 1, 0, 0, -1, 50)
+  return string.format("%.1f %.1f %.1f %.1f / %s %s", h.x, h.y, h.z, h.distance, tostring(e), tostring(m))
+end }
+sco.register_command{ name = "gwplay.seen", title = "Seen", fn = function()
+  return tostring(seen.died) .. "," .. tostring(seen.zone) .. "," .. tostring(seen.spawn)
+end }
+)");
+    Loaded l = Load("gwplay");
+    CHECK(l.p && l.p->state == State::Loaded);
+    if (l.p && l.p->state != State::Loaded) std::printf("  gwplay: %s\n", l.p->reason.c_str());
+    Reply r = Invoke(g_caller, "gwplay.cam");
+    CHECK(r.r == SCO_OK && r.text == "1.0 2.0 3.0 1.0 9");
+    if (r.text != "1.0 2.0 3.0 1.0 9") std::printf("  gwplay.cam -> %s\n", r.text.c_str());
+    r = Invoke(g_caller, "gwplay.ray");
+    CHECK(r.r == SCO_OK && r.text == "0.0 0.0 -9.0 10.0 / not_found raycast: no hit within 50.0 m");
+    if (r.text != "0.0 0.0 -9.0 10.0 / not_found raycast: no hit within 50.0 m") std::printf("  gwplay.ray -> %s\n", r.text.c_str());
+
+    // The game.* events reach sco.subscribe handlers as tables; a payload shorter than the struct is nil.
+    r = Invoke(g_caller, "gwplay.seen");
+    CHECK(r.r == SCO_OK && r.text == "nil,nil,nil");
+    const sc_game_player_died died = { sizeof(died), 0, 0x8000000000000016ull, 0 };   // past INT64_MAX: reads as negative
+    const sc_game_zone_changed zone = { sizeof(zone), 0, 5, 6 };
+    const sc_game_player_spawned spawned = { sizeof(spawned), 0, 3, 4 };
+    size_t called = 0;
+    CHECK(sco::Dispatch(SC_GAME_EVENT_PLAYER_DIED, &died, &called) == Result::Ok && called == 1);
+    CHECK(sco::Dispatch(SC_GAME_EVENT_ZONE_CHANGED, &zone, &called) == Result::Ok && called == 1);
+    CHECK(sco::Dispatch(SC_GAME_EVENT_PLAYER_SPAWNED, &spawned, &called) == Result::Ok && called == 1);
+    r = Invoke(g_caller, "gwplay.seen");
+    CHECK(r.r == SCO_OK && r.text == "-9223372036854775786:0,5>6,3@4");
+    if (r.text != "-9223372036854775786:0,5>6,3@4") std::printf("  gwplay.seen -> %s\n", r.text.c_str());
+    const sc_game_actor_died actor = { sizeof(actor), 0, 0x8000000000000016ull, 0 };
+    CHECK(sco::Dispatch(SC_GAME_EVENT_ACTOR_DIED, &actor, &called) == Result::Ok && called == 1);
+    r = Invoke(g_caller, "gwplay.actor");
+    CHECK(r.r == SCO_OK && r.text == "-9223372036854775786:0");
+    const sc_game_actor_died shortActor = { 8, 0, 1, 0 };
+    CHECK(sco::Dispatch(SC_GAME_EVENT_ACTOR_DIED, &shortActor, &called) == Result::Ok && called == 1);
+    r = Invoke(g_caller, "gwplay.actor");
+    CHECK(r.r == SCO_OK && r.text == "nil");
+    CHECK(sco::Dispatch(SC_GAME_EVENT_ACTOR_DIED, nullptr, &called) == Result::Ok && called == 1);
+    r = Invoke(g_caller, "gwplay.actor");
+    CHECK(r.r == SCO_OK && r.text == "nil");
+    const sc_game_player_died shortDied = { 8, 0, 1, 1 };   // size 8: shorter than sc_game_player_died
+    CHECK(sco::Dispatch(SC_GAME_EVENT_PLAYER_DIED, &shortDied, &called) == Result::Ok && called == 1);
+    r = Invoke(g_caller, "gwplay.seen");
+    CHECK(r.r == SCO_OK && r.text == "nil,5>6,3@4");
+    Unload(l);
+    CHECK(sco::host::WithdrawGameService(SC_WORLD_NAME) == Result::Ok);
+}
+
+// The core runtime alone: with no adapter registered, sco.datacore and sco.game never appear and
+// a game.* event's data is nil, even when the game services are published.
+static void TestNoAdapter() {
+    static const sc_actors_v1 kNone = { sizeof(sc_actors_v1), 0, FakeLocalPlayer, FakeSpawnNpc, FakeDespawn, FakeLastError,
+                                        FakeHealth, FakeState };
+    CHECK(sco::host::ProvideGameService(SC_ACTORS_NAME, SC_ACTORS_VERSION_1_1, &kNone) == Result::Ok);
+    Write("noadapter", R"(
+        assert(sco.game == nil, "sco.game without the adapter")
+        assert(sco.datacore == nil, "sco.datacore without the adapter")
+        sco.subscribe("game.player.died", function(name, data) sco.log("info", "died " .. tostring(data)) end)
+    )");
+    Loaded l = Load("noadapter");
+    CHECK(l.p && l.p->state == State::Loaded);
+    const sc_game_player_died died = { sizeof(died), 0, 7, 0 };
+    sco::Dispatch(SC_GAME_EVENT_PLAYER_DIED, &died);
+    CHECK(Logged("[noadapter] died nil"));
+    Unload(l);
+    CHECK(sco::host::WithdrawGameService(SC_ACTORS_NAME) == Result::Ok);
+}
+#endif   // SCO_KERNEL_ONLY
+
+// ---- sco.store (over the host service sco.storage) ---------------------------------------------
+
+// Opens and closes SCO_STORAGE_MAX_CURSORS cursors as `self`: true when none was refused, so the
+// script left no cursor open.
+static bool AllCursorsFree(sco_plugin* self) {
+    const sco_storage_v1* st = sco::storage::Table();
+    std::vector<uint64_t> ids;
+    bool ok = true;
+    for (uint32_t i = 0; i < SCO_STORAGE_MAX_CURSORS; ++i) {
+        uint64_t id = 0;
+        if (st->query(self, "SELECT 1", nullptr, 0, &id) != SCO_OK) { ok = false; break; }
+        ids.push_back(id);
+    }
+    for (uint64_t id : ids) st->close(self, id);
+    return ok;
+}
+
+static void TestSettings() {
+    // Without the service: sco.settings is there, get answers unavailable.
+    Write("setnone", R"lua(
+        local v, err, msg = sco.settings.get("speed")
+        assert(v == nil and err == "unavailable" and msg == "sco.settings is not available on this host", tostring(msg))
+        sco.log("info", "no settings: clean")
+    )lua");
+    Loaded none = Load("setnone");
+    CHECK(none.p && none.p->state == State::Loaded && Logged("[setnone] no settings: clean"));
+    Unload(none);
+
+    CHECK(sco::settings::Start() == Result::Ok);
+    Write("setting", R"lua(
+        assert(sco.settings.set == nil and sco.settings.put == nil, "read-only")
+        local speed = sco.settings.get("speed")
+        assert(speed == 5 and math.type(speed) == "integer", tostring(speed))
+        local fov = sco.settings.get("fov")
+        assert(fov == 90.5 and math.type(fov) == "float", tostring(fov))
+        assert(sco.settings.get("god_mode") == false)
+        assert(sco.settings.get("nick") == "Pilot")
+        assert(sco.settings.get("mode") == "normal")
+        local v, err, msg = sco.settings.get("nope")
+        assert(v == nil and err == "not_found" and msg == "this plugin declares no setting 'nope'", tostring(msg))
+        v, err, msg = sco.settings.get("bad\0name")
+        assert(v == nil and err == "bad_arg" and msg == "a setting name with a NUL byte", tostring(msg))
+        assert(not pcall(sco.settings.get))        -- a name is required
+        sco.register_command{ name = "setting.speed", title = "Speed",
+          fn = function() return tostring(sco.settings.get("speed")) .. " " .. sco.settings.get("mode") end }
+        sco.log("info", "settings: clean")
+    )lua", "[settings]\nspeed = int default 5 min 1 max 10\nfov = float default 90.5\ngod_mode = bool\n"
+           "nick = string default \"Pilot\"\nmode = enum(easy,normal,hard) default normal\n");
+    Loaded l = Load("setting");
+    CHECK(l.p && l.p->state == State::Loaded && Logged("[setting] settings: clean"));
+    if (l.p && l.p->state != State::Loaded) std::printf("  setting: %s\n", l.p->reason.c_str());
+    // The script reads what the host keeps now.
+    CHECK(Invoke(g_caller, "setting.speed").text == "5 normal");
+    CHECK(sco::settings::SetInt("setting", "speed", 8) == Result::Ok && sco::settings::SetString("setting", "mode", "hard") == Result::Ok);
+    CHECK(Invoke(g_caller, "setting.speed").text == "8 hard");
+    Unload(l);
+    // A plugin that declares nothing finds nothing, with the service up.
+    Write("setempty", R"lua(
+        local v, err = sco.settings.get("speed")
+        assert(v == nil and err == "not_found")
+        sco.log("info", "no declarations: clean")
+    )lua");
+    Loaded e = Load("setempty");
+    CHECK(e.p && e.p->state == State::Loaded && Logged("[setempty] no declarations: clean"));
+    Unload(e);
+    sco::settings::Stop();
+}
+
+static void TestStore(const fs::path& sdk) {
+    // A host without the service: sco.store is there, every call answers unavailable.
+    static const char* const kNone = R"lua(
+        assert(sco.store.available() == false)
+        local v, err, msg = sco.store.get("a")
+        assert(v == nil and err == "unavailable" and msg == "sco.storage is not available on this host", tostring(msg))
+        assert(select(2, sco.store.put("a", "b")) == "unavailable")
+        assert(select(2, sco.store.sql("SELECT 1")) == "unavailable")
+        assert(select(2, sco.store.begin()) == "unavailable")
+        sco.log("info", "no storage: clean")
+    )lua";
+    Write("stnone", kNone);
+    Loaded none = Load("stnone");
+    CHECK(none.p && none.p->state == State::Loaded && Logged("[stnone] no storage: clean"));
+    if (none.p && none.p->state != State::Loaded) std::printf("  stnone: %s\n", none.p->reason.c_str());
+    Unload(none);
+
+    const fs::path data = g_root.parent_path() / "lua_storage";
+    fs::remove_all(data);
+    sco::storage::Options o;
+    o.dataRoot = data;
+    CHECK(sco::storage::Start(o) == Result::Ok);
+
+    // An older host (sco_api 1.0, no query_service) while the service is published.
+    sco_api old = *g_api;
+    old.size = static_cast<uint32_t>(offsetof(sco_api, query_service));
+    Write("stold", kNone);
+    Loaded oldl = Load("stold", &old);
+    CHECK(oldl.p && oldl.p->state == State::Loaded && Logged("[stold] no storage: clean"));
+    Unload(oldl);
+
+    Write("storea", R"lua(
+        local st = sco.store
+        assert(st.available())
+        -- key-value round trip
+        assert(st.get("missing") == nil and select("#", st.get("missing")) == 1)
+        assert(st.put("spots.home", "Lorville") and st.get("spots.home") == "Lorville")
+        assert(st.put("spots.empty", "") and st.get("spots.empty") == "")
+        assert(st.put("spots.bin", "a\0b") and st.get("spots.bin") == "a\0b")
+        assert(st.put("shared", "a"))
+        assert(st.delete("spots.empty") == true and st.delete("spots.empty") == false)
+        local k = assert(st.keys("spots."))
+        assert(#k == 2 and k[1] == "spots.bin" and k[2] == "spots.home", table.concat(k, ","))
+        local page = assert(st.keys("spots.", "spots.bin", 1))
+        assert(#page == 1 and page[1] == "spots.home")
+        local v, err, msg = st.put(string.rep("k", 256), "x")
+        assert(v == nil and err == "bad_arg", "key too long: " .. tostring(v) .. " " .. tostring(err) .. " " .. tostring(msg))
+        assert(select(2, st.get("a\0b")) == "bad_arg", "NUL in a key")
+        assert(select(2, st.keys(nil, nil, 0)) == "bad_arg", "limit")
+        -- transactions
+        assert(st.begin())
+        assert(select(2, st.begin()) == "bad_arg", "begin twice")
+        assert(st.put("tx.gone", "1") and st.rollback())
+        assert(st.get("tx.gone") == nil)
+        assert(st.begin() and st.put("tx.kept", "1") and st.commit())
+        assert(st.get("tx.kept") == "1")
+        assert(select(2, st.commit()) == "bad_arg", "commit with none open")
+        -- SQL with parameters
+        assert(st.exec("CREATE TABLE visits(place TEXT, at INTEGER, speed REAL, note TEXT)"))
+        assert(st.exec("INSERT INTO visits VALUES (?, ?, ?, ?)", { "Lorville", 1, 2.5, n = 4 }) == 1)
+        assert(st.exec("INSERT INTO visits VALUES (?, ?, ?, ?)", { "Area18", 2, 0.5, "rain" }) == 1)
+        assert(st.exec("INSERT INTO visits VALUES (:p, :a, 0, NULL)", { "Orison", true }) == 1)
+        local rows = assert(st.sql("SELECT place, at, speed, note FROM visits WHERE at >= ? ORDER BY at DESC, place", { 1 }))
+        assert(#rows == 3 and rows[1].place == "Area18" and rows[1].note == "rain" and rows[1].at == 2)
+        assert(rows[2].place == "Lorville" and math.type(rows[2].at) == "integer" and rows[2].at == 1)
+        assert(rows[2].speed == 2.5 and rows[2].note == nil and rows[3].place == "Orison" and rows[3].at == 1)
+        local one = assert(st.sql("SELECT value FROM sco_kv WHERE key = ?", { "spots.bin" }))
+        assert(#one == 1 and one[1].value == "a\0b", "a BLOB from the key-value table")
+        assert(#assert(st.sql("SELECT * FROM visits WHERE place = ?", { "nowhere" })) == 0)
+        v, err, msg = st.sql("ATTACH DATABASE 'x.db' AS x")
+        assert(v == nil and err == "bad_arg" and type(msg) == "string", "ATTACH refused")
+        assert(select(2, st.sql("SELECT ?", {})) == "bad_arg", "parameter count")
+        assert(select(2, st.sql("SELECT ?", { {} })) == "bad_arg", "a table as a parameter")
+        -- bounded: more than 1000 rows as a table is too_many; a function sees them all
+        assert(st.begin())
+        assert(st.exec("CREATE TABLE n(i INTEGER)"))
+        for i = 1, 1001 do assert(st.exec("INSERT INTO n VALUES (?)", { i })) end
+        assert(st.commit())
+        assert(select(2, st.sql("SELECT i FROM n")) == "too_many")
+        local count = 0
+        assert(st.sql("SELECT i FROM n", nil, function(r) count = count + r.i end) == true)
+        assert(count == 1001 * 1002 // 2, "rows by function")
+        count = 0
+        assert(st.sql("SELECT i FROM n ORDER BY i", nil, function(r) count = r.i; return r.i < 3 end))
+        assert(count == 3, "a function returning false stops")
+        sco.register_command{ name = "storea.get", title = "Get", args = {{ name = "k", type = "string" }},
+                              fn = function(key) return st.get(key) end }
+        -- A script error mid-iteration: 70 times, more than the 64 cursors a plugin may hold.
+        sco.register_command{ name = "storea.boom", title = "Boom", fn = function()
+          for i = 1, 70 do
+            local ok, e = pcall(st.sql, "SELECT i FROM n", nil, function(r) if r.i == 2 then error("mid-iteration") end end)
+            if ok or not tostring(e):find("mid-iteration", 1, true) then return "pass " .. i .. ": " .. tostring(e) end
+          end
+          return #assert(st.sql("SELECT i FROM n LIMIT 5")) .. " rows after 70 errors"
+        end }
+    )lua");
+    Loaded a = Load("storea");
+    CHECK(a.p && a.p->state == State::Loaded);
+    if (a.p && a.p->state != State::Loaded) std::printf("  storea: %s\n", a.p->reason.c_str());
+    const Reply boom = Invoke(g_caller, "storea.boom");
+    CHECK(boom.r == SCO_OK && boom.text == "5 rows after 70 errors");
+    if (boom.text != "5 rows after 70 errors") std::printf("  storea.boom -> %d %s\n", boom.r, boom.text.c_str());
+    CHECK(a.p && AllCursorsFree(a.p->self));
+
+    // Isolation: a second script has its own keys and tables.
+    Write("storeb", R"lua(
+        local st = sco.store
+        assert(st.get("shared") == nil and st.get("spots.home") == nil, "another plugin's keys")
+        assert(st.put("shared", "b"))
+        assert(#assert(st.keys()) == 1)
+        local v, err = st.sql("SELECT * FROM visits")
+        assert(v == nil and (err == "bad_arg" or err == "failed"), "another plugin's table: " .. tostring(err))
+    )lua");
+    Loaded b = Load("storeb");
+    CHECK(b.p && b.p->state == State::Loaded);
+    if (b.p && b.p->state != State::Loaded) std::printf("  storeb: %s\n", b.p->reason.c_str());
+    CHECK(Invoke(g_caller, "storea.get", { Str("shared") }).text == "a");
+    Unload(b);
+    Unload(a);
+
+    // Committed data outlives the script: a reload sees it.
+    Write("storea", R"lua(
+        sco.register_command{ name = "storea.get", title = "Get", args = {{ name = "k", type = "string" }},
+                              fn = function(key) return sco.store.get(key) end }
+    )lua");
+    a = Load("storea");
+    CHECK(Invoke(g_caller, "storea.get", { Str("spots.home") }).text == "Lorville");
+    CHECK(Invoke(g_caller, "storea.get", { Str("tx.gone") }).text.empty());
+    Unload(a);
+
+    // The step budget running out inside a row callback: the script is disabled, its cursor closed.
+    Write("stspin", R"lua(
+        assert(sco.store.exec("CREATE TABLE IF NOT EXISTS t(i INTEGER)"))
+        assert(sco.store.exec("INSERT INTO t VALUES (1), (2)"))
+        sco.register_command{ name = "stspin.spin", title = "Spin", fn = function()
+          sco.store.sql("SELECT i FROM t", nil, function() while true do end end) end }
+    )lua");
+    Loaded spin = Load("stspin");
+    CHECK(spin.p && spin.p->state == State::Loaded);
+    const Reply sr = Invoke(g_caller, "stspin.spin");
+    CHECK(sr.r == SCO_CRASHED && sr.text.find("step budget") != std::string::npos);
+    CHECK(spin.p && !sco_lua_alive(spin.p->self) && AllCursorsFree(spin.p->self));
+    Unload(spin);
+
+    // The SDK's storage example, sdk/examples/notebook: notes survive a reload.
+    fs::copy(sdk / "examples/notebook", g_root / "notebook", fs::copy_options::recursive);
+    Loaded nb = Load("notebook");
+    CHECK(nb.p && nb.p->state == State::Loaded);
+    CHECK(Invoke(g_caller, "notebook.add", { Str("buy fuel") }).text == "note 1 saved");
+    CHECK(Invoke(g_caller, "notebook.add", { Str("visit Orison") }).text == "note 2 saved");
+    Unload(nb);
+    nb = Load("notebook");
+    const Reply list = Invoke(g_caller, "notebook.list");
+    CHECK(list.r == SCO_OK && list.text == "2 notes: buy fuel | visit Orison");
+    if (list.text != "2 notes: buy fuel | visit Orison") std::printf("  notebook.list -> %d %s\n", list.r, list.text.c_str());
+    CHECK(Invoke(g_caller, "notebook.clear").text == "removed 2 notes");
+    CHECK(Invoke(g_caller, "notebook.list").text == "0 notes");
+    Unload(nb);
+    sco::storage::Stop();
+}
+
+#ifndef _WIN32
+#include <unistd.h>
+// A broken step budget turns the spin tests into endless loops: fail instead of hanging.
+static void Deadline(int) {
+    static const char msg[] = "FAIL test_lua: still running after 120 s (step budget not enforced?)\n";
+    (void)!write(1, msg, sizeof(msg) - 1);
+    _exit(1);
+}
+#endif
+
+int main(int argc, char** argv) {
+    if (argc < 3) { std::printf("usage: test_lua <sdk dir> <out dir>\n"); return 2; }
+#ifndef _WIN32
+    std::signal(SIGALRM, Deadline);
+    alarm(120);
+#endif
+    sco::SetLogSink(Sink);
+    sco::SetGameThread();
+    g_api = sco::host::BuildApi({ "sco-lua test 1.0" });
+    g_caller = sco::host::NewPlugin("caller");
+    g_root = fs::path(argv[2]) / "lua-plugins";
+    fs::remove_all(g_root);
+    fs::create_directories(g_root);
+    TestGreeterExample(argv[1]);
+    TestTable();
+    TestHotkeys();
+    TestSandbox();
+    TestLimits();
+    TestTotalMemory();
+    TestExtensions();
+#ifndef SCO_KERNEL_ONLY
+    TestNoAdapter();
+    CHECK(sco_lua_add_extension(&sco_lua_game_extension) == SCO_OK);   // as the product does
+    TestDataCore();
+    TestGameActors();
+    TestGameCreative();
+    TestGameWorld();
+    TestGameEntities();
+#endif
+    TestSettings();
+    TestStore(argv[1]);
+    std::printf("sco-lua tests: %d passed, %d failed\n", g_pass, g_fail);
+    return g_fail ? 1 : 0;
+}

@@ -1,0 +1,315 @@
+format = 1
+atomic = true
+
+[[instance]]
+id = "cap-loadout-component"
+struct = "SEntityComponentDefaultLoadoutParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1]" }
+
+[[instance]]
+id = "cap-manual-0"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-0"
+field = "entries"
+
+[[set]]
+instance = "@cap-loadout-component"
+field = "loadout"
+pointer = "@cap-manual-0"
+
+[[instance]]
+id = "cap-manual-1"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[99].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-1"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[99].loadout"
+pointer = "@cap-manual-1"
+
+[[instance]]
+id = "cap-manual-2"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[94].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-2"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[94].loadout"
+pointer = "@cap-manual-2"
+
+[[instance]]
+id = "cap-manual-3"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[96].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-3"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[96].loadout"
+pointer = "@cap-manual-3"
+
+[[instance]]
+id = "cap-manual-4"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[92].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-4"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[92].loadout"
+pointer = "@cap-manual-4"
+
+[[instance]]
+id = "cap-manual-5"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[105].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-5"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[105].loadout"
+pointer = "@cap-manual-5"
+
+[[instance]]
+id = "cap-manual-6"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[101].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-6"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[101].loadout"
+pointer = "@cap-manual-6"
+
+[[instance]]
+id = "cap-manual-7"
+struct = "SItemPortLoadoutManualParams"
+clone = { record = "EntityClassDefinition.AEGS_Javelin", field = "Components[1].loadout.entries[103].loadout" }
+
+[[copy_array]]
+instance = "@cap-manual-7"
+field = "entries"
+
+[[set]]
+instance = "@cap-manual-0"
+field = "entries[103].loadout"
+pointer = "@cap-manual-7"
+
+[[set]]
+instance = "@cap-manual-4"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-4"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-2"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-2"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-3"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-3"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-1"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-1"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-6"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-6"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-7"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-7"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-5"
+field = "entries[0].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[set]]
+instance = "@cap-manual-5"
+field = "entries[1].entityClassName"
+value = "BEHR_JavelinBallisticCannon_S7"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_O0"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_O0" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_O0"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_O0"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_O1"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_O1" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_O1"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_O1"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_E0"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_E0" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_E0"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_E0"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_E1"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_E1" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_E1"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_E1"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_N0"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_N0" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_N0"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_N0"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_N1"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_N1" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_N1"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_N1"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_F0"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_F0" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_F0"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_F0"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_S2000_F1"
+clone = { record = "EntityClassDefinition.SCOZH_S0111_F1" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_S2000_F1"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_S2000_F1"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.AEGS_Javelin_PU_ZH_Ballistic"
+clone = { record = "EntityClassDefinition.AEGS_Javelin" }
+
+[[copy_array]]
+record = "EntityClassDefinition.AEGS_Javelin_PU_ZH_Ballistic"
+field = "Components"
+
+[[set]]
+record = "EntityClassDefinition.AEGS_Javelin_PU_ZH_Ballistic"
+field = "Components[SEntityComponentDefaultLoadoutParams]"
+pointer = "@cap-loadout-component"

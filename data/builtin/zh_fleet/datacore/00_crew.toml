@@ -1,0 +1,4619 @@
+format = 1
+atomic = true
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0000_E"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-Civilians-GrimHex-RaceAnnouncer_NesCalloway" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0000_E"
+field = "Components"
+
+[[instance]]
+id = "n0E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-Civilians-GrimHex-RaceAnnouncer_NesCalloway", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0000_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n0E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0000_N"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-Civilians-GrimHex-RaceAnnouncer_NesCalloway" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0000_N"
+field = "Components"
+
+[[instance]]
+id = "n0N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-Civilians-GrimHex-RaceAnnouncer_NesCalloway", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0000_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n0N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0000_F"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-Civilians-GrimHex-RaceAnnouncer_NesCalloway" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0000_F"
+field = "Components"
+
+[[instance]]
+id = "n0F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-Civilians-GrimHex-RaceAnnouncer_NesCalloway", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0000_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n0F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0001_E"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0001_E"
+field = "Components"
+
+[[instance]]
+id = "n1E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0001_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n1E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0001_N"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0001_N"
+field = "Components"
+
+[[instance]]
+id = "n1N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0001_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n1N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0001_F"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0001_F"
+field = "Components"
+
+[[instance]]
+id = "n1F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0001_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n1F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0002_E"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters_Pilot" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0002_E"
+field = "Components"
+
+[[instance]]
+id = "n2E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters_Pilot", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0002_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n2E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0002_N"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters_Pilot" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0002_N"
+field = "Components"
+
+[[instance]]
+id = "n2N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters_Pilot", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0002_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n2N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0002_F"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters_Pilot" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0002_F"
+field = "Components"
+
+[[instance]]
+id = "n2F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.NPC_Archetypes-Male-Human-FrontierFighters_Pilot", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0002_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n2F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0003_E"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0003_E"
+field = "Components"
+
+[[instance]]
+id = "n3E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0003_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n3E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0003_N"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0003_N"
+field = "Components"
+
+[[instance]]
+id = "n3N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0003_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n3N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0003_F"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0003_F"
+field = "Components"
+
+[[instance]]
+id = "n3F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0003_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n3F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0004_E"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0004_E"
+field = "Components"
+
+[[instance]]
+id = "n4E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0004_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n4E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0004_N"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0004_N"
+field = "Components"
+
+[[instance]]
+id = "n4N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0004_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n4N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0004_F"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0004_F"
+field = "Components"
+
+[[instance]]
+id = "n4F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Crusader-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0004_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n4F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0005_E"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0005_E"
+field = "Components"
+
+[[instance]]
+id = "n5E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0005_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n5E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0005_N"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0005_N"
+field = "Components"
+
+[[instance]]
+id = "n5N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0005_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n5N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0005_F"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0005_F"
+field = "Components"
+
+[[instance]]
+id = "n5F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0005_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n5F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0006_E"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0006_E"
+field = "Components"
+
+[[instance]]
+id = "n6E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0006_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n6E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0006_N"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0006_N"
+field = "Components"
+
+[[instance]]
+id = "n6N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0006_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n6N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0006_F"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0006_F"
+field = "Components"
+
+[[instance]]
+id = "n6F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Microtech-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0006_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n6F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0007_E"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Grunt-Male-Heavy_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0007_E"
+field = "Components"
+
+[[instance]]
+id = "n7E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Grunt-Male-Heavy_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0007_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n7E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0007_N"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Grunt-Male-Heavy_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0007_N"
+field = "Components"
+
+[[instance]]
+id = "n7N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Grunt-Male-Heavy_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0007_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n7N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0007_F"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Grunt-Male-Heavy_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0007_F"
+field = "Components"
+
+[[instance]]
+id = "n7F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Grunt-Male-Heavy_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0007_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n7F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0008_E"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0008_E"
+field = "Components"
+
+[[instance]]
+id = "n8E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0008_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n8E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0008_N"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0008_N"
+field = "Components"
+
+[[instance]]
+id = "n8N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0008_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n8N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0008_F"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0008_F"
+field = "Components"
+
+[[instance]]
+id = "n8F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0008_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n8F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0009_E"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0009_E"
+field = "Components"
+
+[[instance]]
+id = "n9E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0009_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n9E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0009_N"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0009_N"
+field = "Components"
+
+[[instance]]
+id = "n9N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0009_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n9N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0009_F"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0009_F"
+field = "Components"
+
+[[instance]]
+id = "n9F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-NineTails-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0009_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n9F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0010_E"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0010_E"
+field = "Components"
+
+[[instance]]
+id = "n10E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0010_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n10E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0010_N"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0010_N"
+field = "Components"
+
+[[instance]]
+id = "n10N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0010_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n10N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0010_F"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Gunner-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0010_F"
+field = "Components"
+
+[[instance]]
+id = "n10F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Gunner-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0010_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n10F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0011_E"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0011_E"
+field = "Components"
+
+[[instance]]
+id = "n11E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0011_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n11E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0011_N"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0011_N"
+field = "Components"
+
+[[instance]]
+id = "n11N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0011_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n11N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0011_F"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Pilot-Male-Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0011_F"
+field = "Components"
+
+[[instance]]
+id = "n11F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human-Xenothreat-Pilot-Male-Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0011_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n11F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0012_E"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_Pilot" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0012_E"
+field = "Components"
+
+[[instance]]
+id = "n12E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_Pilot", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0012_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n12E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0012_N"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_Pilot" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0012_N"
+field = "Components"
+
+[[instance]]
+id = "n12N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_Pilot", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0012_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n12N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0012_F"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_Pilot" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0012_F"
+field = "Components"
+
+[[instance]]
+id = "n12F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_Pilot", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0012_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n12F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0013_E"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_soldier" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0013_E"
+field = "Components"
+
+[[instance]]
+id = "n13E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_soldier", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0013_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n13E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0013_N"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_soldier" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0013_N"
+field = "Components"
+
+[[instance]]
+id = "n13N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_soldier", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0013_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n13N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0013_F"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_soldier" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0013_F"
+field = "Components"
+
+[[instance]]
+id = "n13F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Human_Enemy_GroundCombat_NPC_Headhunters_soldier", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0013_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n13F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0014_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0014_E"
+field = "Components"
+
+[[instance]]
+id = "n14E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0014_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n14E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0014_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0014_N"
+field = "Components"
+
+[[instance]]
+id = "n14N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0014_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n14N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0014_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0014_F"
+field = "Components"
+
+[[instance]]
+id = "n14F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0014_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n14F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0015_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0015_E"
+field = "Components"
+
+[[instance]]
+id = "n15E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0015_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n15E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0015_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0015_N"
+field = "Components"
+
+[[instance]]
+id = "n15N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0015_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n15N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0015_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0015_F"
+field = "Components"
+
+[[instance]]
+id = "n15F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Advocacy-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0015_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n15F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0016_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0016_E"
+field = "Components"
+
+[[instance]]
+id = "n16E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0016_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n16E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0016_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0016_N"
+field = "Components"
+
+[[instance]]
+id = "n16N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0016_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n16N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0016_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0016_F"
+field = "Components"
+
+[[instance]]
+id = "n16F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0016_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n16F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0017_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0017_E"
+field = "Components"
+
+[[instance]]
+id = "n17E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0017_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n17E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0017_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0017_N"
+field = "Components"
+
+[[instance]]
+id = "n17N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0017_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n17N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0017_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0017_F"
+field = "Components"
+
+[[instance]]
+id = "n17F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BlacJacSecurity-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0017_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n17F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0018_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0018_E"
+field = "Components"
+
+[[instance]]
+id = "n18E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0018_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n18E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0018_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0018_N"
+field = "Components"
+
+[[instance]]
+id = "n18N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0018_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n18N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0018_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0018_F"
+field = "Components"
+
+[[instance]]
+id = "n18F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0018_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n18F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0019_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0019_E"
+field = "Components"
+
+[[instance]]
+id = "n19E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0019_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n19E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0019_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0019_N"
+field = "Components"
+
+[[instance]]
+id = "n19N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0019_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n19N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0019_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0019_F"
+field = "Components"
+
+[[instance]]
+id = "n19F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-BountyHunter-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0019_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n19F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0020_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-ARGO-Pilot-Lorville" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0020_E"
+field = "Components"
+
+[[instance]]
+id = "n20E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-ARGO-Pilot-Lorville", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0020_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n20E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0020_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-ARGO-Pilot-Lorville" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0020_N"
+field = "Components"
+
+[[instance]]
+id = "n20N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-ARGO-Pilot-Lorville", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0020_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n20N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0020_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-ARGO-Pilot-Lorville" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0020_F"
+field = "Components"
+
+[[instance]]
+id = "n20F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-ARGO-Pilot-Lorville", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0020_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n20F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0021_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0021_E"
+field = "Components"
+
+[[instance]]
+id = "n21E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0021_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n21E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0021_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0021_N"
+field = "Components"
+
+[[instance]]
+id = "n21N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0021_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n21N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0021_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0021_F"
+field = "Components"
+
+[[instance]]
+id = "n21F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0021_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n21F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0022_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light-CrimeStat" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0022_E"
+field = "Components"
+
+[[instance]]
+id = "n22E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light-CrimeStat", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0022_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n22E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0022_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light-CrimeStat" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0022_N"
+field = "Components"
+
+[[instance]]
+id = "n22N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light-CrimeStat", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0022_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n22N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0022_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light-CrimeStat" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0022_F"
+field = "Components"
+
+[[instance]]
+id = "n22F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Gunner_Light-CrimeStat", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0022_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n22F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0023_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0023_E"
+field = "Components"
+
+[[instance]]
+id = "n23E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0023_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n23E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0023_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0023_N"
+field = "Components"
+
+[[instance]]
+id = "n23N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0023_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n23N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0023_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0023_F"
+field = "Components"
+
+[[instance]]
+id = "n23F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0023_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n23F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0024_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light-CrimeStat" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0024_E"
+field = "Components"
+
+[[instance]]
+id = "n24E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light-CrimeStat", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0024_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n24E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0024_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light-CrimeStat" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0024_N"
+field = "Components"
+
+[[instance]]
+id = "n24N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light-CrimeStat", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0024_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n24N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0024_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light-CrimeStat" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0024_F"
+field = "Components"
+
+[[instance]]
+id = "n24F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_Light-CrimeStat", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0024_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n24F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0025_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_RefuelProvider" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0025_E"
+field = "Components"
+
+[[instance]]
+id = "n25E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_RefuelProvider", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0025_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n25E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0025_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_RefuelProvider" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0025_N"
+field = "Components"
+
+[[instance]]
+id = "n25N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_RefuelProvider", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0025_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n25N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0025_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_RefuelProvider" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0025_F"
+field = "Components"
+
+[[instance]]
+id = "n25F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Civilian-Pilot_RefuelProvider", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0025_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n25F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0026_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0026_E"
+field = "Components"
+
+[[instance]]
+id = "n26E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0026_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n26E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0026_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0026_N"
+field = "Components"
+
+[[instance]]
+id = "n26N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0026_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n26N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0026_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0026_F"
+field = "Components"
+
+[[instance]]
+id = "n26F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0026_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n26F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0027_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0027_E"
+field = "Components"
+
+[[instance]]
+id = "n27E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0027_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n27E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0027_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0027_N"
+field = "Components"
+
+[[instance]]
+id = "n27N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0027_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n27N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0027_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0027_F"
+field = "Components"
+
+[[instance]]
+id = "n27F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Criminal-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0027_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n27F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0028_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0028_E"
+field = "Components"
+
+[[instance]]
+id = "n28E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0028_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n28E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0028_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0028_N"
+field = "Components"
+
+[[instance]]
+id = "n28N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0028_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n28N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0028_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0028_F"
+field = "Components"
+
+[[instance]]
+id = "n28F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0028_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n28F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0029_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0029_E"
+field = "Components"
+
+[[instance]]
+id = "n29E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0029_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n29E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0029_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0029_N"
+field = "Components"
+
+[[instance]]
+id = "n29N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0029_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n29N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0029_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0029_F"
+field = "Components"
+
+[[instance]]
+id = "n29F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-HurstonSecurity-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0029_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n29F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0030_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Moraine-Pilot-IsaacKepler" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0030_E"
+field = "Components"
+
+[[instance]]
+id = "n30E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Moraine-Pilot-IsaacKepler", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0030_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n30E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0030_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Moraine-Pilot-IsaacKepler" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0030_N"
+field = "Components"
+
+[[instance]]
+id = "n30N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Moraine-Pilot-IsaacKepler", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0030_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n30N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0030_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Moraine-Pilot-IsaacKepler" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0030_F"
+field = "Components"
+
+[[instance]]
+id = "n30F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Moraine-Pilot-IsaacKepler", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0030_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n30F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0031_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0031_E"
+field = "Components"
+
+[[instance]]
+id = "n31E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0031_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n31E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0031_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0031_N"
+field = "Components"
+
+[[instance]]
+id = "n31N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0031_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n31N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0031_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0031_F"
+field = "Components"
+
+[[instance]]
+id = "n31F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0031_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n31F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0032_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0032_E"
+field = "Components"
+
+[[instance]]
+id = "n32E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0032_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n32E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0032_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0032_N"
+field = "Components"
+
+[[instance]]
+id = "n32N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0032_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n32N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0032_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0032_F"
+field = "Components"
+
+[[instance]]
+id = "n32F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-PA-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0032_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n32F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0033_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0033_E"
+field = "Components"
+
+[[instance]]
+id = "n33E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0033_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n33E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0033_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0033_N"
+field = "Components"
+
+[[instance]]
+id = "n33N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0033_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n33N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0033_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0033_F"
+field = "Components"
+
+[[instance]]
+id = "n33F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0033_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n33F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0034_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0034_E"
+field = "Components"
+
+[[instance]]
+id = "n34E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0034_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n34E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0034_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0034_N"
+field = "Components"
+
+[[instance]]
+id = "n34N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0034_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n34N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0034_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0034_F"
+field = "Components"
+
+[[instance]]
+id = "n34F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-Pirate-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0034_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n34F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0035_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0035_E"
+field = "Components"
+
+[[instance]]
+id = "n35E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0035_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n35E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0035_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0035_N"
+field = "Components"
+
+[[instance]]
+id = "n35N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0035_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n35N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0035_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0035_F"
+field = "Components"
+
+[[instance]]
+id = "n35F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0035_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n35F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0036_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light_NoDamage" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0036_E"
+field = "Components"
+
+[[instance]]
+id = "n36E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light_NoDamage", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0036_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n36E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0036_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light_NoDamage" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0036_N"
+field = "Components"
+
+[[instance]]
+id = "n36N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light_NoDamage", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0036_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n36N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0036_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light_NoDamage" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0036_F"
+field = "Components"
+
+[[instance]]
+id = "n36F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Gunner_Light_NoDamage", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0036_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n36F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0037_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0037_E"
+field = "Components"
+
+[[instance]]
+id = "n37E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0037_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n37E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0037_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0037_N"
+field = "Components"
+
+[[instance]]
+id = "n37N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0037_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n37N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0037_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0037_F"
+field = "Components"
+
+[[instance]]
+id = "n37F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0037_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n37F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0038_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0038_E"
+field = "Components"
+
+[[instance]]
+id = "n38E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0038_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n38E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0038_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0038_N"
+field = "Components"
+
+[[instance]]
+id = "n38N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0038_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n38N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0038_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0038_F"
+field = "Components"
+
+[[instance]]
+id = "n38F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0038_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n38F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0039_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01_NoDamage" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0039_E"
+field = "Components"
+
+[[instance]]
+id = "n39E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01_NoDamage", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0039_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n39E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0039_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01_NoDamage" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0039_N"
+field = "Components"
+
+[[instance]]
+id = "n39N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01_NoDamage", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0039_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n39N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0039_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01_NoDamage" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0039_F"
+field = "Components"
+
+[[instance]]
+id = "n39F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Human-UEE_Pilot_Light_01_NoDamage", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0039_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n39F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0040_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0040_E"
+field = "Components"
+
+[[instance]]
+id = "n40E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0040_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n40E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0040_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0040_N"
+field = "Components"
+
+[[instance]]
+id = "n40N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0040_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n40N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0040_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Gunner_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0040_F"
+field = "Components"
+
+[[instance]]
+id = "n40F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Gunner_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0040_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n40F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0041_E"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0041_E"
+field = "Components"
+
+[[instance]]
+id = "n41E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0041_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n41E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0041_N"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0041_N"
+field = "Components"
+
+[[instance]]
+id = "n41N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0041_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n41N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0041_F"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Pilot_Light" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0041_F"
+field = "Components"
+
+[[instance]]
+id = "n41F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots-Vanduul-Pilot_Light", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0041_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n41F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0042_E"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Advocacy_Pilot_Light_EA" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0042_E"
+field = "Components"
+
+[[instance]]
+id = "n42E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Advocacy_Pilot_Light_EA", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0042_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n42E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0042_N"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Advocacy_Pilot_Light_EA" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0042_N"
+field = "Components"
+
+[[instance]]
+id = "n42N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Advocacy_Pilot_Light_EA", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0042_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n42N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0042_F"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Advocacy_Pilot_Light_EA" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0042_F"
+field = "Components"
+
+[[instance]]
+id = "n42F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Advocacy_Pilot_Light_EA", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0042_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n42F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0043_E"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Supreme_Pilot_Light_EA" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0043_E"
+field = "Components"
+
+[[instance]]
+id = "n43E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Supreme_Pilot_Light_EA", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0043_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n43E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0043_N"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Supreme_Pilot_Light_EA" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0043_N"
+field = "Components"
+
+[[instance]]
+id = "n43N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Supreme_Pilot_Light_EA", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0043_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n43N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0043_F"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Supreme_Pilot_Light_EA" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0043_F"
+field = "Components"
+
+[[instance]]
+id = "n43F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.PU_Pilots_Human_Supreme_Pilot_Light_EA", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0043_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n43F"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0044_E"
+clone = { record = "EntityClassDefinition.Vanduul_Pilot_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0044_E"
+field = "Components"
+
+[[instance]]
+id = "n44E"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.Vanduul_Pilot_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_HostileToAll" }, "faction" = { ref = "Faction_LEGACY.Hostile" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0044_E"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n44E"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0044_N"
+clone = { record = "EntityClassDefinition.Vanduul_Pilot_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0044_N"
+field = "Components"
+
+[[instance]]
+id = "n44N"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.Vanduul_Pilot_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Lawful_Civilian" }, "faction" = { ref = "Faction_LEGACY.Neutral" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0044_N"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n44N"
+
+[[record]]
+struct = "EntityClassDefinition"
+name = "EntityClassDefinition.SCOZH_N0044_F"
+clone = { record = "EntityClassDefinition.Vanduul_Pilot_01" }
+
+[[copy_array]]
+record = "EntityClassDefinition.SCOZH_N0044_F"
+field = "Components"
+
+[[instance]]
+id = "n44F"
+struct = "SEntityComponentHostilityParams"
+clone = { record = "EntityClassDefinition.Vanduul_Pilot_01", field = "Components[SEntityComponentHostilityParams]" }
+set = { "factionSC" = { ref = "Faction.Faction_Special_FriendlyToAll" }, "faction" = { ref = "Faction_LEGACY.EA_FriendToAll" } }
+
+[[set]]
+record = "EntityClassDefinition.SCOZH_N0044_F"
+field = "Components[SEntityComponentHostilityParams]"
+pointer = "@n44F"
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0000_E"
+clone = { record = "CrewManifest.EA_Advocacy_TransportCrew" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0000_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0000_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0042_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0000_N"
+clone = { record = "CrewManifest.EA_Advocacy_TransportCrew" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0000_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0000_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0042_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0000_F"
+clone = { record = "CrewManifest.EA_Advocacy_TransportCrew" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0000_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0000_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0042_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0001_E"
+clone = { record = "CrewManifest.EA_Supreme_TransportCrew" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0001_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0001_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0043_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0001_N"
+clone = { record = "CrewManifest.EA_Supreme_TransportCrew" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0001_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0001_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0043_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0001_F"
+clone = { record = "CrewManifest.EA_Supreme_TransportCrew" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0001_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0001_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0043_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0002_E"
+clone = { record = "CrewManifest.PU_Human_Advocacy_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0002_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0002_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0015_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0002_N"
+clone = { record = "CrewManifest.PU_Human_Advocacy_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0002_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0002_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0015_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0002_F"
+clone = { record = "CrewManifest.PU_Human_Advocacy_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0002_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0002_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0015_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0003_E"
+clone = { record = "CrewManifest.PU_Human_Advocacy_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0003_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0003_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0015_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0003_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0014_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0003_N"
+clone = { record = "CrewManifest.PU_Human_Advocacy_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0003_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0003_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0015_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0003_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0014_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0003_F"
+clone = { record = "CrewManifest.PU_Human_Advocacy_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0003_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0003_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0015_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0003_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0014_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0004_E"
+clone = { record = "CrewManifest.PU_Human_BlacJacSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0004_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0004_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0017_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0004_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0016_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0004_N"
+clone = { record = "CrewManifest.PU_Human_BlacJacSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0004_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0004_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0017_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0004_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0016_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0004_F"
+clone = { record = "CrewManifest.PU_Human_BlacJacSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0004_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0004_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0017_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0004_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0016_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0005_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_ARGO_Pilot_Lorville" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0005_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0005_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0020_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0005_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_ARGO_Pilot_Lorville" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0005_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0005_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0020_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0005_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_ARGO_Pilot_Lorville" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0005_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0005_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0020_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0006_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_BountyHunter" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0006_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0006_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0019_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0006_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_BountyHunter" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0006_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0006_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0019_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0006_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_BountyHunter" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0006_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0006_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0019_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0007_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_BountyHunter_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0007_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0007_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0019_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0007_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0018_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0007_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_BountyHunter_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0007_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0007_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0019_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0007_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0018_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0007_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_BountyHunter_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0007_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0007_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0019_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0007_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0018_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0008_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0008_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0008_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0023_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0008_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0008_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0008_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0023_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0008_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0008_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0008_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0023_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0009_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_Refueler" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0009_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0009_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0025_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0009_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_Refueler" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0009_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0009_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0025_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0009_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_Refueler" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0009_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0009_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0025_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0010_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0010_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0010_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0023_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0010_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0021_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0010_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0010_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0010_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0023_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0010_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0021_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0010_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0010_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0010_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0023_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0010_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0021_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0011_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_wTurret_CrimeStat" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0011_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0011_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0024_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0011_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0022_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0011_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_wTurret_CrimeStat" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0011_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0011_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0024_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0011_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0022_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0011_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_Light_wTurret_CrimeStat" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0011_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0011_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0024_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0011_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0022_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0012_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_RaceAnnouncer" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0012_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0012_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0000_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0012_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_RaceAnnouncer" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0012_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0012_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0000_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0012_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_RaceAnnouncer" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0012_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0012_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0000_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0013_E"
+clone = { record = "CrewManifest.PU_Human_Civilian_RaceAnnouncer_Scramble_Ground" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0013_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0013_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0000_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0013_N"
+clone = { record = "CrewManifest.PU_Human_Civilian_RaceAnnouncer_Scramble_Ground" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0013_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0013_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0000_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0013_F"
+clone = { record = "CrewManifest.PU_Human_Civilian_RaceAnnouncer_Scramble_Ground" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0013_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0013_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0000_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0014_E"
+clone = { record = "CrewManifest.PU_Human_Criminal_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0014_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0014_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0027_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0014_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0026_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0014_N"
+clone = { record = "CrewManifest.PU_Human_Criminal_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0014_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0014_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0027_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0014_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0026_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0014_F"
+clone = { record = "CrewManifest.PU_Human_Criminal_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0014_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0014_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0027_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0014_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0026_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0015_E"
+clone = { record = "CrewManifest.PU_Human_Criminal_MOR_IK" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0015_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0015_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0030_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0015_N"
+clone = { record = "CrewManifest.PU_Human_Criminal_MOR_IK" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0015_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0015_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0030_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0015_F"
+clone = { record = "CrewManifest.PU_Human_Criminal_MOR_IK" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0015_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0015_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0030_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0016_E"
+clone = { record = "CrewManifest.PU_Human_CrusaderSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0016_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0016_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0004_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0016_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0003_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0016_N"
+clone = { record = "CrewManifest.PU_Human_CrusaderSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0016_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0016_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0004_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0016_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0003_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0016_F"
+clone = { record = "CrewManifest.PU_Human_CrusaderSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0016_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0016_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0004_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0016_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0003_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0017_E"
+clone = { record = "CrewManifest.PU_Human_FrontierFighters_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0017_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0017_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0002_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0017_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0001_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0017_N"
+clone = { record = "CrewManifest.PU_Human_FrontierFighters_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0017_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0017_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0002_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0017_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0001_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0017_F"
+clone = { record = "CrewManifest.PU_Human_FrontierFighters_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0017_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0017_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0002_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0017_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0001_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0018_E"
+clone = { record = "CrewManifest.PU_Human_HeadHunters_Light_w_Turret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0018_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0018_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0012_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0018_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0013_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0018_N"
+clone = { record = "CrewManifest.PU_Human_HeadHunters_Light_w_Turret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0018_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0018_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0012_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0018_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0013_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0018_F"
+clone = { record = "CrewManifest.PU_Human_HeadHunters_Light_w_Turret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0018_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0018_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0012_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0018_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0013_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0019_E"
+clone = { record = "CrewManifest.PU_Human_HurstonSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0019_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0019_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0029_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0019_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0028_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0019_N"
+clone = { record = "CrewManifest.PU_Human_HurstonSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0019_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0019_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0029_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0019_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0028_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0019_F"
+clone = { record = "CrewManifest.PU_Human_HurstonSecurity_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0019_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0019_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0029_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0019_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0028_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0020_E"
+clone = { record = "CrewManifest.PU_Human_MicroTechProtectionServices_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0020_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0020_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0006_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0020_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0005_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0020_N"
+clone = { record = "CrewManifest.PU_Human_MicroTechProtectionServices_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0020_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0020_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0006_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0020_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0005_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0020_F"
+clone = { record = "CrewManifest.PU_Human_MicroTechProtectionServices_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0020_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0020_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0006_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0020_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0005_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0021_E"
+clone = { record = "CrewManifest.PU_Human_NineTails_Idris_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0021_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0021_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0021_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0021_N"
+clone = { record = "CrewManifest.PU_Human_NineTails_Idris_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0021_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0021_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0021_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0021_F"
+clone = { record = "CrewManifest.PU_Human_NineTails_Idris_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0021_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0021_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0021_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0022_E"
+clone = { record = "CrewManifest.PU_Human_NineTails_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0022_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0022_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0022_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0022_N"
+clone = { record = "CrewManifest.PU_Human_NineTails_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0022_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0022_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0022_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0022_F"
+clone = { record = "CrewManifest.PU_Human_NineTails_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0022_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0022_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0022_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0023_E"
+clone = { record = "CrewManifest.PU_Human_NineTails_Light_wTurret_wReinforcements" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0023_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_E"
+field = "crew[2].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_E"
+field = "crew[3].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0007_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0023_N"
+clone = { record = "CrewManifest.PU_Human_NineTails_Light_wTurret_wReinforcements" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0023_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_N"
+field = "crew[2].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_N"
+field = "crew[3].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0007_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0023_F"
+clone = { record = "CrewManifest.PU_Human_NineTails_Light_wTurret_wReinforcements" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0023_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0009_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_F"
+field = "crew[2].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0008_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0023_F"
+field = "crew[3].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0007_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0024_E"
+clone = { record = "CrewManifest.PU_Human_PA_Capital_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0024_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0024_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0031_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0024_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0032_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0024_N"
+clone = { record = "CrewManifest.PU_Human_PA_Capital_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0024_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0024_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0031_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0024_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0032_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0024_F"
+clone = { record = "CrewManifest.PU_Human_PA_Capital_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0024_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0024_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0031_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0024_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0032_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0025_E"
+clone = { record = "CrewManifest.PU_Human_Pirate_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0025_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0025_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0034_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0025_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0033_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0025_N"
+clone = { record = "CrewManifest.PU_Human_Pirate_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0025_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0025_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0034_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0025_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0033_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0025_F"
+clone = { record = "CrewManifest.PU_Human_Pirate_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0025_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0025_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0034_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0025_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0033_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0026_E"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0026_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0026_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0026_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0026_N"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0026_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0026_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0026_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0026_F"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0026_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0026_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0026_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0027_E"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret_Fleetweek2024" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0027_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_E"
+field = "crew[2].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_E"
+field = "crew[3].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0027_N"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret_Fleetweek2024" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0027_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_N"
+field = "crew[2].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_N"
+field = "crew[3].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0027_F"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret_Fleetweek2024" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0027_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_F"
+field = "crew[2].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0027_F"
+field = "crew[3].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0038_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0028_E"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret_NoDamage" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0028_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0028_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0036_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0028_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0039_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0028_N"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret_NoDamage" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0028_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0028_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0036_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0028_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0039_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0028_F"
+clone = { record = "CrewManifest.PU_Human_UEE_Capital_wTurret_NoDamage" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0028_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0028_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0036_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0028_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0039_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0029_E"
+clone = { record = "CrewManifest.PU_Human_UEE_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0029_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0029_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0037_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0029_N"
+clone = { record = "CrewManifest.PU_Human_UEE_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0029_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0029_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0037_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0029_F"
+clone = { record = "CrewManifest.PU_Human_UEE_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0029_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0029_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0037_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0030_E"
+clone = { record = "CrewManifest.PU_Human_UEE_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0030_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0030_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0030_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0037_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0030_N"
+clone = { record = "CrewManifest.PU_Human_UEE_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0030_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0030_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0030_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0037_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0030_F"
+clone = { record = "CrewManifest.PU_Human_UEE_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0030_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0030_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0035_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0030_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0037_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0031_E"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Idris_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0031_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0031_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0031_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0010_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0031_N"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Idris_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0031_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0031_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0031_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0010_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0031_F"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Idris_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0031_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0031_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0031_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0010_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0032_E"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0032_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0032_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0032_N"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0032_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0032_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0032_F"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Light" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0032_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0032_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0033_E"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0033_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0033_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0033_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0010_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0033_N"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0033_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0033_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0033_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0010_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0033_F"
+clone = { record = "CrewManifest.PU_Human_Xenothreat_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0033_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0033_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0011_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0033_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0010_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0034_E"
+clone = { record = "CrewManifest.PU_Vanduul_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0034_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0034_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0041_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0034_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0040_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0034_N"
+clone = { record = "CrewManifest.PU_Vanduul_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0034_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0034_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0041_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0034_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0040_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0034_F"
+clone = { record = "CrewManifest.PU_Vanduul_Light_wTurret" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0034_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0034_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0041_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0034_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0040_F" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0035_E"
+clone = { record = "CrewManifest.PU_Vanduul_Mauler" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0035_E"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0035_E"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0044_E" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0035_E"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0044_E" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0035_N"
+clone = { record = "CrewManifest.PU_Vanduul_Mauler" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0035_N"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0035_N"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0044_N" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0035_N"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0044_N" }
+
+[[record]]
+struct = "CrewManifest"
+name = "CrewManifest.SCOZH_C0035_F"
+clone = { record = "CrewManifest.PU_Vanduul_Mauler" }
+
+[[copy_array]]
+record = "CrewManifest.SCOZH_C0035_F"
+field = "crew"
+
+[[set]]
+record = "CrewManifest.SCOZH_C0035_F"
+field = "crew[0].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0044_F" }
+
+[[set]]
+record = "CrewManifest.SCOZH_C0035_F"
+field = "crew[1].entityClassDefinition"
+value = { ref = "EntityClassDefinition.SCOZH_N0044_F" }

@@ -1,0 +1,1665 @@
+{
+  "C:\\Windows": [
+    "src\\menu.cpp"
+  ],
+  "[menu] couldn't read %s": [
+    "src\\menu.cpp"
+  ],
+  "[menu] background: %s (%ux%u)": [
+    "src\\menu.cpp"
+  ],
+  "PlayerDeco_": [
+    "src\\menu.cpp"
+  ],
+  "Turret_Automated_": [
+    "src\\menu.cpp"
+  ],
+  "BaseBuilding_Interactables_": [
+    "src\\menu.cpp"
+  ],
+  "BaseBuilding_": [
+    "src\\menu.cpp"
+  ],
+  "PU_Human_Enemy_GroundCombat_NPC_": [
+    "src\\menu.cpp"
+  ],
+  "PU_Human-": [
+    "src\\menu.cpp"
+  ],
+  "NPC_Archetypes-": [
+    "src\\menu.cpp"
+  ],
+  "AIShip_CrewProfiles-": [
+    "src\\menu.cpp"
+  ],
+  " (%.4s)": [
+    "src\\menu.cpp"
+  ],
+  "Background": [
+    "src\\menu.cpp"
+  ],
+  "Show background image": [
+    "src\\menu.cpp"
+  ],
+  "Darkness %d%%": [
+    "src\\menu.cpp"
+  ],
+  "Image position": [
+    "src\\menu.cpp"
+  ],
+  "The menu is taller than the picture is wide. Slide to choose which part shows.": [
+    "src\\menu.cpp"
+  ],
+  "To use a background image, save it as menu_background.png (or .jpg) here, then restart the game:": [
+    "src\\menu.cpp"
+  ],
+  "About": [
+    "src\\menu.cpp"
+  ],
+  " is a work in progress, ": [
+    "src\\menu.cpp"
+  ],
+  "Bug reports: github.com/scubamount/sc-offline/issues": [
+    "src\\menu.cpp"
+  ],
+  "[menu] tab %s (%s) crashed; plugin '%s' is disabled": [
+    "src\\menu.cpp"
+  ],
+  "Menu": [
+    "src\\menu.cpp"
+  ],
+  "Turning build mode %s": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Nothing placed to undo": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Removing the last thing you placed": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Nothing placed to clear": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Clearing the base (%d objects)": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Ahead must be 0 (at your feet) to %.0f m": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "The build list loads once you're in the universe; try again in a moment": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "'%s' isn't in the build list (buildables.txt)": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Placing %s %.0f m in front of you": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Placing %s at your feet": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Metres in front of you (0 = at your feet, up to 100)": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Build mode": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Turns build mode on or off (F6)": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Undo": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Removes the last object you placed (Backspace in build mode)": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Clear base": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Removes everything you placed": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Place object": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Places one buildable without entering build mode; it joins the base, so undo and clear remove it": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "[build] game.entities isn't available: props are placed through the spawner": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "[build] game.world isn't available: the ground ray and the camera come from sco-core's build rows": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Build": [
+    "src\\builtins\\build_plugin.cpp"
+  ],
+  "Objects": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Loading build objects (you need to be in the universe)...": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "No build objects found. Check data\\buildables.txt.": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Search all objects": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "%s   (%s)": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Placing": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Selected: %s": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Reach %.0f m": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "How far ahead objects are placed. They land on the ground where you look, or under the point this far out.": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Stop building (F6)": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Start building (F6)": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Undo last": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "Clear base (%d)###clearBase": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "While building: left click places, R rotates, [ and ] change reach, Backspace undoes, F6 stops.": [
+    "src\\builtins\\build_ui.cpp"
+  ],
+  "wallet %lld aUEC": [
+    "src\\builtins\\contracts_plugin.cpp"
+  ],
+  "wallet not readable yet": [
+    "src\\builtins\\contracts_plugin.cpp"
+  ],
+  "No contracts listed yet (they're listed 15 s after you spawn); %s": [
+    "src\\builtins\\contracts_plugin.cpp"
+  ],
+  "%d contracts known, %d in the mobiGlas, %d running, %d starting; %s": [
+    "src\\builtins\\contracts_plugin.cpp"
+  ],
+  "Contracts status": [
+    "src\\builtins\\contracts_plugin.cpp"
+  ],
+  "How many contracts are known, offered and running, and your wallet's balance": [
+    "src\\builtins\\contracts_plugin.cpp"
+  ],
+  "game.vehicles isn't published (the game pack is off or too old)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "No target ship: stand or sit aboard one (crew.target keeps it after you leave)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Can't read the ship's seats: %s": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "You're not aboard a ship": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Targeting the ship you're in": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Name the seat: words from its name, at most 47 characters (\"pilot\", \"turret left\")": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Can't find your actor (game.actors isn't ready, or you haven't spawned)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "You're already in %s": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Someone this plugin didn't add is in %s; stand them up first": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "The crew list is full (%d): run crew.clear": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Sitting you in %s": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "%s isn't interactable: the game's seat picker skips it": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "The target ship has no seat matching '%s'": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "%d stood up; %d others aren't this plugin's to move": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "%d stood up": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "game.actors can't spawn NPCs on this game build": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "teleport.spatial isn't published": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Can't read your position (you haven't spawned yet)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "spawned %s (%llu) for seat '%s'": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Couldn't spawn %s: %s": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Seating %d x %s (%d seats skipped: not interactable%s)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  ", crew list full": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Seating %d x %s (%d seats skipped: not interactable)%s": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "; stopped early, the game refused a spawn": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "game.actors isn't published": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Removing %d NPCs this plugin added to the target ship": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Flight Ready didn't go out: %s": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Sending Flight Ready to the target ship": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "you are seated in '%s'": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "NPC %llu is seated in '%s'": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "couldn't seat %s in '%s' (links tried: %d, occupant %s%llu%s%s)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "an NPC": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "unreadable, ": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  ", last refusal: ": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Words from the seat's name (pilot, copilot, turret left)": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Target the ship I'm in": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Makes the ship you're in the target of the crew commands": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Sit in seat": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Puts you in the target ship's first usable seat whose name has these words, removing a crew NPC in it": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Everyone stand up": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "You and the crew NPCs this plugin added on the target ship get out of the seats": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Fill empty seats": [
+    "src\\builtins\\crew_plugin.cpp",
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Puts an NPC of this archetype in every empty, usable seat of the target ship and says how many seats it skipped": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Remove NPC crew": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Removes the NPCs this plugin added to the target ship": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Power on": [
+    "src\\builtins\\crew_plugin.cpp",
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Sends the game's Flight Ready event to the target ship": [
+    "src\\builtins\\crew_plugin.cpp"
+  ],
+  "Crew": [
+    "src\\builtins\\crew_plugin.cpp",
+    "src\\builtins\\crew_ui.cpp",
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "%s %d": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Seat control isn't available in this game version. mod.log has the details.": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Ship": [
+    "src\\builtins\\crew_ui.cpp",
+    "src\\builtins\\multiplayer_ui.cpp",
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "No ship selected": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Use the ship I'm in": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Spawn a ship, or board one and press 'Use the ship I'm in'.": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Waiting for the ship to load...": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Seats": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Seat": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Occupant": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "You": [
+    "src\\builtins\\crew_ui.cpp",
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Unknown": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Empty": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Sit here": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Stand up": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Whoever is in the seat gets up and stays aboard.": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Remove NPC": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Takes the NPC out of the game.": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Add NPC": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "If an NPC is in the seat I pick, remove it": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "NPC to add to seats:": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "All NPCs stand up": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Remove all NPCs": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "NPCs you add sit in their seats. They don't fly the ship or operate turrets yet.": [
+    "src\\builtins\\crew_ui.cpp"
+  ],
+  "Name the items from items.txt, separated by spaces or commas": [
+    "src\\builtins\\loadout_plugin.cpp",
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "The gear list loads once you're in the universe; try again in a moment": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "'%s' isn't in the gear list (items.txt)": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "'%s' and '%s' go in the same slot; name one": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Equipping %d item%s; the rest of the slots are empty, as in the gear menu": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "The outfit list loads once you're in the universe; try again in a moment": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "'%s' isn't in the outfit list (outfits.txt)": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Wearing %s": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Item names from items.txt, separated by spaces or commas": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Equip gear": [
+    "src\\builtins\\loadout_plugin.cpp",
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Equips these items, at most one per slot, as the gear menu's Equip gear does": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Wear SQ42 outfit": [
+    "src\\builtins\\loadout_plugin.cpp",
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Wears a Squadron 42 outfit, as the Squadron 42 tab does": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Squadron 42": [
+    "src\\builtins\\loadout_plugin.cpp"
+  ],
+  "Player": [
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Needs the creative plugin: turn it on in the launcher's Plugins page.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "The creative plugin refused (result %d).": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "%s: %s": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Movement": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Noclip": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Speed %.0f": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "F7 saves where you're standing and F8 takes you back. The Travel tab has named spots and places.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Protection": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "God mode": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Infinite ammo": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Noclip, god mode and infinite ammo come from the creative plugin. Turn it on in the launcher's Plugins page.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Gear": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Undersuit": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Default": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Helmet": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "None": [
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Body": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Arms": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Legs": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Backpack": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Primary": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Sidearm": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Ammo": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Matches weapon": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Grenades": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Loading gear (you need to be in the universe)...": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Search gear": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Spoiler warning": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "This tab could have Squadron 42 spoilers.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Press OK to continue.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Back": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Outfits": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Loading outfits... (you need to be spawned in the universe)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "No outfits found - check outfits.txt.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "search outfits...": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "SQ42 visor HUD (applies on the next Equip or outfit)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Settings": [
+    "src\\builtins\\loadout_ui.cpp",
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "Reading this setting from the game...": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Spawn": [
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Loading... (you need to be spawned in the universe)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "No buildables found - check buildables.txt.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Spawn in front of you": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "search the [sq42] group...": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "ahead (m)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Spawn it": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Undo and Clear base in the build section remove these too.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Ships": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Idris-P (the Stanton's class)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "AEGS_Idris_P": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Gladius (SQ42 fighter)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "AEGS_Gladius": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Retaliator (has an S42 HUD)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "AEGS_Retaliator": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Starfarer (ch 5, 7, 9)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "MISC_Starfarer": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Avenger Stalker (S42 wreck)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "AEGS_Avenger_Stalker": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Hornet (Cal Mason's ship)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "ANVL_Hornet_F7C": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Vanduul Blade (AI)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "VNCL_Blade_PU_AI_VAN": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Vanduul Scythe (AI)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "VNCL_Scythe_PU_AI_VAN": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Vanduul Glaive (AI)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "VNCL_Glaive_PU_AI_VAN": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Vanduul Stinger (AI)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "VNCL_Stinger_PU_AI_VAN": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "SQ42 ship table outgrew Entry list[]": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Bengal + Vanduul wing": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Bengal + wing (UEE, no enemy side found)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Bengal (UEE)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "RSI_Bengal_PU_AI_UEE": [
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Your ships put you in the pilot seat; the Vanduul ones spawn 300 m up and come for you.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "search ships...": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "%s isn't in this game build's ship list.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "height above me (m)": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "put me in the pilot seat": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Console": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Run": [
+    "src\\builtins\\loadout_ui.cpp",
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "a console command, e.g. i_target_selector.targeting2_enabled 1": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "The game's console wasn't found yet.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "Runs in the game's own console. What it did shows in the game's log, not here.": [
+    "src\\builtins\\loadout_ui.cpp"
+  ],
+  "the mining.cell row isn't OK": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "the detour wasn't installed (%s)": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "off (mining = off in sc-offline.ini)": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "unavailable: this game build's addresses weren't found (see the [core] lines)": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "unavailable: the hook couldn't be installed": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "disabled after a read fault; restart the game": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "waiting for the offline session": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "Natural mining %s%s%s; %llu cells seen, %llu promoted, %llu read faults": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "[mining] natural mining %s": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "[mining/trace] active=%d cells=%llu promoted=%llu skipped(context=%llu flags=%llu lod=%llu builder=%llu cell=%llu) readFaults=%llu": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "Mining status": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "Whether natural mining is on, and how many ecosystem cells it has seen and promoted": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "[!] mining: %s": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "[!] capability %s: %s": [
+    "src\\builtins\\mining_plugin.cpp"
+  ],
+  "PU_Human-Microtech-DeskWorker-Male-DistroHub_Civilian_01": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Not in a session": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Pilot": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "player %llu": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] removed %s's %s ghost %llu (%s)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "no ship": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "aboard their ship": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "waiting for a position": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "class changed": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "not shown: %.0f km away": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "not shown: they're in a zone you haven't loaded (%s)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "'%s' isn't a spawnable class on this game build": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "couldn't spawn: %s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "streaming in": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] spawned %s's %s ghost %llu (%s)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "didn't stream in": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "didn't stream in within 60 s; trying again later": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "streamed out; shown again within 30 s when they're near": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "far away": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "the game refused the move (mod.log says why)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "parked: they're in a zone you haven't loaded (%s)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] %s not sent (result %d)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] aboard ship %llu: %s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "class not found, not shown to others": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "they left the world": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "they left their ship": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] session up: you are player %llu": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "session ended": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] session ended: %s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] %s joined": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] %s left": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "left the session": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Joining...": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Joined as player %llu": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Hosting on UDP port %u": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "no session": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "no position for 10 s": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "%s; %u other player(s)%s%s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "; last ended: ": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Left the session": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Teleported next to %s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "No player named '%s' in the session": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] multiplayer_allow: '%s' ignored (an IPv4 range like 100.64.0.0/10, /8 or narrower)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] off (multiplayer = off in sc-offline.ini): no tab, nothing networks": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] sco.net isn't available; multiplayer is off": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] %s isn't available: sessions work, but nobody's position is sent or shown": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "spawn.entities 1.2": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "A player's name, as the Multiplayer tab lists it": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Multiplayer status": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "The session's state and how many other players are in it": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Leave the session": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Leaves (or stops hosting) the multiplayer session": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Go to player": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Teleports you next to another player's ghost": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Multiplayer": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "the multiplayer built-in unloaded": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "saving the settings": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "they last until the game closes": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "multiplayer is off": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "already in a session; leave it first": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "pick a name (1 to 64 characters)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "the name can't hold control characters": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "pick a passphrase of at least 8 characters": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "couldn't open the UDP port (in use? mod.log says why)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "refused: check the address (LAN or multiplayer_allow only), name and passphrase": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "sco.net isn't running": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "the port must be 1024 to 65535": [
+    "src\\builtins\\multiplayer_plugin.cpp",
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] host on UDP port %d: %s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "enter the host's IPv4 address, like 192.168.1.20": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "that address isn't on your LAN or in multiplayer_allow": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "[multiplayer] join %s:%d: %s": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "left from the Multiplayer tab": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "no such player": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "their ghost isn't shown here (see the list)": [
+    "src\\builtins\\multiplayer_plugin.cpp"
+  ],
+  "Your name, as the others see it": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Session passphrase (at least 8 characters)": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Remember the passphrase on this PC": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Kept unencrypted in data\\storage\\multiplayer.db. Off: you type it each time.": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Host a session": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "UDP port##mpHostPort": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Host": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Hosting: give the others your LAN address, the port and the passphrase.": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Join a session": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Host's address (192.168.1.20)": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Join": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Seen as": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "player %llu, session id %016llx": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Go to": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Teleported.": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Multiplayer isn't available (multiplayer = off in sc-offline.ini, or sco.net is missing; see mod.log).": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Session": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Last session ended: %s": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Leave": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Ghosts are off: this game build lacks spawn.entities 1.2 or teleport.spatial.": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Others' ghosts": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "NPC class others see you as": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "A human class from npcs.txt. Another player sees you as it when their npcs.txt has it,\n": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "otherwise as their own choice.": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Show other players' ships": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Save settings": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "LAN only (and multiplayer_allow in sc-offline.ini for a VPN). Messages are signed with the passphrase but not ": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "encrypted. Ghosts are visual only: no shared physics, damage, missions or inventory.": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Also allowed: %s": [
+    "src\\builtins\\multiplayer_ui.cpp"
+  ],
+  "Count must be 1 to %d": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "game.actors or teleport.spatial isn't published by the game pack": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "You haven't spawned yet": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "%u NPCs already spawned": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Spawning %d x %s in front of you": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Spawned %d of %d x %s: %s": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "game.actors isn't published by the game pack": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Removing %u NPCs; %u refused: %s": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Removing the NPCs you spawned (%u)": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "How many (1 to 10)": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Spawn NPCs": [
+    "src\\builtins\\npc_plugin.cpp",
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Spawns NPCs of an archetype in front of you through game.actors, as the NPCs tab does": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Clear NPCs": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "Despawns every NPC this plugin spawned (the game pack also removes them when it unloads)": [
+    "src\\builtins\\npc_plugin.cpp"
+  ],
+  "NPCs": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Loading NPCs (you need to be in the universe)...": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "No NPCs found. Check data\\npcs.txt.": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Search NPCs": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "1 NPC": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "%d NPCs": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Spawn in front of me": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Remove spawned NPCs": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Removes every NPC this menu has spawned, crew included.": [
+    "src\\builtins\\npc_ui.cpp"
+  ],
+  "Name a place from the Travel tab (locations.txt or a scan)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Altitude must be %.0f to %.0f m": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Travelling to %s (%s); the status strip says where you arrive": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "'%s' isn't in the place list (%d places)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Name a saved spot (the Travel tab's list)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Going to '%s' (%s)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "No saved spot named '%s'": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "A spot's name is at most 63 characters": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "You have %d saved spots; delete one first": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Saving this spot as '%s'; the status strip says when it's saved": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "(the zone's name)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "A scan is already running (%.0f%%)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "A place's name, as the Travel tab lists it (Daymar)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Metres above the ground on arrival (100 to 20000)": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "The saved spot's name": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "A name for it; empty = the zone's name": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Travel to place": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Teleports you to a planet, moon, station or other place from the Travel tab": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Go to saved spot": [
+    "src\\builtins\\quantum_plugin.cpp",
+    "src\\builtins\\teleport_plugin.cpp"
+  ],
+  "Teleports you to one of the Travel tab's saved spots": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Save this spot": [
+    "src\\builtins\\quantum_plugin.cpp",
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Saves where you are as a named spot in the Travel tab": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Scan places": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Travel": [
+    "src\\builtins\\quantum_plugin.cpp"
+  ],
+  "Search places and saved spots": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Places": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Arrive %.0f m above the ground": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Show interiors and small zones": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Elevator lobbies, hangars, asteroid-belt segments and similar. Hidden by default.": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "SolarSystem": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "%s%s (%d)###sys_%s": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Unnamed system": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  ", you are here": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Place": [
+    "src\\builtins\\quantum_ui.cpp",
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Type": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Planet": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Moon": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Interior": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  ", orbit": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Go to %s": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Pick a place to go": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Scanning...": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Scan the game for places": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "The scan finds the planets, moons, stations, Lagrange points, comm arrays and jump points of every loaded ": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "system and adds them here. It only reads; it takes a few seconds.": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Saved spots": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Name this spot": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Nothing saved yet. Stand somewhere, name it, and press Save this spot.": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "%s (%d)###marks_%s": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Go": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Delete": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "F7 and F8 still work as a quick save slot. Teleports only work within the system you're in.": [
+    "src\\builtins\\quantum_ui.cpp"
+  ],
+  "Name a ship class, at most %u characters": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Height must be 0 to %.0f m": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Spawning %s %.0f m above you": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Entity class, as in ships.txt (DRAK_Cutlass_Black)": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Metres above you (0 to 10000)": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Spawn ship": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Spawns a ship above you, as the Vehicles tab does; the status strip says when it's there": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Vehicles": [
+    "src\\builtins\\spawn_plugin.cpp"
+  ],
+  "Spawn a ship": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Loading ships (you need to be in the universe)...": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "No ships found. Check data\\ships.txt.": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Search ships": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Size": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Length": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "%.0f m": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Spawn %.0f m above you": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Don't board": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Board in the pilot seat": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Board in a seat by name": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Choose a seat after it spawns": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Seat name, e.g. copilot or turret left": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Every word must appear in the seat's name. The Crew tab shows a ship's seat names.": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Remove the NPC in my seat": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Powers the ship on once you're in a pilot seat.": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Spawn %s": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Current ship": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Infinite ship ammo": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Refills the magazines of the ship you're aboard. Needs the creative plugin (launcher's Plugins page).": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Power on / off": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Toggles Flight Ready on the ship in the Crew tab, as if you pressed R in its pilot seat.": [
+    "src\\builtins\\spawn_ui.cpp"
+  ],
+  "Save spot": [
+    "src\\builtins\\teleport_plugin.cpp"
+  ],
+  "Save where you're standing (F7)": [
+    "src\\builtins\\teleport_plugin.cpp"
+  ],
+  "Teleport to the saved spot (F8)": [
+    "src\\builtins\\teleport_plugin.cpp"
+  ],
+  "Play": [
+    "launcher\\launcher.cpp"
+  ],
+  "Status": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "Update": [
+    "launcher\\launcher.cpp"
+  ],
+  "Install": [
+    "launcher\\launcher.cpp"
+  ],
+  "Uninstall": [
+    "launcher\\launcher.cpp"
+  ],
+  "the mod is still in Bin64": [
+    "launcher\\launcher.cpp"
+  ],
+  "Not safe to go online": [
+    "launcher\\launcher.cpp"
+  ],
+  "Star Citizen is running. When it closes, sc-offline takes the mod out and undoes its PC changes.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Not safe to go online yet": [
+    "launcher\\launcher.cpp"
+  ],
+  "Click Uninstall to undo: ": [
+    "launcher\\launcher.cpp"
+  ],
+  "Game folder not known yet": [
+    "launcher\\launcher.cpp"
+  ],
+  "Click Status or Play to find it. No PC changes are left over.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Safe to go online": [
+    "launcher\\launcher.cpp"
+  ],
+  "The mod is out of the game folder and no PC changes are left.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Yes": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "No": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "Show \"Playing sc-offline\" on your Discord profile from the next Play": [
+    "launcher\\launcher.cpp"
+  ],
+  "Discord": [
+    "launcher\\launcher.cpp"
+  ],
+  "Logs folder": [
+    "launcher\\launcher.cpp"
+  ],
+  "Launcher": [
+    "launcher\\launcher.cpp"
+  ],
+  "Star Citizen": [
+    "launcher\\launcher.cpp"
+  ],
+  "Actions": [
+    "launcher\\launcher.cpp"
+  ],
+  "Running ": [
+    "launcher\\launcher.cpp"
+  ],
+  "true or false": [
+    "launcher\\launcher.cpp"
+  ],
+  "a whole number": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "at least ": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "at most ": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "a number such as 1.5": [
+    "launcher\\launcher.cpp"
+  ],
+  "not a finite number": [
+    "launcher\\launcher.cpp"
+  ],
+  "at most 255 characters": [
+    "launcher\\launcher.cpp"
+  ],
+  "printable ASCII only": [
+    "launcher\\launcher.cpp"
+  ],
+  "pick one of the choices": [
+    "launcher\\launcher.cpp"
+  ],
+  "one of ": [
+    "launcher\\launcher.cpp"
+  ],
+  ", min ": [
+    "launcher\\launcher.cpp"
+  ],
+  ", max ": [
+    "launcher\\launcher.cpp"
+  ],
+  "couldn't open data\\storage\\": [
+    "launcher\\launcher.cpp"
+  ],
+  "BEGIN IMMEDIATE": [
+    "launcher\\launcher.cpp"
+  ],
+  "CREATE TABLE IF NOT EXISTS sco_kv(key TEXT PRIMARY KEY NOT NULL, value BLOB NOT NULL) WITHOUT ROWID": [
+    "launcher\\launcher.cpp"
+  ],
+  "couldn't write the values: ": [
+    "launcher\\launcher.cpp"
+  ],
+  "Plugins": [
+    "launcher\\launcher.cpp",
+    "launcher\\launcher.cpp"
+  ],
+  "Open the plugins folder": [
+    "launcher\\launcher.cpp"
+  ],
+  "Reload##plug": [
+    "launcher\\launcher.cpp"
+  ],
+  "Hot reload runs in the game: use the sco.reload command there. The launcher can't call it.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Plugins reload inside the running game (sco.reload)": [
+    "launcher\\launcher.cpp"
+  ],
+  "Search": [
+    "launcher\\launcher.cpp"
+  ],
+  "Plugins are off (plugins = off in sc-offline.ini)": [
+    "launcher\\launcher.cpp"
+  ],
+  "Turn on##plugson": [
+    "launcher\\launcher.cpp"
+  ],
+  "No plugins yet": [
+    "launcher\\launcher.cpp"
+  ],
+  "No matches": [
+    "launcher\\launcher.cpp"
+  ],
+  "Open folder##plugempty": [
+    "launcher\\launcher.cpp"
+  ],
+  "Off": [
+    "launcher\\launcher.cpp"
+  ],
+  "On": [
+    "launcher\\launcher.cpp"
+  ],
+  "Couldn't change data\\plugins\\": [
+    "launcher\\launcher.cpp"
+  ],
+  " plugin": [
+    "launcher\\launcher.cpp"
+  ],
+  " settings": [
+    "launcher\\launcher.cpp"
+  ],
+  "Back##plugback": [
+    "launcher\\launcher.cpp"
+  ],
+  "plugin.ini has a [settings] line this launcher can't read; the game may refuse the plugin. ": [
+    "launcher\\launcher.cpp"
+  ],
+  "Run sco-plugin-check on the folder.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Save##plugsave": [
+    "launcher\\launcher.cpp"
+  ],
+  "Saved. Applies at the next game start.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Reset##plugreset": [
+    "launcher\\launcher.cpp"
+  ],
+  "Back to the defaults. Applies at the next game start.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Close the game to edit.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Applies at the next game start.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Output": [
+    "launcher\\launcher.cpp"
+  ],
+  "Copy": [
+    "launcher\\launcher.cpp"
+  ],
+  "Plugins are on. They load the next time the game starts.": [
+    "launcher\\launcher.cpp"
+  ],
+  "Couldn't write sc-offline.ini; set plugins = on there by hand.": [
+    "launcher\\launcher.cpp"
+  ],
+  "usage: sc-offline.exe [command] [--game <folder>] [--dry-run] [--skip-eac-check]\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  play       (default) copy the mod in, start the game, take the mod out when it closes\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  install    copy the mod in and leave it there; run `uninstall` before going online\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  uninstall  take the mod out and restore anything it replaced\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  status     check the setup and report; changes nothing\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  update     check GitHub for a newer sc-offline and offer to install it (saves and ini kept)\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  help       show this\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  --game <folder>   your StarCitizen, LIVE or Bin64 folder (else sc-offline.ini, else searched)\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  --dry-run         print every step, change nothing, start nothing\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  --skip-eac-check  don't stop when Easy Anti-Cheat looks active\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  --console         double-clicked: run `play` in this console instead of opening the window\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "  --window          open the window (from a terminal, or under Wine/Proton)\n": [
+    "launcher\\launcher.cpp"
+  ],
+  "exit codes: 0 ok, 1 error, 2 Easy Anti-Cheat active, 3 the game is running\n": [
+    "launcher\\launcher.cpp"
+  ]
+}

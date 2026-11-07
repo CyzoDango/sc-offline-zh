@@ -1,0 +1,63 @@
+#pragma once
+#include "common.h"
+#include <string>
+
+struct TeleportApi {
+    bool       ok = false;
+    uintptr_t* clientMgr = nullptr;
+    uintptr_t* entitySystem = nullptr;
+    void*      handleFromId = nullptr;
+};
+extern TeleportApi g_tp;
+
+bool ResolveTeleportApi();   // from sco-core's teleport.* rows; call after sco::ResolveAll
+
+bool        GetLocalPlayer(uintptr_t& actor, uintptr_t& entity);
+const char* ZoneName(uintptr_t zone);
+uintptr_t   ZoneParent(uintptr_t zone);
+uint64_t    ZoneId(uintptr_t zone);
+uintptr_t   ZoneFromId(uint64_t zoneId);
+void        Vec3Out(uintptr_t obj, size_t off, double out[3]);
+void        LocalToWorld(uintptr_t zone, const double local[3], double world[3]);
+bool        WorldToLocal(uintptr_t zone, const double world[3], double local[3]);
+
+// One zone as read from the game on this call (nothing here outlives it): its id, name and frame
+// in the game's world, the origin in metres and axis[i] the world direction of its local axis i.
+struct ZoneFrame { uint64_t id; char name[96]; double origin[3]; double axis[3][3]; };
+// The zone and its ancestors, innermost first, skipping any whose id doesn't lead back to it
+// (ZoneFromId) or whose frame isn't orthonormal. Returns how many (0 to max). Game thread; reads
+// game memory, so call it inside __try.
+int ReadZoneChain(uintptr_t zone, ZoneFrame* out, int max);
+
+const char* TeleportToEntity(uint64_t entityId, double up);
+
+// A saved position: where you were in each zone, innermost first.
+constexpr int kMaxZoneDepth = 12;
+struct ZoneSpot { char name[96]; double local[3]; };
+struct Spot { int n = 0; ZoneSpot z[kMaxZoneDepth] = {}; };
+
+const char* CaptureCurrentSpot(Spot& s);                          // where you're standing now
+// A spot as spawn.txt's and bookmarks.txt's "spot x y z zone" lines, innermost first: the text
+// both keep in storage too. SpotFromText returns how many zones it read (out of range positions
+// skipped with checkPosition, as spawn.txt always did).
+void        SpotToText(const Spot& s, std::string& out);
+int         SpotFromText(const char* text, Spot& s, bool checkPosition);
+const char* GoToSpot(const Spot& s, DWORD now, const char* why);   // teleport, then refine as zones stream in
+const char* TeleportIntoZone(uintptr_t zone, const double local[3]);
+void        SpotSystemName(const Spot& s, char* out, size_t n);   // "Stanton", from the OOC_<system>_ zone names
+void        CurrentSystemName(char* out, size_t n);               // the system you're in now, or ""
+uintptr_t   SystemZoneOf(uintptr_t zone);
+void        CurrentSystemZoneName(char* out, size_t n);           // "SolarSystem_<id>" you're in, or ""                         // the SolarSystem_* zone above a zone, or 0
+
+// F7 and F8: save where you're standing (the teleport built-in's storage, else spawn.txt) / go to
+// the saved spot. The teleport built-in's commands teleport.save and teleport.go run these
+// (src/builtins/teleport_plugin.cpp), and the built-in binds F7 and F8 to them through sco.ui.
+// `why` names the caller in mod.log ("F7", "teleport.go"); reply gets a short message either way.
+// False when it didn't happen. Game thread.
+bool SaveSpotHere(const char* why, char* reply, size_t n);
+bool GoToSavedSpot(const char* why, char* reply, size_t n);
+
+// Before the host kit starts: the first TeleportTick loads the spot (storage, importing spawn.txt
+// once; spawn.txt without storage).
+void LoadSavedSpot(bool explicitStart);
+void TeleportTick(DWORD now);

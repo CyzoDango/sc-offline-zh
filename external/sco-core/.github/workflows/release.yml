@@ -1,0 +1,110 @@
+name: release
+
+# Publishes an SDK release when a tag sdk-v<version> is pushed. The tag must match sdk/VERSION. The
+# package job packages the SDK and checks it exactly as the sdk workflow does (the C# layout test against the
+# ABI pins, every example built and checked from the zip, cs_hello published with NativeAOT), then
+# the release job creates the GitHub release with the zip, its .sha256 file and the tag's CHANGELOG section as notes.
+#
+# Releasing: set sdk/VERSION, add a "## sdk-v<version> (<date>)" section to CHANGELOG.md, merge;
+# the maintainer then commits docs/legal/release-decisions/sdk-v<version>.md approving that commit
+# (docs/legal/release-checklist.md) and tags the commit that adds the record: git tag sdk-v<version>
+# && git push origin sdk-v<version>. The release job refuses unless the record approves the tagged
+# commit or its parent with only release decisions changed since.
+
+on:
+  push:
+    tags: ['sdk-v*']
+
+# Two jobs: package builds and checks the SDK with read-only access to the repository; release, which
+# runs no build step, is the only one that can write, and only creates the release from package's files.
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      version: ${{ steps.tag.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: The tag matches sdk/VERSION and has a CHANGELOG section
+        id: tag
+        run: |
+          v=$(tr -d '\r\n' < sdk/VERSION)
+          if [ "$GITHUB_REF_NAME" != "sdk-v$v" ]; then
+            echo "tag $GITHUB_REF_NAME doesn't match sdk/VERSION ($v)"; exit 1
+          fi
+          awk -v t="$GITHUB_REF_NAME" '
+            $0 ~ "^## " { if (on) exit; if (index($0, "## " t " ") == 1 || $0 == "## " t) { on = 1; next } }
+            on { print }' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then echo "CHANGELOG.md has no '## $GITHUB_REF_NAME' section"; exit 1; fi
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - name: Install Lua 5.4
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends lua5.4
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 8.0.x
+
+      - name: C# SDK layout test against tests/abi_*.c
+        run: dotnet run -c Release --project sdk/csharp/Sco.Sdk.Tests -- tests/abi_v1.c tests/abi_storage.c tests/abi_ui.c tests/abi_settings.c tests/abi_datacore.c tests/abi_game_actors.c tests/abi_game_vehicles.c tests/abi_game_world.c tests/abi_game_events.c tests/abi_game_entities.c tests/abi_game_creative.c
+
+      # Release hardening Gate G: a person approved this exact commit
+      # (docs/legal/release-decisions/sdk-v<version>.md). CI never writes the record.
+      - name: The release is approved for this commit
+        run: python3 tools/ip_audit.py release --approval "docs/legal/release-decisions/$GITHUB_REF_NAME.md"
+
+      - name: Repository audit (Gates 1, 2, 4)
+        run: python3 tools/ip_audit.py repo
+
+      - name: Package the SDK
+        run: python3 sdk/package.py --profile legacy --out dist   # the release zip keeps sdk-v1.1.0's shape until consumers move
+
+      - name: Audit the zip (Gates 3, 5, 6) and write its SBOM
+        run: python3 tools/ip_audit.py zip "dist/sco-sdk-$VERSION.zip" --profile legacy --sbom "dist/sco-sdk-$VERSION.spdx.json"
+
+      - name: Build and check the examples from the zip
+        env:
+          SCO_SDK_CSHARP: "1"
+        run: sdk/test-zip.sh dist/sco-sdk-*.zip
+
+      - name: Checksum
+        run: (cd dist && sha256sum "sco-sdk-$VERSION.zip" > "sco-sdk-$VERSION.zip.sha256")
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-files
+          path: |
+            dist/sco-sdk-${{ steps.tag.outputs.version }}.zip
+            dist/sco-sdk-${{ steps.tag.outputs.version }}.zip.sha256
+            dist/sco-sdk-${{ steps.tag.outputs.version }}.spdx.json
+            notes.md
+          if-no-files-found: error
+
+  release:
+    needs: package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write   # creating the release; nothing else
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-files
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.package.outputs.version }}
+        run: |
+          zip="dist/sco-sdk-$VERSION.zip"
+          sbom="dist/sco-sdk-$VERSION.spdx.json"
+          test -f "$zip" && test -f "$zip.sha256" && test -f "$sbom" && test -s notes.md
+          gh release create "$GITHUB_REF_NAME" "$zip" "$zip.sha256" "$sbom" \
+            --repo "$GITHUB_REPOSITORY" --title "sco-core SDK $VERSION" --notes-file notes.md --verify-tag

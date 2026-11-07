@@ -1,0 +1,33 @@
+# quantum_pack: a quicker Drive_Alpha, and Drive_Beta given a copy of Drive_Alpha's settings with more
+# top speed. Every record, struct and field name and GUID here is made up to show the format; none
+# is a game's. For a real pack, `sco-dcb show` on your Game2.dcb lists a record's fields as these
+# paths. Format: docs/data-packs.md in the SDK.
+format = 1        # the pack file format, not a game version
+atomic = true     # all of this file applies, or none of it (the default)
+
+# Plain field overrides. The GUID is the record's identity; the name is what messages show.
+[[set]]
+record = "ExampleItem.Drive_Alpha"
+guid   = "00000000-0000-4000-8000-00000000a001"
+field  = "Components[ExampleDriveParams].params.spoolUpTime"
+value  = 3.5
+
+[[set]]
+record = "ExampleItem.Drive_Alpha"
+guid   = "00000000-0000-4000-8000-00000000a001"
+field  = "Components[ExampleDriveParams].params.cooldownTime"
+value  = 8.0
+
+# A new object: a copy of Drive_Alpha's parameters, named "eos_fast" in this file...
+[[instance]]
+id     = "eos_fast"
+struct = "ExampleDriveParams"
+clone  = { record = "ExampleItem.Drive_Alpha", field = "Components[ExampleDriveParams]" }
+set    = { "params.driveSpeed" = 2.5e8, "params.spoolUpTime" = 4.0 }
+
+# ...that Drive_Beta's drive component now points at.
+[[set]]
+record  = "ExampleItem.Drive_Beta"
+guid    = "00000000-0000-4000-8000-00000000b002"
+field   = "Components[ExampleDriveParams]"
+pointer = "@eos_fast"

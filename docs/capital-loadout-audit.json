@@ -1,0 +1,26 @@
+{
+  "source": "EntityClassDefinition.AEGS_Javelin",
+  "new_class": "AEGS_Javelin_PU_ZH_Ballistic",
+  "game_build": "4.10.2 / CL12913470",
+  "changed_laser_ports": 14,
+  "weapon_after": "BEHR_JavelinBallisticCannon_S7",
+  "changes": {
+    "Components[1].loadout.entries[92].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[92].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[94].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[94].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[96].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[96].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[99].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[99].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[101].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[101].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[103].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[103].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[105].loadout.entries[0].entityClassName": "BEHR_JavelinBallisticCannon_S7",
+    "Components[1].loadout.entries[105].loadout.entries[1].entityClassName": "BEHR_JavelinBallisticCannon_S7"
+  },
+  "original_instances_modified": false,
+  "new_geometry_created": false,
+  "in_game_verified": false
+}

@@ -1,0 +1,314 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Default to read; only the release job asks for write.
+permissions:
+  contents: read
+
+# A newer push to the same branch or PR replaces the running build; tags always finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  # Seconds on Linux: parse errors and MSVC C2712 risks fail here, before the Windows build.
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # external/sco-core: its headers are parsed with src/.
+          submodules: true
+
+      - name: Install clang + mingw-w64 headers
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq clang g++-mingw-w64-x86-64-posix
+
+      - name: tools/check.sh
+        run: tools/check.sh
+
+      - name: Release manifest tests
+        run: python3 tools/test_release_manifest.py
+
+      # The ImGui headers sco-core's SDK ships for plugin UI must be the ones this product links.
+      - name: ImGui headers match the SDK's
+        run: |
+          set -eu
+          for f in imconfig.h imgui.h LICENSE.txt; do
+            cmp "src/third_party/imgui/$f" "external/sco-core/sdk/third_party/imgui/$f"
+          done
+          echo "src/third_party/imgui and external/sco-core/sdk/third_party/imgui match"
+
+  # Its own job, not a step of `check`: `build` waits for `check`, so a failing scan gate there
+  # would also hide whether the sources compile. The two answers are independent. Like every job
+  # here it runs on pull requests and on each push to main, so a green main shows the gate holds.
+  no-scans:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Zero raw pattern scans under src/
+        run: tools/no-scans.sh
+
+  # src/builtins/ is a consumer of the sco SDK: it may include only the SDK zip's public headers and
+  # its own files. The header list comes from external/sco-core's sdk/components.json, or its legacy
+  # sdk/package.py CONTENT table (hence the submodule);
+  # the exceptions, one reason each, are in tools/sdk-headers-allow.txt. Its own job for the same
+  # reason as no-scans.
+  sdk-headers:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: The gate's own tests (manifest and legacy forms, fail-closed)
+        run: python3 tools/test_sdk_headers.py
+
+      - name: Built-ins include only SDK headers
+        run: python3 tools/sdk-headers.py
+
+  build:
+    needs: check
+    # Pinned: the project builds with the v145 toolset, which this image carries (VS 2026).
+    runs-on: windows-2025-vs2026
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # external/sco-core is built into dinput8.dll.
+          submodules: true
+
+      - name: Configure (x64)
+        run: |
+          cmake --version
+          cmake -S . -B build -G "Visual Studio 18 2026" -A x64
+
+      - name: Build (Release)
+        run: cmake --build build --config Release --parallel
+
+      # The properties players and the release depend on, read from the binaries themselves.
+      # dumpbin and mt come from the image's VS 2026 and Windows SDK.
+      - name: Verify binaries
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dir = 'build/bin/Release'
+          $dll = "$dir/dinput8.dll"; $exe = "$dir/sc-offline.exe"
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $dumpbin = & $vswhere -latest -products * -find 'VC\Tools\MSVC\**\bin\Hostx64\x64\dumpbin.exe' | Select-Object -First 1
+          $mt = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\mt.exe" | Sort-Object FullName -Descending | Select-Object -First 1 -ExpandProperty FullName
+          if (-not $dumpbin -or -not $mt) { throw "dumpbin ($dumpbin) or mt ($mt) not found" }
+          $script:failed = 0
+          function Check([bool]$ok, [string]$what) {
+            if ($ok) { "PASS  $what" } else { "FAIL  $what"; $script:failed++ }
+          }
+
+          '--- dinput8.dll exports'
+          $exports = & $dumpbin /nologo /exports $dll
+          $exports | Select-String 'DirectInput8Create|number of functions|number of names' | ForEach-Object { $_.Line.Trim() }
+          Check ([bool]($exports -match '^\s*1\s+\S+\s+DirectInput8Create \(forwarded to C:\\Windows\\System32\\dinput8\.DirectInput8Create\)')) 'dinput8.dll exports DirectInput8Create (ordinal 1), forwarded to System32 dinput8'
+
+          foreach ($f in $dll, $exe) {
+            $name = Split-Path $f -Leaf
+            "--- $name"
+            $machine = (& $dumpbin /nologo /headers $f | Select-String 'machine \(' | Select-Object -First 1).Line.Trim()
+            $machine
+            Check ($machine -match '^8664 machine \(x64\)$') "$name is machine x64"
+            $deps = & $dumpbin /nologo /dependents $f | Where-Object { $_ -match '^\s+\S+\.dll\s*$' } | ForEach-Object { $_.Trim() }
+            'imports: ' + ($deps -join ', ')
+            $crt = $deps | Where-Object { $_ -match '^(vcruntime|msvcp|ucrtbase|api-ms-win-crt-)' }
+            Check (-not $crt) "$name imports no VCRUNTIME/MSVCP/UCRT DLL (static CRT)"
+          }
+
+          # The MSBuild launcher had no UAC setting: the linker default, asInvoker. Elevation happens
+          # at run time (ShellExecuteEx "runas"), so the manifest must not ask for more.
+          '--- sc-offline.exe manifest'
+          & $mt -nologo "-inputresource:$exe;#1" -out:exe.manifest
+          $m = Get-Content exe.manifest -Raw
+          $m
+          Check ($m -match "requestedExecutionLevel\s+level=['""]asInvoker['""]\s+uiAccess=['""]false['""]") 'sc-offline.exe requestedExecutionLevel asInvoker, uiAccess false (as the MSBuild build)'
+          Check ($m -match "name=['""]Microsoft\.Windows\.Common-Controls['""]") 'sc-offline.exe depends on Common-Controls 6 (launcher.cpp manifestdependency)'
+
+          # The optional bridges (SCO_BRIDGE_TITANLINK / SCO_BRIDGE_VOXEL) are off in this build, the one
+          # the release packages: their commands must not be in the DLL.
+          '--- dinput8.dll without the bridges'
+          $text = [Text.Encoding]::ASCII.GetString([IO.File]::ReadAllBytes($dll))
+          Check (-not $text.Contains('titanlink.pilot')) 'dinput8.dll has no titanlink built-in (SCO_BRIDGE_TITANLINK off)'
+          Check (-not $text.Contains('voxel_bridge.toggle')) 'dinput8.dll has no voxel_bridge built-in (SCO_BRIDGE_VOXEL off)'
+
+          '--- dinput8.dll manifest'
+          & $mt -nologo "-inputresource:$dll;#2" -out:dll.manifest
+          $d = Get-Content dll.manifest -Raw
+          $d
+          Check ($d -match '<heapType[^>]*>SegmentHeap</heapType>') 'dinput8.dll manifest heapType SegmentHeap (EnableSegmentHeap)'
+
+          if ($script:failed) { "$($script:failed) check(s) failed"; exit 1 }
+          'all checks passed'
+
+      # Release links without debug information, so there is no PDB to upload.
+      - name: Upload DLL + launcher artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dinput8-release
+          path: |
+            build/bin/Release/dinput8.dll
+            build/bin/Release/sc-offline.exe
+          if-no-files-found: error
+          retention-days: 30
+
+      # The creative plugin's DLL (plugins/creative, built from the SDK's headers only). Its plugin.ini
+      # and the `disabled` marker are tracked under data/plugins/creative, so the release's
+      # `git ls-files data` copy ships them; the release job adds this DLL beside them.
+      - name: Upload creative plugin
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: creative-plugin
+          path: |
+            build/data/plugins/creative/creative.dll
+            build/data/plugins/discord/discord.dll
+          if-no-files-found: error
+          retention-days: 30
+
+      # Test plugins for in-game checks (tools/test-plugins). Never part of a release.
+      - name: Upload test plugins
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-plugins
+          path: |
+            build/test-plugins/*/*.dll
+            build/test-plugins/*/plugin.ini
+          if-no-files-found: error
+          retention-days: 30
+
+  # The optional bridges (docs/bridges.md) built ON, only so they keep compiling. A test build: the
+  # release job packages the build job's DLL and never downloads this job's artifact.
+  bridges:
+    needs: check
+    runs-on: windows-2025-vs2026
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Configure (x64, bridges on)
+        run: cmake -S . -B build -G "Visual Studio 18 2026" -A x64 -DSCO_BRIDGE_TITANLINK=ON -DSCO_BRIDGE_VOXEL=ON
+
+      - name: Build (Release)
+        run: cmake --build build --config Release --parallel
+
+      - name: The bridges are in this DLL
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $text = [Text.Encoding]::ASCII.GetString([IO.File]::ReadAllBytes('build/bin/Release/dinput8.dll'))
+          $failed = 0
+          foreach ($cmd in 'titanlink.pilot', 'voxel_bridge.toggle') {
+            if ($text.Contains($cmd)) { "PASS  dinput8.dll has $cmd" } else { "FAIL  dinput8.dll lacks $cmd"; $failed++ }
+          }
+          if (-not (Test-Path 'build/bin/Release/bridge-peer.exe')) { 'FAIL  bridge-peer.exe missing'; $failed++ } else { 'PASS  bridge-peer.exe built' }
+          if ($failed) { exit 1 }
+
+      # For in-game tests of the bridges only (docs/bridges.md). Never part of a release.
+      - name: Upload bridges test build
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: bridges-test
+          path: |
+            build/bin/Release/dinput8.dll
+            build/bin/Release/bridge-peer.exe
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download DLL + launcher artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dinput8-release
+          path: built
+
+      - name: Download creative plugin artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: creative-plugin
+          path: built-creative
+
+      # The player download: everything to play, in one folder, with the DLL CI just built.
+      # manifest.json (#31) lists every other file in the folder with its SHA-256; the launcher's
+      # self-update copies only listed files whose hash matches. Writing it fails when the tag
+      # doesn't equal SCO_VERSION in src/version.h. The zip is re-read and checked before upload.
+      - name: Package sc-offline-<tag>.zip
+        env:
+          TAG: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -eu
+          pkg="sc-offline-$TAG"
+          mkdir -p "stage/$pkg"
+          cp built/dinput8.dll built/sc-offline.exe "stage/$pkg/"
+          cp launcher/sc-offline.ini launcher/sc-offline.sh README.md CHANGELOG.md LICENSE "stage/$pkg/"
+          git ls-files -z docs | xargs -0 -r cp --parents -t "stage/$pkg/"
+          git ls-files -z data | xargs -0 cp --parents -t "stage/$pkg/"
+          # The creative plugin: its DLL from CI next to the tracked plugin.ini and `disabled` marker
+          # (off until the player turns it on in the launcher's Plugins page).
+          cp built-creative/creative/creative.dll "stage/$pkg/data/plugins/creative/"
+          for f in plugin.ini disabled creative.dll; do test -f "stage/$pkg/data/plugins/creative/$f"; done
+          # The discord plugin: on by default (no `disabled` marker).
+          cp built-creative/discord/discord.dll "stage/$pkg/data/plugins/discord/"
+          for f in plugin.ini discord.dll; do test -f "stage/$pkg/data/plugins/discord/$f"; done
+          test ! -e "stage/$pkg/data/plugins/discord/disabled"
+          chmod +x "stage/$pkg/sc-offline.sh"
+          python3 tools/release-manifest.py write "stage/$pkg" --tag "$TAG" --commit "$SHA" --version-h src/version.h
+          (cd stage && zip -qrX "../$pkg.zip" "$pkg")
+          unzip -l "$pkg.zip" | tail -1
+          mkdir roundtrip && unzip -q "$pkg.zip" -d roundtrip
+          python3 tools/release-manifest.py check "roundtrip/$pkg"
+          echo "ZIP=$pkg.zip" >> "$GITHUB_ENV"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          files: |
+            ${{ env.ZIP }}
+            built/dinput8.dll
+          generate_release_notes: true
+          # v1.x and later publish as full releases; v0.x tags publish as
+          # pre-releases. A maintainer may promote one to Latest
+          # (`gh release edit <tag> --prerelease=false --latest`) before anyone
+          # has played it; the release notes then say it is untested.
+          prerelease: ${{ !startsWith(github.ref_name, 'v1.') }}
+          body: |
+            **Built from this repository's source** — commit `${{ github.sha }}` on
+            `${{ github.ref_name }}`.
+
+            **Playing:** download `sc-offline-${{ github.ref_name }}.zip`, extract it, and run
+            `sc-offline.exe` (Linux, experimental: `sc-offline.sh`). Do the README's one-time
+            Setup first; `sc-offline.exe status` checks it. `dinput8.dll` is attached on its
+            own for anyone swapping DLLs.
+
+            Every runtime path in a release is unproven until someone has run it.
+            If something breaks, send back the matching lines from `mod.log` and
+            `Game.log`.

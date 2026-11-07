@@ -1,0 +1,727 @@
+{
+  "bodies": [
+    {
+      "key": "Stanton1",
+      "name": "赫斯顿",
+      "entity": "OOC_Stanton_1_Hurston",
+      "system": 0,
+      "parent": "StantonStar",
+      "radius": 1000000.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.0,
+      "pos": [
+        12850457093.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton1a",
+      "name": "艾瑞尔",
+      "entity": "OOC_Stanton_1a_Ariel",
+      "system": 0,
+      "parent": "Stanton1",
+      "radius": 344500.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -0.6406748675552677,
+      "pos": [
+        42216215.86082077,
+        -31476128.840109,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton1b",
+      "name": "阿伯丁",
+      "entity": "OOC_Stanton_1b_Aberdeen",
+      "system": 0,
+      "parent": "Stanton1",
+      "radius": 274000.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.6374575425615362,
+      "pos": [
+        55300543.43100166,
+        40955550.560376,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton1c",
+      "name": "玛格达",
+      "entity": "OOC_Stanton_1c_Magda",
+      "system": 0,
+      "parent": "Stanton1",
+      "radius": 340833.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -2.2306153257997146,
+      "pos": [
+        -57770733.58171463,
+        -74464580.982047,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton1d",
+      "name": "依塔",
+      "entity": "OOC_Stanton_1d_Ita",
+      "system": 0,
+      "parent": "Stanton1",
+      "radius": 325000.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 1.74532931563457,
+      "pos": [
+        -20262377.187265396,
+        114913608.600053,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton2",
+      "name": "十字军",
+      "entity": "OOC_Stanton_2_Crusader",
+      "system": 0,
+      "parent": "StantonStar",
+      "radius": 7450000.0,
+      "surface": false,
+      "kind": 1,
+      "a": "CEA79B",
+      "b": "EEE0C5",
+      "angle": -3.0019663156443595,
+      "pos": [
+        -18962176000.0,
+        -2664959999.999996,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton2a",
+      "name": "赛琳",
+      "entity": "OOC_Stanton_2a_Cellin",
+      "system": 0,
+      "parent": "Stanton2",
+      "radius": 260333.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -2.094446788550992,
+      "pos": [
+        -25435119.233371735,
+        -44049660.70514393,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton2b",
+      "name": "戴玛尔",
+      "entity": "OOC_Stanton_2b_Daymar",
+      "system": 0,
+      "parent": "Stanton2",
+      "radius": 295167.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 1.0472392532615242,
+      "pos": [
+        31636460.465171814,
+        54801234.50144005,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton2c",
+      "name": "耶拉",
+      "entity": "OOC_Stanton_2c_Yela",
+      "system": 0,
+      "parent": "Stanton2",
+      "radius": 313000.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 2.443497028269222,
+      "pos": [
+        -60740798.92737579,
+        50963848.00152397,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton3",
+      "name": "弧光星",
+      "entity": "OOC_Stanton_3_ArcCorp",
+      "system": 0,
+      "parent": "StantonStar",
+      "radius": 800000.0,
+      "surface": true,
+      "kind": 3,
+      "a": "7792A1",
+      "b": "C5B4A1",
+      "angle": -0.872664641304876,
+      "pos": [
+        18587664739.85602,
+        -22151916920.3126,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton3a",
+      "name": "莉瑞雅",
+      "entity": "OOC_Stanton_3a_Lyria",
+      "system": 0,
+      "parent": "Stanton3",
+      "radius": 223000.0,
+      "surface": true,
+      "kind": 2,
+      "a": "B7C8CD",
+      "b": "F2F0E7",
+      "angle": 0.2553514395471559,
+      "pos": [
+        115942431.69996643,
+        30266786.448417664,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton3b",
+      "name": "瓦菈",
+      "entity": "OOC_Stanton_3b_Wala",
+      "system": 0,
+      "parent": "Stanton3",
+      "radius": 283833.344,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 2.5122739801468685,
+      "pos": [
+        -208015429.98859787,
+        151450152.2743225,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton4",
+      "name": "微科星",
+      "entity": "OOC_Stanton_4_Microtech",
+      "system": 0,
+      "parent": "StantonStar",
+      "radius": 1000000.0,
+      "surface": true,
+      "kind": 2,
+      "a": "799DA6",
+      "b": "F6F2E8",
+      "angle": 1.0274034960618783,
+      "pos": [
+        22462085252.484795,
+        37185744964.8301,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton4a",
+      "name": "卡利俄佩",
+      "entity": "OOC_Stanton_4a_Calliope",
+      "system": 0,
+      "parent": "Stanton4",
+      "radius": 240333.0,
+      "surface": true,
+      "kind": 2,
+      "a": "B7C8CD",
+      "b": "F2F0E7",
+      "angle": 0.2593325613266142,
+      "pos": [
+        63715944.2375679,
+        16904285.81880951,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton4b",
+      "name": "克利俄",
+      "entity": "OOC_Stanton_4b_Clio",
+      "system": 0,
+      "parent": "Stanton4",
+      "radius": 337167.0,
+      "surface": true,
+      "kind": 2,
+      "a": "B7C8CD",
+      "b": "F2F0E7",
+      "angle": 1.7241665216968163,
+      "pos": [
+        -14642968.025260925,
+        94724890.45458984,
+        0.0
+      ]
+    },
+    {
+      "key": "Stanton4c",
+      "name": "欧忒耳佩",
+      "entity": "OOC_Stanton_4c_Euterpe",
+      "system": 0,
+      "parent": "Stanton4",
+      "radius": 212833.0,
+      "surface": true,
+      "kind": 2,
+      "a": "B7C8CD",
+      "b": "F2F0E7",
+      "angle": 1.8145973629952439,
+      "pos": [
+        -26024483.21628189,
+        104621400.15092468,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro1",
+      "name": "派罗 I",
+      "entity": "pyro1",
+      "system": 1,
+      "parent": "PyroStar",
+      "radius": 411700.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -1.3613540069776369,
+      "pos": [
+        1720027320.817066,
+        -8091980530.089989,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro2",
+      "name": "殁氧星",
+      "entity": "pyro2",
+      "system": 1,
+      "parent": "PyroStar",
+      "radius": 529500.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.5236018592751198,
+      "pos": [
+        9198417196.350693,
+        5310746464.426752,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro3",
+      "name": "盛放星",
+      "entity": "pyro3",
+      "system": 1,
+      "parent": "PyroStar",
+      "radius": 413900.0,
+      "surface": true,
+      "kind": 0,
+      "a": "8D9D83",
+      "b": "DECBA5",
+      "angle": -2.0943820024557476,
+      "pos": [
+        -8900812464.602503,
+        -15417125828.262754,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro4",
+      "name": "派罗 IV",
+      "entity": "pyro4",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 321400.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.5040218753419236,
+      "pos": [
+        329163619.48633575,
+        181545654.16749382,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5",
+      "name": "派罗 V",
+      "entity": "pyro5",
+      "system": 1,
+      "parent": "PyroStar",
+      "radius": 7812300.0,
+      "surface": false,
+      "kind": 1,
+      "a": "CEA79B",
+      "b": "EEE0C5",
+      "angle": -0.17449933780721788,
+      "pos": [
+        42285288387.06547,
+        -7454572828.421713,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro6",
+      "name": "端点星",
+      "entity": "pyro6",
+      "system": 1,
+      "parent": "PyroStar",
+      "radius": 285000.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -2.4434309756213737,
+      "pos": [
+        -52336519522.54081,
+        -43918227841.00922,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5a",
+      "name": "伊格尼斯",
+      "entity": "pyro5a",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 393170.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -1.359240200467283,
+      "pos": [
+        11610763.568489075,
+        -54061433.38938618,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5b",
+      "name": "瓦塔拉",
+      "entity": "pyro5b",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 365810.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 2.7489316222107325,
+      "pos": [
+        -68540952.28582,
+        28387536.594822884,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5c",
+      "name": "阿迪尔",
+      "entity": "pyro5c",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 431000.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 1.7847096131533455,
+      "pos": [
+        -21487970.80001068,
+        98914899.93457508,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5d",
+      "name": "法伊罗",
+      "entity": "pyro5d",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 392240.0,
+      "surface": true,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": -0.35701685367332026,
+      "pos": [
+        117858627.04566956,
+        -43961369.91673565,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5e",
+      "name": "弗果",
+      "entity": "pyro5e",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 465670.0,
+      "surface": true,
+      "kind": 2,
+      "a": "B7C8CD",
+      "b": "F2F0E7",
+      "angle": 1.0100485215629256,
+      "pos": [
+        79229233.3492279,
+        126162853.83759403,
+        0.0
+      ]
+    },
+    {
+      "key": "Pyro5f",
+      "name": "伏尔",
+      "entity": "pyro5f",
+      "system": 1,
+      "parent": "Pyro5",
+      "radius": 452830.0,
+      "surface": true,
+      "kind": 2,
+      "a": "B7C8CD",
+      "b": "F2F0E7",
+      "angle": -2.327605463076357,
+      "pos": [
+        -120844612.72720337,
+        -127959622.29730892,
+        0.0
+      ]
+    },
+    {
+      "key": "Nyx1",
+      "name": "尼克斯 I",
+      "entity": "",
+      "system": 2,
+      "parent": "NyxStar",
+      "radius": 1000000.0,
+      "surface": false,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.0,
+      "pos": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "key": "Nyx2",
+      "name": "尼克斯 II",
+      "entity": "",
+      "system": 2,
+      "parent": "NyxStar",
+      "radius": 1000000.0,
+      "surface": false,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.0,
+      "pos": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "key": "Nyx3",
+      "name": "尼克斯 III",
+      "entity": "",
+      "system": 2,
+      "parent": "NyxStar",
+      "radius": 1000000.0,
+      "surface": false,
+      "kind": 1,
+      "a": "CEA79B",
+      "b": "EEE0C5",
+      "angle": 0.0,
+      "pos": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "key": "Delamar",
+      "name": "德拉玛",
+      "entity": "",
+      "system": 2,
+      "parent": "NyxStar",
+      "radius": 75000.0,
+      "surface": false,
+      "kind": 0,
+      "a": "A99985",
+      "b": "DBCEB1",
+      "angle": 0.0,
+      "pos": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "places": [
+    {
+      "key": "Stanton1_Lorville",
+      "name": "罗威尔",
+      "body": 0,
+      "lat": 0.608492009121576,
+      "lon": -1.982982553296653,
+      "station": false
+    },
+    {
+      "key": "Stanton2_Orison",
+      "name": "奥里森",
+      "body": 5,
+      "lat": 0.7775871350349238,
+      "lon": -0.16158346730052173,
+      "station": false
+    },
+    {
+      "key": "Stanton3_Area18",
+      "name": "18 区",
+      "body": 9,
+      "lat": -0.3335268522929625,
+      "lon": -2.986660116635717,
+      "station": false
+    },
+    {
+      "key": "Stanton4_NewBabbage",
+      "name": "新巴贝奇",
+      "body": 12,
+      "lat": 0.8384974508935582,
+      "lon": 0.6779946944396149,
+      "station": false
+    },
+    {
+      "key": "Nyx_Levski",
+      "name": "列夫斯基",
+      "body": 31,
+      "lat": 0.3145508151260513,
+      "lon": -0.9029726749859602,
+      "station": false
+    },
+    {
+      "key": "RR_P2_L4",
+      "name": "死局空间站 (Checkmate)",
+      "body": 17,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true
+    },
+    {
+      "key": "RR_P6_LEO",
+      "name": "废墟空间站",
+      "body": 21,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true
+    },
+    {
+      "key": "RR_HUR_LEO",
+      "name": "埃弗勒斯空间站",
+      "body": 0,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true,
+      "verified": false
+    },
+    {
+      "key": "RR_CRU_LEO",
+      "name": "炽天使空间站",
+      "body": 5,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true,
+      "verified": false
+    },
+    {
+      "key": "RR_ARC_LEO",
+      "name": "拜基尼空间站",
+      "body": 9,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true,
+      "verified": false
+    },
+    {
+      "key": "RR_MIC_LEO",
+      "name": "特雷斯勒空间站",
+      "body": 12,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true,
+      "verified": false
+    },
+    {
+      "key": "GrimHEX",
+      "name": "六角湾",
+      "body": 8,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true,
+      "verified": false
+    },
+    {
+      "key": "RR_P3_LEO",
+      "name": "轨道讣闻站",
+      "body": 18,
+      "lat": 0.4,
+      "lon": 0.8,
+      "station": true,
+      "verified": false
+    }
+  ],
+  "systems": [
+    {
+      "key": "Stanton",
+      "name": "史坦顿",
+      "native": "Stanton4_NewBabbage",
+      "x": 49.53472,
+      "y": -2.63396,
+      "z": 16.47529
+    },
+    {
+      "key": "Pyro",
+      "name": "派罗",
+      "native": "RR_P2_L4",
+      "x": 40.12613,
+      "y": 8.414866,
+      "z": -17.2174
+    },
+    {
+      "key": "Nyx",
+      "name": "尼克斯",
+      "native": "Nyx_Levski",
+      "x": 20,
+      "y": 8.414866,
+      "z": -17.2174
+    }
+  ],
+  "provenance": {
+    "game_build": "4.10.2 / CL12913470",
+    "metadata": "Identifiers and radii checked against local StarMapObject records; entity names checked against loaded system scene roots.",
+    "surface_visuals": "Original procedural illustration; orbital display distances are compressed.",
+    "native_markers": "Four Stanton city marker coordinates come from planet scene roots. Pyro station markers are diagram positions. Levski marker is an illustrative association with Delamar; the current loaded Levski uses a separate ring container.",
+    "experimental_stations": "2026-11-02: RR_HUR_LEO, RR_CRU_LEO, RR_ARC_LEO, RR_MIC_LEO, GrimHEX and RR_P3_LEO added (\"verified\": false). Keys exist as StarMapObject records in the local DataCore; RR_MIC_LEO, GrimHEX and RR_P3_LEO also appear as locationName in local Game.log. None has been used as a spawn override in game yet; marker positions are diagram positions. Names from the RSUI bilingual localization.",
+    "display_only_bodies": "Nyx I-III and Delamar have no loaded planet entity in the inspected MegaMap root. No arbitrary surface spawning is offered there.",
+    "terms": "Selected names follow the user-provided local community bilingual Chinese localization. Full localization and game assets are not included."
+  }
+}

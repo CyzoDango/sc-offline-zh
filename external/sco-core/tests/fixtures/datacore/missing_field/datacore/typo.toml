@@ -1,0 +1,12 @@
+# A pack naming a field the drive params don't have: sco-dcb check refuses it (tests/dcb_pack.cmake).
+format = 1
+
+[[set]]
+record = "ExampleItem.Drive_Alpha"
+field  = "Components[ExampleDriveParams].params.spoolUpTime"
+value  = 3.5
+
+[[set]]
+record = "ExampleItem.Drive_Alpha"
+field  = "Components[ExampleDriveParams].params.spoolTime"
+value  = 2.0

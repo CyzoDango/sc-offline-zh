@@ -1,0 +1,203 @@
+# Plugins: discovery, loading and data packs
+
+`sco/plugins.h`, `src/plugins/`. Internal C++ used by the host (sc-offline); plugins themselves only see [`sco_api.h`](api-v1.md).
+
+## The folder
+
+Every plugin is a folder `data/plugins/<id>/` with a `plugin.ini`:
+
+```ini
+id = hello              ; [a-z0-9_], 1-31 chars, same as the folder name; also the command prefix
+name = Hello            ; shown in the menu and status
+version = 1.0.0
+author = you            ; optional
+api = 1.0               ; sco_api major.minor it needs
+kind = native           ; native | lua | data
+entry = hello.dll       ; native: the DLL; lua: the main script; data: none
+requires = teleport, spawn.ship   ; optional: capabilities, services, plugin ids (see Load order)
+```
+
+- `;` or `#` starts a comment at the start of a line or after whitespace. CRLF and a UTF-8 BOM are fine. Unknown keys are ignored, so a later minor can add some.
+- Reserved ids: `sco`, `host`, `menu`, `game`.
+- `entry` is a bare file name inside the plugin folder: no `/`, `\`, `:` or `..`.
+- `plugin.ini` is at most 16 KiB.
+- A line `[name]` starts a section that runs to the next one. Only `[settings]` is defined ([typed settings](#typed-settings-settings)); keys go above it. Other sections are skipped like unknown keys.
+
+## Discovery
+
+`Discover(root, options)` lists every subfolder of `root` that holds a `plugin.ini`, in byte order of the folder name. It never runs plugin code and never opens the entry file. Symlinked folders are skipped. Each plugin ends in one state:
+
+| State | When |
+|---|---|
+| `off` | `plugins = off` in `sc-offline.ini` (the default). Listed so `status` can show it |
+| `disabled` | `data/plugins/<id>/disabled` exists (a file or a folder) |
+| `refused: <reason>` | `the folder name 'sco' is reserved for the host` (`sco` is the host's own id, under which it publishes [host-owned services](api-v1.md#host-owned-services); `host`, `menu` and `game` likewise; checked first, even for a disabled folder), `plugin.ini: <parse error>`, `id 'x' does not match folder 'y'`, `the id belongs to a built-in plugin` (a folder named like one of the host's built-ins, whatever its kind), `built for api M.m` (major differs or minor newer than the host), `entry 'x' not found`, `missing capability 'x'`, `requires service x.y: no plugin provides it`, `requires cycle: a -> b -> a`, `requires b: plugin 'b' is refused (<reason>)` (see [Load order](#load-order-and-requires)), `too many plugins` (over 128) |
+| `ready` | Passed; the loader, the Lua runtime or the content index takes it |
+
+## Load order and requires
+
+`requires` is a comma list (at most 16, no repeats, spaces ignored) whose names `Discover` resolves, after every folder is listed, in this order:
+
+1. **The plugin itself** (`a` or `a.x` in `a`'s own list) is a cycle, refused as `requires cycle: a -> a`. A capability or published service with the same name wins over this check.
+2. **A capability or a service the host or the game pack already published** (`opts.has`: `sco.storage`, `sco.ui`, `game.vehicles`, `teleport.spatial`, `teleport`) is provided: no ordering needed.
+3. **A built-in's id** (`core1` or `core1.cmd`): provided, because built-ins load first.
+4. **A discovered plugin's id** (`b`) **or one of its services** (`b.svc`): the plugin loads after `b`. `b` is any native, Lua or data folder; its id is the part before the first `.`. The reserved ids (`sco`, `host`, `menu`, `game`) never match a folder.
+5. **Anything else is missing:** `missing capability 'x'` for a name with no dot, `requires service x.y: no plugin provides it` for a dotted one (a capability the game build doesn't have reads the same way).
+
+**Why there is no `provides` key.** A plugin can only publish a service named `<its id>` or `<its id>.<name>` (`ProvideService` refuses any other), so the id before the dot already names the provider, before any code runs. Ordering therefore needs nothing beyond `requires`. The cost: the host orders and checks by plugin id, it doesn't know whether the provider will really publish `b.svc` (it may publish it later, or not at all). A caller still checks `query_service`'s result.
+
+**Order.** Built-ins first, then the discovered plugins by a stable topological sort (`LoadOrder`): the free plugin with the lowest folder index goes next, so folders keep byte order wherever nothing requires otherwise. `aaa` requiring `zzz.svc` loads after `zzz`, and the plugins in between keep their places. `UnloadAll` runs in reverse load order, so a provider unloads after the plugins that needed it. The list itself stays in folder order; the load order is `Plugin::loadOrder`.
+
+**Refusals** (all before any plugin code runs, one `[plugin] refused <id>: <reason>` line each):
+
+| Reason | When |
+|---|---|
+| `requires cycle: a -> b -> a` | Every plugin on a cycle (the member that sorts first leads; a self-require is `a -> a`) |
+| `requires b: plugin 'b' is refused (<reason>)` | The provider is refused, disabled, crashed or didn't load. It chains: a plugin requiring that one is refused the same way |
+| `requires service x.y: no plugin provides it` | No capability, service, built-in or plugin id matches |
+
+The same check runs again right before each plugin loads (`UnmetRequires`): the provider must be `Loaded` (a data pack: `Ready`, as it is indexed after the loads), so a provider whose `sco_plugin_load` fails or whose script errors refuses its dependents instead of starting them. A native, Lua and data plugin all follow the same rules.
+
+## Native plugins
+
+`LoadNative(plugin, api, self, options)`, on the game thread:
+
+1. `LoadLibraryExW(entry, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32)`: the plugin's own dependencies come from its folder or System32, never the game folder or `PATH`.
+2. Resolves `sco_plugin_query`, `sco_plugin_load` and `sco_plugin_unload`; any missing refuses the plugin.
+3. `sco_plugin_query()` must return info whose `size` covers `author`, with `api_major` equal to the host's, `api_minor` not newer, and `name` equal to the id.
+4. `sco_plugin_load(api, self)`; anything but `SCO_OK` refuses the plugin and releases what it registered.
+
+`self` is the host's owner handle for the plugin; the host never reuses one. On refusal the DLL is closed.
+
+On Windows `LoadLibraryExW` runs under `SetThreadErrorMode(SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX)`: a file that isn't a valid 64-bit PE (a broken download, a 32-bit DLL) is refused with a reason instead of raising Windows' modal "Bad Image" box over the game. Loading never shows UI.
+
+### Crash containment
+
+Every call into plugin code goes through `Guarded()`: on Windows a `__try/__except` that catches any SEH exception. `query`, `load` and `unload` are guarded by the loader itself. Everything a plugin registers through `sco_api` (event callbacks, `run_on_game_thread` tasks, command functions and `invoke` `done` callbacks) runs from the runtime, so the host installs a runtime callout guard once, right after `Discover`:
+
+```cpp
+auto list = sco::plugins::Discover(root, opts);
+sco::plugins::ContainCallouts(&list);   // every plugin callout -> CallPlugin(plugin, where, ...)
+```
+
+`ContainCallouts` (over `sco::SetCalloutGuard`) finds the plugin whose `self` owns the callout and runs it through `CallPlugin(plugin, where, thunk, ctx)`, where `where` is the event name (`tick`), the command name, `task` or `invoke done`. Host features' own callouts, and calls a plugin makes into itself while its `sco_plugin_load` is still running (already inside the load guard), are called directly. A fault:
+
+- `sco::Release(self)`: its subscriptions, commands, queued tasks and queued invokes are gone;
+- the plugin is `crashed` and never called again;
+- a command that faulted answers `SCO_CRASHED` (with an empty reply) to whoever invoked it;
+- one `[plugin] hello crashed in tick (0xC0000005) and was disabled` line in `mod.log` and a status message;
+- the DLL stays mapped, because its code may still be on a stack.
+
+**Who is blamed.** The guard's filter records which module each frame of the faulting thread was in (Windows, x64: `RtlLookupFunctionEntry` + `RtlVirtualUnwind` from the exception's context, at most 32 frames, up to the guard's own frame; `GetModuleHandleExW` with `FROM_ADDRESS | UNCHANGED_REFCOUNT` per instruction pointer). `CallPlugin` takes the first frame, innermost first, that lies in a plugin's DLL:
+
+- it is the callout's owner, or there is none (the fault is in game or host code), or the owner is a built-in (built-ins share the product's module, so a fault in one is a product bug and keeps owner blame): the owner is marked crashed, as above;
+- it is another plugin, typically a provider whose service the owner called through `query_service`: that plugin is marked crashed (`[plugin] svc crashed in a service call from caller (0xC0000005) and was disabled`) and its services are withdrawn, and the owner stays loaded. Its callout did not complete, so a command still answers `SCO_CRASHED`. A provider already crashed or unloaded (its DLL is kept mapped) is only logged (`faulted again in a service call from ...`). Off the game thread the verdict is queued to the game thread, because marking a plugin crashed releases it.
+
+A stack overflow leaves too little stack to walk and is blamed on the owner; faults in `query`, `load`, `unload` and the script runtime keep owner blame. Off Windows (host tests) the default guard doesn't contain faults, and a guard installed with `SetCallGuard` may report the module with an internal hook; without one the owner is blamed.
+
+`DllMain` is not guarded: it runs under the OS loader lock, and unwinding out of it would leave the lock held. Keep `DllMain` empty and do the work in `sco_plugin_load`.
+
+This limits damage. It is not a sandbox: stack corruption, `__fastfail` and `/GS` failures end the process, and a native plugin runs with the game's full rights.
+
+### Unloading
+
+`UnloadAll(list, ops, &runtime)` right after `game.exit` (`sco::app::Stop`): plugins last loaded first, [built-ins](#built-in-plugins) after every other plugin. For a native plugin: `sco_plugin_unload()` (guarded; a fault marks the plugin crashed and keeps the DLL), `Release(self)`, `FreeLibrary`. If a service table of the plugin was handed out by `query_service` the DLL is not freed: a caller may still hold the table, so the plugin becomes `unloaded` as usual but its module stays mapped for the session, its `module` handle stays set, and `mod.log` has `[plugin] <id>: kept mapped: its service table was handed out`. It costs the DLL's address space and only for plugins that provide services. If `Release` fails (out of memory, or `UnloadAll` called off the game thread) the runtime may still hold the plugin's callbacks, so the DLL is never unmapped: the plugin becomes `crashed: release failed: <RESULT>` instead.
+
+`game.exit` is best effort. The host sends it from the game's own quit path (the game's Quit never reaches the message loop as `WM_QUIT`; see [`sco/app.h`](api.md#scoapph-the-host-kit)), but a crash or a killed process never sends it, and nothing unloads then. A plugin must not rely on `game.exit` or `sco_plugin_unload` for durability: save as it goes.
+
+`LoadNative` passes the plugin path to `LoadLibraryExW` as an absolute path, so the host may discover from a relative root such as `data/plugins`.
+
+### Hot reload
+
+`sco::app::Reload(id)` (the host command `sco.reload <id>`, [API](api.md#scoapph-the-host-kit)) unloads one plugin and loads it again while the game runs, on the game thread:
+
+1. **Native:** the entry DLL is copied to `<folder>/.reload-<n>-<entry>`. The copy sits next to the original, so its dependencies still resolve from the plugin folder, and the original can be rebuilt while the copy is mapped. (`Platform::loadFromCopies` makes `Start` map every native from a copy too; without it a native's own file is mapped, and locked on Windows, until its first reload.) A copy that can't be made changes nothing: the plugin keeps running.
+2. **Unload:** the normal path (`UnloadOne`, what `UnloadAll` does for each plugin): `sco_plugin_unload` guarded, then `Release(self)`, which withdraws the plugin's commands, subscriptions, tasks and services and runs the release hooks (so the game pack despawns what it spawned for the plugin, and `sco.storage` closes its database). The old module is closed, unless a service table of it was handed out: then it stays mapped, as for any unload ([M1](design/service-safety.md)), is never reused, and a fault inside it is still blamed on the plugin. Callers that kept a table must query it again.
+3. **Load:** a new `sco_plugin` handle, then `LoadNative` on the copy, or `LoadScript` (the script is read and run again). `plugin.ini` is not read again, so a changed `[settings]` declaration, `requires` or `entry` needs a restart. The handle comes from the same path as at `Start`, which declares the plugin's [`[settings]`](#typed-settings-settings) again before its code runs: the values belong to the plugin id and are kept (in `sco.storage` when the product has a data folder; in memory only, and so reset, without one). The plugin gets the newest `loadOrder`.
+
+Refused (`Reload` returns `BadArg`, nothing changes): built-in plugins and data packs. `Failed` with nothing changed: the plugin is not `loaded`; it is **busy** (one of its own callouts is on the stack, say a command that asks for its own reload; retry from outside, for example from another plugin's command or the host); another reload is running; a plugin it `requires` is no longer loaded; the copy failed. If the unload crashes the plugin stays `crashed`; if the new load is refused or crashes the plugin ends `refused` or `crashed` (`why` and `mod.log` say why) and nothing of the old instance remains. Two reloads in one tick are two complete reloads, one after the other.
+
+Limits: handles are never reused and `host::kMaxPlugins` (256) counts every handle for the life of the process, reloads included; at the limit the plugin is left `unloaded`. Command slots are recycled on release (L5), so reloads do not use them up; plugin handles are not recycled, so the 256 are the per-session limit on loads plus reloads (and raw handler records, 1,024 registrations for the process, are not recycled either). Copies are deleted when the next reload (or `Stop`) can; on Windows a copy that is still mapped stays, and `Start` removes every `.reload-*` file of a native plugin folder before it loads, so a run that died leaves nothing behind. The plugin's own state (a file it wrote, its `sco.storage` database) survives; anything it kept in memory does not.
+
+## Lua plugins
+
+`LoadScript(plugin, api, self, runtime)`, on the game thread, with the script runtime the host links in (sc-offline: [sco-lua](../plugins/lua/README.md)):
+
+1. Reads the entry script (1 MiB at most).
+2. Calls the runtime's `load` (guarded like a native call). It runs the script once in a sandbox; an error refuses the plugin with the script's message (`main.lua:3: ...`) and releases what it registered.
+
+A script talks to the host only through the `sco_api` table, like a native plugin, and has no file, OS or network access. It runs under a step budget and a 64 MiB memory cap (256 MiB for every script together); past either, or after 3 errors, the runtime disables it (`[<id>] error: script disabled: <why>`). `UnloadAll(list, ops, &runtime)` releases each script, then frees it. What scripts can call: [`sdk/docs/lua.md`](../sdk/docs/lua.md).
+
+## Typed settings (`[settings]`)
+
+A native or Lua plugin can declare settings in a `[settings]` section at the end of its `plugin.ini`. The host keeps their values, keeps them across launches, draws them in the plugin's menu page (the product asks [`sco::settings::Pages()`](ui.md#settings)) and announces each change; the plugin only reads, through the host service `sco.settings` ([API v1](api-v1.md#scosettings-10), Lua `sco.settings.get`). A data pack has no code to read them: `a data pack has no settings`.
+
+```ini
+[settings]
+god_mode   = bool   default false label "God mode" help "Take no damage"
+speed      = int    default 5 min 1 max 10 label "Walk speed"
+fov        = float  default 90 min 60 max 120
+nickname   = string default "Pilot"
+difficulty = enum(easy,normal,hard) default normal
+```
+
+One declaration per line: `name = type [default V] [min N] [max N] [label "text"] [help "text"]`. The fields may come in any order, each at most once. A value is a bare word or text in double quotes (no escapes, so no quote inside); `;` or `#` starts a comment outside quotes, at the start of the line or after a space or tab.
+
+| Type | Value | Default when none is given | Notes |
+|---|---|---|---|
+| `bool` | `true` or `false` | `false` | |
+| `int` | An integer in 64 bits, `-12` | `0`, or the nearest bound | `min` / `max` optional |
+| `float` | Plain decimal with an optional exponent, `1.5`, `-2e-3`: no `nan`, `inf`, hex, `.5` or `5.` | `0`, or the nearest bound | `min` / `max` optional |
+| `string` | At most 255 bytes of printable text (empty is fine) | `""` | |
+| `enum(a,b,c)` | One of the choices | The first choice | 1-16 choices of 1-31 of `[a-z0-9_]`, no repeats, spaces after commas allowed |
+
+- `name`: 1-31 of `[a-z0-9_]`, unique in the plugin. At most 32 settings.
+- `min` and `max` apply to `int` and `float` only, and `min` may not exceed `max`. The default must lie inside them.
+- `label`: what the player sees (1-63 printable characters; the name when there is none). `help`: a hint (1-255).
+- **Refused, with the line and the setting:** an unknown field (a typo such as `defualt` is an error, not skipped), a field twice, a field without a value, an unclosed quote, a type that isn't one of the five, a default or bound that isn't a value of its type, a default outside its range, `min` above `max`, `min` / `max` on a type that has no range, a bad or repeated name, more than 32 settings, a repeated `[settings]` section. The reason is the plugin's `refused` line: `plugin.ini: line 9: setting 'speed': default 11 is above max 10`. `sco-plugin-check` reports the same.
+- **A host older than this feature** reads `[settings]` as a bad line and refuses the plugin; sco_api.h is unchanged, so it still loads there without the section.
+
+**Values.** `Declare` (called by `sco::app::Start` before the plugin's code runs) reads each kept value from the plugin's own `sco.storage` namespace, key `sco.settings.<name>`, text `<type>:<value>` (`int:7`, `enum:hard`). A kept value that no longer fits the declaration, because the plugin's update changed the type, narrowed the range or dropped a choice, is not used: the default applies, the stale key is deleted, and `mod.log` says `[settings] pilot.speed: kept value dropped (it was saved as int, the setting is string now); the default applies`. Without storage (no data folder) values live in memory and every start begins at the defaults. Keys of settings a plugin no longer declares are left alone. The `sco.settings.` key prefix belongs to the host.
+
+## Data packs
+
+`kind = data` packs carry content and never run code. `ContentIndex::Build(list)` indexes every ready pack and marks it `loaded`:
+
+| Kind | Files |
+|---|---|
+| `mission` | `missions/*.cwmission` |
+| `rules` | `rules/*.rules` |
+| `script` | `scripts/**.xml` (any depth) |
+| `list` | `lists/*.txt` |
+| `datacore` | `datacore/*.toml`: DataCore overrides ([format](datacore.md#pack-format)), applied when the game loads `Game2.dcb` |
+
+Extensions match in any case. Anything else in the folder is ignored, and symlinks are skipped so a pack can't reach outside itself. `scripts/` is read at most 16 folders deep. A pack with more than 4096 matching files is refused (`too many files`), and so is one whose content folders can't be read to the end (`cannot read scripts: ...`), so a pack never loads with only part of its files. `Build` can run again at any time: it re-reads every ready or loaded pack. Features query the index with `Items(kind)`, `Find(kind, "missions/a.cwmission")` (one entry per pack that ships that name, in plugin order) or `FromPlugin(id)`, and read the files themselves.
+
+## Built-in plugins
+
+A feature compiled into the host can be a plugin too: the same three functions a plugin DLL exports, listed in a table instead of loaded from a folder.
+
+```cpp
+static const sco::plugins::Builtin kBuiltins[] = {
+    { "teleport", TeleportQuery, TeleportLoad, TeleportUnload },   // id, query, load, unload
+};
+auto p = sco::plugins::FromBuiltin(kBuiltins[0]);                  // kind builtin, state ready
+sco::plugins::LoadBuiltin(p, api, sco::host::NewPlugin("teleport"), opts);
+```
+
+- No `plugin.ini`: the manifest (name, version, author, api) comes from `sco_plugin_query`. `FromBuiltin` refuses an id that isn't `[a-z0-9_]`, 1-31 characters and unreserved, or a null function.
+- `LoadBuiltin` runs `LoadNative`'s checks without a module: `size` covers `author`, the api major matches and the minor isn't newer, `name` equals the id; then `sco_plugin_load(api, self)`. Refusals read `built-in built for api 2.0` and `built-in name 'x' does not match id 'y'`.
+- Crash containment is the same: `query`, `load` and `unload` are guarded, and `ContainCallouts` guards every callout it owns, so a built-in that faults is `crashed` and the rest keep running.
+- `UnloadAll` unloads built-ins after every other plugin: they are the product's own features, which other plugins may still call while they unload.
+- A built-in talks to other plugins only through `sco_api`. Unlike an external plugin it may also read sco-core's C++ headers (signature rows, scanners), since it ships and is tested with the core.
+- The report lists it as `builtin`: `teleport 1.0.0 builtin loaded`. Hosts normally don't call these directly: `sco::app::Start` ([API](api.md#scoapph-the-host-kit)) loads built-ins before any discovered plugin.
+
+## Status
+
+`Describe(plugin)` gives one line, `hello 1.0.0 native loaded` or `pack 1.0.0 data refused: built for api 2.0`; `LogReport(list, enabled)` writes `[plugin] N found, L loaded (plugins = on)` and one line per plugin.
+
+## Tests
+
+- `tools/test.sh` runs `tests/test_plugins.cpp` on the host under ASan+UBSan: manifest rules, discovery over `tests/fixtures/plugins/tree/`, the content index, and the loader against real shared libraries built from `tests/fixtures/plugins/native/fake_plugin.c`, one per behavior. Off Windows the crash guard is a signal handler the test installs. `TestServices` (provider `svc_provider`, caller `svc_caller`, three more providers) covers service blame and the pin: the provider is crashed and the caller loaded, the command answers `crashed`; a stale table into an already crashed provider; an owner fault staying the owner's; the same inside a nested callout; the off-thread verdict; and a counting `ModuleOps.close` for a handed-out and a plain provider. The frame walk itself only runs where the real `__try` guard does: off Windows the test's guard reports the faulting module, so the blame logic is covered there and the walk on Windows (CI's `windows` job; `tools/test-win.sh` under Wine).
+- `tools/test.sh` also runs `tests/test_app.cpp`: built-in plugins through the loader (the same checks, crash containment, built-ins unloaded last) and through `sco::app` with the fake plugins, `greeter` and `travel_pack`; then `sco-host-sim` over the SDK examples.
+- `tools/test-win.sh` builds the same tests and plugins for Windows with mingw (the guard with clang, since GCC has no `__try`) and runs them under Wine: the real `LoadLibraryExW` and SEH path.

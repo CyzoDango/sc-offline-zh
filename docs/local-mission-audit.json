@@ -1,0 +1,12 @@
+{
+  "game_build": "4.10.2 / CL12913470",
+  "contract_metadata_entries": 2390,
+  "established_scriptless_entries": 796,
+  "additional_entries_whose_script_paths_exist_in_user_archive": 974,
+  "scripts_in_user_archive": 229,
+  "top_level_mission_roots": 18,
+  "files_imported_only_to_private_install": true,
+  "actual_offers_depend_on_system_and_game_generator": true,
+  "playthroughs_verified": false,
+  "all_official_missions_recreated": false
+}
