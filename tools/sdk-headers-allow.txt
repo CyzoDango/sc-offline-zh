@@ -34,3 +34,4 @@ sco/net/session.h | multiplayer_plugin.cpp | sco::net::Host/Join/Leave/GetState 
 sco/game/services.h | mover.h | mover.h: RegisterPlayerVehicle is game-pack-internal (no SDK form); ZoneOfEntity/PoseToZone have one in sc_spatial.h but are called outside a plugin load, with no api to query it from
 
 src/missions.h | contracts_ui.cpp | ReadMissionScriptStatus exposes local script registration counts for the contracts page; no game.* mission service exists
+src/zh/seat_policy.h | loadout_ui.cpp | SamePilotLease for the loadout tab's current-ammo lease; the header is the product's seat-identity rules in src/zh, shared with src/cvars.cpp and src/spawner.cpp, and the SDK has no seat-identity service
